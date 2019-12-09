@@ -1,0 +1,12 @@
+/* pages/location/sign.wxss */
+.mtext{
+  display: -webkit-box;
+    font-size:28rpx;
+    color:#000000;
+    line-height: 40rpx;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:300;
+    overflow: hidden;
+    text-overflow:ellipsis;
+}

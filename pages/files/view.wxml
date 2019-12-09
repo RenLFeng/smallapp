@@ -1,0 +1,11 @@
+<!--pages/files/view.wxml-->
+<view class="section tc">
+  <video id="myVideo" src="{{fileurl}}"   enable-danmu danmu-btn controls></video>
+  <view class="btn-area">
+    <input bindblur="bindInputBlur"/>
+    <button bindtap="btnpreitem">上一个</button>
+    <text>{{fileurl}}</text>
+    <button bindtap="btnpreitem">下一个</button>
+    
+  </view>
+</view>

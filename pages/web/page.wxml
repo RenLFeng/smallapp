@@ -1,0 +1,9 @@
+<!--pages/web/page.wxml-->
+<view>
+<view wx:if="{{!showurl}}">
+<button bindtap="changeshow">切换</button>
+</view>
+<web-view wx:else src="{{url}}"></web-view>
+</view>
+
+

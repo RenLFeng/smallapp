@@ -1,0 +1,5 @@
+<!--pages/location/sign.wxml-->
+<view>
+<text class='mtext'>{{locationinfo}}</text>
+<text class='mtext'>{{bankeinfo}}</text>
+</view>
