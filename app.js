@@ -3,6 +3,7 @@ App({
   LoginData:{
     //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
+    testapiserver:'192.168.40.104', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
     sessioncookie:'',
@@ -227,7 +228,7 @@ App({
     if (this.isfullurl(subpath)){
       return subpath;
     }
-    let rootpath = 'http://'+ this.LoginData.testserver +':' + this.LoginData.testapiport;
+    let rootpath = 'http://'+ this.LoginData.testapiserver +':' + this.LoginData.testapiport;
     if (this.LoginData.publishserver){
       rootpath = this.getpublishurl();
     }
@@ -238,7 +239,7 @@ App({
     return this.getapiurl(subpath);
   }
   ,getmainpage:function(szquery){
-    let mainurl = this.getfullurl('/page2.html');
+    let mainurl = this.getfullurl('/index.html');
     mainurl += szquery;
     return mainurl;
   }
@@ -262,7 +263,7 @@ App({
     return '云平台';
   },
   getwebserver: function () {
-    let rootpath = 'ws://' + this.LoginData.testserver + ':9983';
+    let rootpath = 'ws://' + this.LoginData.testapiserver + ':9983';
     if (this.LoginData.publishserver) {
       rootpath = 'wss://' + this.LoginData.publishserver + ':444';
     }
