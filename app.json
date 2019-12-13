@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/web/page",
     "pages/files/view",
+    "pages/web/page",
     "pages/location/sign"
   ],
   "permission": {

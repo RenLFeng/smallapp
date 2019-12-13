@@ -46,7 +46,10 @@ Page({
           showurl:showurl
         })
       }
+    }else {
+  
     }
+
   },
   onShow:function(){
     console.log('wx index, on show');

@@ -2,8 +2,8 @@
 App({
   LoginData:{
     //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    testserver:'192.168.40.104', //! 测试服务器ip
-    testapiserver:'192.168.40.104', //! 测试服务器的api地址
+    testserver:'192.168.0.237', //! 测试服务器ip
+    testapiserver:'192.168.0.2', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
     sessioncookie:'',
@@ -124,14 +124,14 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        //console.log(res.code);
+        // console.log(res.code);
         this.LoginData.errcode = 0;
         wx.request({
           url: this.getapiurl('/api/weixin/login'),
           method: 'POST',
           data: {
             code: res.code,
-            cookie: this.LoginData.sessioncookie
+            cookie:this.LoginData.sessioncookie
           },
           success: res => {
              console.log(res);
@@ -155,6 +155,7 @@ App({
             }
           },
           fail: res => {
+            console.log(res)
             this.LoginData.wxloginstate = 0;
           }
         }

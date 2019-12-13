@@ -1,6 +1,6 @@
 // pages/files/view.js
 
-const util = require('../../utils/util.js')
+const util = require('../../utils/util.js');
 const app = getApp()
 
 Page({
@@ -9,30 +9,82 @@ Page({
    * 页面的初始数据
    */
   data: {
-    fileurl:''
+    fileurl: '',
+    loading: false,
+    isImg: false,
+    fileObj: {
+      name: '',
+      fileIcon: ''
+    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     //console.log(options);
-     // app.dowxlogin();
-      let args = util.parseNativeArgs(options.args);
-      console.log(args);
-      if (args.funname == 'jsFileLink'){
-       // this.data.fileurl = args.argobj.downurl;
-       // console.log(this.data.fileurl);
-          let fullurl = app.getfileurl(args.argobj.url);
+    // app.dowxlogin();
+    let args = util.parseNativeArgs(options.args);
+    console.log(args);
+    if (args.funname == 'jsFileLink') {
+      wx.showLoading({
+        title: '加载中',
+      })
+      // this.data.fileurl = args.argobj.downurl;
+      // console.log(this.data.fileurl);
+      let fullurl = app.getfileurl(args.argobj.url);
+      this.setData({
+        fileurl: fullurl,
+      })
+      if (args.argobj.ftype == 'file') {
+        if (args.argobj.finttype == 1) {
           this.setData({
-            fileurl:fullurl
+            isImg: true,
+            fileObj: {
+              fileIcon: fullurl,
+              name: args.argobj.name,
+            }
           });
-          wx.setNavigationBarTitle({
-            title: '文件查看'
-           })
+        } else if (args.argobj.finttype == 0) {
+          this.setData({
+            fileObj: {
+              fileIcon: util.getFileType(args.argobj.name),
+              name: args.argobj.name,
+            }
+          });
+        }
+      } else if (args.argobj.ftype == 'link') {
+        this.setData({
+          fileObj: {
+            fileIcon: 'it.svg',
+            name: args.argobj.name,
+          }
+        });
       }
+      wx.setNavigationBarTitle({
+        title: '文件查看'
+      })
+      wx.hideLoading();
+    }
   },
+  Error: function (e) {
+    this.setData({
+      fileObj: {
+        fileIcon: 'file_default.png'
+      }
+    })
 
+  },
+  copyUrl: function (e) {
+    var that = this;
+    wx.setClipboardData({
+      data: that.data.fileurl,
+      success: function (res) {
+        wx.showToast({
+          title: '复制成功',
+        });
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

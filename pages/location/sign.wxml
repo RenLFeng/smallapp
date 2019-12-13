@@ -1,5 +1,20 @@
 <!--pages/location/sign.wxml-->
 <view>
-<text class='mtext'>{{locationinfo}}</text>
-<text class='mtext'>{{bankeinfo}}</text>
+    <view>
+        <view class="" hover-class="none" hover-stop-propagation="false">
+            
+        </view>
+        <text class="icon" selectable="false" space="false" decode="false">
+            
+        </text>
+        <text class="" selectable="false" space="false" decode="false">
+            开始签到
+        </text>
+        <view class="" hover-class="none" hover-stop-propagation="false">
+            距离：{{distance}}
+        </view>
+    </view>
+    <text class='mtext'>{{locationinfo}}</text>
+
+    <text class='mtext'>{{bankeinfo}}</text>
 </view>

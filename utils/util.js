@@ -31,9 +31,34 @@ const parseNativeArgs= sz=>{
     argobj:{}
   }
 }
-
+const filetypeArr=["txt", "rar", "xlsx", "docx", "ppt", "pdf"];
+const getFileType = type =>{
+  let r='';
+  for (let item of filetypeArr) {
+    if (type.includes(item)) {
+      r = item;
+      return r+'.svg';
+    }
+    if (
+      type.includes("doc") ||
+      type.includes("rtf")
+    ) {
+      r = 'docx';
+      return r+'.svg';
+    }
+    if (type.includes("zip")) {
+      r = 'rar';
+      return r+'.svg';
+    }
+    if (type.includes("xls")) {
+      r ='xlsx';
+      return r+'.svg';
+    }
+  }
+}
 
 module.exports = {
   formatTime: formatTime,
-  parseNativeArgs:parseNativeArgs
+  parseNativeArgs:parseNativeArgs,
+  getFileType:getFileType
 }
