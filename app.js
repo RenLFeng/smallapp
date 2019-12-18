@@ -1,11 +1,12 @@
 //app.js
 App({
   LoginData:{
-    //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    testserver:'192.168.0.237', //! 测试服务器ip
-    testapiserver:'192.168.0.2', //! 测试服务器的api地址
+    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    testserver:'192.168.40.104', //! 测试服务器ip
+    testapiserver:'192.168.40.104', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
+
     sessioncookie:'',
     username:'',
    // useravatar:'',
@@ -36,8 +37,10 @@ App({
       return wx.request(postobj);
   },
   onLoginOk:function(bsave){
+    console.log('onLoginOk:'+bsave);
     if (!this.LoginData.sessioncookie.length) {
       //! wxlogin 尚未完成
+      console.log('onLoginOk, null sessioncookie');
       return;
     }
     if (!(this.LoginData.username.length >0)
@@ -47,6 +50,7 @@ App({
         //! 首次登陆， 初始化数据， 完成后才登入页面
         if (this.LoginData.updatinguser){
          //! 正在更新中
+          console.log('onLoginOk, in updateing user');
           return;
         }
 
@@ -86,9 +90,11 @@ App({
     }
     if (!(this.LoginData.sessioncookie.length > 10 
     && this.LoginData.username.length > 0)){
+      console.log('onLoginOk, not got username');
         return;
     }
     this.LoginData.loginok = true;
+    console.log('set LoginData loginok');
     if (this.userInfoReadyCallback) {
       this.userInfoReadyCallback(null)
     }
@@ -103,13 +109,16 @@ App({
     wx.setStorageSync('useravatar', this.LoginData.useravatar);
   },
   readLoginData:function(){
-    this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
+    //！  不存储， 可能为无效cookie，导致不能刷新？
+   // this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
     this.LoginData.username = wx.getStorageSync('username') || '';
     this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
   },
   dowxlogin:function(){
     // 登录
+    console.log("dowxlogin");
     if (this.LoginData.wxloginstate){
+      console.log('in wxlogin, return');
       return;
     }
 
@@ -118,6 +127,7 @@ App({
     }
 
     if (this.LoginData.wxloginok){
+      console.log('wxloginok, return');
       return;
     }
     this.LoginData.wxloginstate = 1;
@@ -134,13 +144,15 @@ App({
             cookie:this.LoginData.sessioncookie
           },
           success: res => {
-             console.log(res);
+            // console.log(res);
             //  console.log(this);
+            console.log('wx login ret');
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
+
                 this.LoginData.sessioncookie = res.data.data.cookie;
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";
@@ -150,11 +162,12 @@ App({
               this.firstWebConnect();
             }
             else {
-              //console.log(res);
+              console.log(res);
               this.LoginData.errcode = -1;
             }
           },
           fail: res => {
+
             console.log(res)
             this.LoginData.wxloginstate = 0;
           }

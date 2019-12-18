@@ -11,6 +11,7 @@ Page({
     mainurl:'',
     showurl:false,
     showloginfail:false,
+    showdirectin:false,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -20,18 +21,30 @@ Page({
   },
   onLoginOk:function(){
     this.setData({
-      userInfo: app.globalData.userInfo,
-      hasUserInfo: true,
+      
       motto:'登陆中...'
     })
-    if (app.LoginData.loginok){
+    if (app.LoginData.loginok)
+   // if (app.LoginData.sessioncookie.length > 0)
+    {
       //! 使用session登陆
       let onequery = '?cookie=' + app.LoginData.sessioncookie;
       let cururl = app.getmainpage(onequery);
-
+      console.log('index url:'+cururl);
       let showurl = true;
+      let showloginfail = app.WebLoginData.loginfail;
+      console.log('webloginfail:'+showloginfail);
       if (app.WebLoginData.loginfail){
         showurl = false;
+      }
+      if (!app.LoginData.loginok){
+        showurl = false;
+      }
+      else{
+        this.setData({
+          userInfo: app.globalData.userInfo,
+          hasUserInfo: true,
+        });
       }
       
       if (cururl != this.data.mainurl){
@@ -39,11 +52,13 @@ Page({
         this.setData({
           showurl:showurl,
           mainurl:cururl,
+          showloginfail: showloginfail
         })
       }
       else{
         this.setData({
-          showurl:showurl
+          showurl:showurl,
+          showloginfail: showloginfail
         })
       }
     }else {
@@ -57,6 +72,7 @@ Page({
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){
+      console.log('ck:weblogin loginfail');
       this.setData({
         showurl:false,
         showloginfail:true
