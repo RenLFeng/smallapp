@@ -69,6 +69,8 @@ Page({
   onShow:function(){
     console.log('wx index, on show');
     this.checkLoginFail();
+    //! cjy: onshow 时，总是尝试web重连
+    app.startWebConnect();
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){

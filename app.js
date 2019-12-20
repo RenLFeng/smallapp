@@ -1,7 +1,7 @@
 //app.js
 App({
   LoginData:{
-    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
     testapiport:9982,
@@ -333,7 +333,7 @@ App({
     }
     if (this.WebLoginData.connected){
       //! try login
-      startWebLogin();
+      this.startWebLogin();
       return false;
     }
    // console.log('startwebconnect:loginfail:'+this.WebLoginData.loginfail +  " " + 

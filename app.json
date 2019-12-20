@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/files/view",
     "pages/web/page",
-    "pages/location/sign"
+    "pages/location/sign",
+    "pages/sign/query"
   ],
   "permission": {
     "scope.userLocation": {
