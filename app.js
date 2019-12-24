@@ -109,7 +109,8 @@ App({
     wx.setStorageSync('useravatar', this.LoginData.useravatar);
   },
   readLoginData:function(){
-    //！  不存储， 可能为无效cookie，导致不能刷新？
+    //！本地读取，防止和网页版使用同一cookie
+    //! 未知原因，这里本地存储很容易导致未登录。
    // this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
     this.LoginData.username = wx.getStorageSync('username') || '';
     this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
@@ -389,6 +390,7 @@ App({
   parseWebMessage(data){
     try{
       let objdata = JSON.parse(data)
+      
       if (objdata.cmd == 'loginresult'){
         
         this.WebLoginData.logining = false;
@@ -411,6 +413,9 @@ App({
         //! 被踢出，视为登陆失败， 防止再自动重连
         //! 一般出现在开发环境真机调试
         this.WebLoginData.loginfail = true;
+      }
+      else{
+        console.log('recv undeal web msg:'+data);
       }
     }catch(e){
       
