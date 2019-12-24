@@ -128,7 +128,13 @@ Page({
         }
       };
       if (showname.length > 0){
-        downobj.filePath = wx.env.USER_DATA_PATH + '/' + showname;
+        //！ 加上url后缀，防止不能正常打开
+        let ipos = url.lastIndexOf('.');
+        let localname = showname;
+        if (ipos > 0){
+          localname += url.substr(ipos);
+        }
+        downobj.filePath = wx.env.USER_DATA_PATH + '/' + localname;
       }
       wx.downloadFile(downobj);
     }
