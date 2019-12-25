@@ -6,7 +6,12 @@
   </block>
 
   <block wx:elif="{{isDoc}}">
-  <text>{{docstate}}</text>
+  <block wx:if="{{downok}}">
+  <button bindtap="copyUrl">复制链接</button>
+  </block>
+  <block wx:else>
+  <text >{{docstate}}</text>
+  </block>
   </block>
 
   <block wx:elif="{{isVideo}}">

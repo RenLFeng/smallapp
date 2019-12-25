@@ -20,7 +20,9 @@ Page({
       fileIcon: ''
     },
     showtype:'',
-    docstate:'下载中...'
+    docstate:'下载中...',
+    downok:false,
+    localfile:''
   },
 
   getshowtype:function(ftype){
@@ -35,6 +37,33 @@ Page({
       return 'audio';
     }
     return '';
+  },
+
+  viewdoc:function(){
+    console.log('viewdoc');
+    wx.openDocument({
+      filePath: this.localfile
+    })
+  },
+
+  isios:function(){
+    try {
+      const res = wx.getSystemInfoSync()
+      // console.log(res);
+      // console.log(res.model)
+      // console.log(res.pixelRatio)
+      // console.log(res.windowWidth)
+      // console.log(res.windowHeight)
+      // console.log(res.language)
+      // console.log(res.version)
+      // console.log(res.platform)
+      if (res.platform == 'ios') {
+        return true;
+      }
+    } catch (e) {
+      // Do something when catch error
+    }
+    return false;
   },
 
   /**
@@ -81,7 +110,7 @@ Page({
       }
     }
     //console.log(imgico);
-    console.log(filesize);
+    //console.log(filesize);
     this.setData({
       fileObj:{
         fileIcon:imgico,
@@ -106,9 +135,16 @@ Page({
           console.log('download ok, filepath:' + filePath);
           wx.openDocument({
             filePath: filePath,
-            success: function (res) {
+            success:  (res)=> {
               console.log('打开文档成功');
-              wx.navigateBack();
+              this.setData({
+                downok:true,
+                localfile:filePath
+              })
+              if (!this.isios()){
+                wx.navigateBack();
+              }
+             // 
             },
             fail: (res) => {
               console.log('open doc failed:');
@@ -127,7 +163,7 @@ Page({
           })
         }
       };
-      if (showname.length > 0){
+      if (showname.length > 0 && !this.isios()){
         //！ 加上url后缀，防止不能正常打开
         let ipos = url.lastIndexOf('.');
         let localname = showname;
@@ -169,8 +205,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+      if (this.data.downok){
+        wx.navigateBack()
+      }
   },
+
+
 
   /**
    * 生命周期函数--监听页面隐藏
