@@ -1,7 +1,7 @@
 //app.js
 App({
   LoginData:{
-    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+  //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
     testapiport:9982,
@@ -329,6 +329,7 @@ App({
     }
   },
   startWebConnect() {
+    return false; //! cjy wx不再ws连接
     if (this.WebLoginData.isdoing){
       return false;
     }
@@ -476,6 +477,10 @@ App({
       this.WebLoginData.lockReconnect = false;
   },
   firstWebConnect(){
+
+    //！ cjy: websock 连接移到网页
+    return;
+
       //! 清空当前的logincookie
       this.WebLoginData.loginCookie = '';
       this.startWebConnect();
