@@ -38,6 +38,20 @@ const More = [{
     id: 1
   }
 ];
+// const setALL = [
+//   "设为未签到",
+//   "设为已签到",
+//   "设为迟到",
+//   "设为超时",
+// ];
+
+// const More = [
+//   "查看未签到",
+//   "查看已签到",
+//   "查看迟到",
+//   "查看超时",
+//   "查看全部",
+// ];
 Page({
 
   /**
@@ -78,7 +92,7 @@ Page({
     console.log('isSign', this.data.isSign);
   },
   //一键设置
-  confign() {
+ confign() {
     this.setData({
       isStudent: false,
       actions: setALL
@@ -119,7 +133,9 @@ Page({
         seeText: item.name
       })
       let list = [];
-      this.isSignBtn = true;
+      this.setData({
+        isSignBtn: true
+      })
     }
     this.setData({
       showActionSheet: false

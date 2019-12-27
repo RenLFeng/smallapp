@@ -1,5 +1,61 @@
 /**index.wxss**/
-.userinfo {
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.bg-img-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 572rpx;
+}
+
+.bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: initial;
+}
+.logo-img{
+  position: absolute;
+  width: 426rpx;
+  height: 126rpx;
+}
+.contnet{
+  position: absolute;
+  top: 85%;
+  width: 100%;
+  height: auto;
+  border-radius:20px 20px 0px 0px;
+  background: #fff;
+}
+.title{
+  padding: 70px 0;
+}
+button[type='primary']{
+  width: 90%;
+  margin: 0 auto;
+}
+button[type='default']{
+  width: 90%;
+  border: 1px solid #999;
+}
+.btn{
+  margin: 20px 0;
+}
+.go{
+  color: #0089FF;
+}
+button{
+  font-weight: lighter;
+}
+/* .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,4 +74,4 @@
 
 .usermotto {
   margin-top: 200px;
-}
+} */

@@ -26,6 +26,7 @@ Page({
     page: 0,
 
     signType: 0,
+    wifiEnd: false,
     wifiSign: false,
     gpsSign: false,
     distance: 0,
@@ -47,17 +48,19 @@ Page({
     console.log('options', options);
     let args = util.parseNativeArgs(options.args);
     console.log('args', args);
-    // args.argobj = {
+
+    // args = {
     //   bankeid: 1001,
-    //   role: 5
+    //   role: 10
     // };
-    if (args.argobj.role >= 10) {
+    
+    if (args.role >= 10) {
       this.setData({
         isTeacher: true,
       })
     }
     this.setData({
-      bankeid: args.argobj.bankeid
+      bankeid: args.bankeid
     })
   },
   //查询老师当前签到状态
@@ -97,6 +100,7 @@ Page({
               })
             }
             wx.hideLoading();
+            this.initRefresh();
           } else {
             if (res.data.data && res.data.data.signinfo.length) {
               let serveData = res.data.data.signinfo[0];
@@ -114,15 +118,19 @@ Page({
                 this.studentSigndo();
               } else {
                 wx.hideLoading();
+                this.initRefresh();
               }
             } else {
               this.setData({
                 isSigning: false,
               })
               wx.hideLoading();
+              this.initRefresh();
             }
             console.log("学生签到", this.data.studentSginInfo);
           }
+        }else{
+          wx.hideLoading();
         }
         this.setData({
           isLoad: true
@@ -133,6 +141,7 @@ Page({
           isLoad: true
         })
         wx.hideLoading();
+        this.initRefresh();
         console.log("errerr", err);
       }
     })
@@ -227,20 +236,27 @@ Page({
   //学生签到
   studentSigndo() {
     let that = this;
-    let signType = wx.getStorageSync('signType') || '[]';
-     signType = '["",""]';
+    let signTypes = wx.getStorageSync('signType') || '[]';
+    signTypes = '["","gps"]';
     that.setData({
-      signType: that.getSignType(signType)
+      signType: that.getSignType(signTypes)
     })
+    if (wx.getStorageSync('authSetting')) {
+      let type=wx.getStorageSync('authSetting');
+      that.setData({
+        signType: type
+      })
+    }
     if (!that.data.signType) {
       wx.hideLoading();
       wx.showToast({
         title: '暂无法签到',
-        icon:'none'
+        icon: 'none'
       });
       that.setData({
-        signTipsText:'等待老师开启签到校验'
+        signTipsText: '等待老师开启签到校验'
       })
+      that.initRefresh();
       return;
     }
     wx.showLoading({
@@ -276,19 +292,21 @@ Page({
             studentSginInfo: serveData,
             isSigning: true,
             classSignId: serveData.signid,
-            signTipsText:''
+            signTipsText: ''
           })
         } else {
           wx.showToast({
             title: '签到失败',
             duration: 1000,
-            icon:'none'
+            icon: 'none'
           })
         }
         wx.hideLoading();
+        that.initRefresh();
       },
       fail: err => {
         wx.hideLoading();
+        that.initRefresh();
       }
     })
   },
@@ -349,12 +367,37 @@ Page({
               signTipsText: '您未连接到教室WiFi，无法完成签到。'
             })
             wx.hideLoading();
+            that.initRefresh();
           }
 
         }
         console.log('wifiqd', that.data.wifiSign);
       },
-      fail: err => {}
+      fail: err => {
+        wx.hideLoading();
+        that.initRefresh();
+        if (that.data.signType == '2') {
+          wx.showModal({
+            title: '获取wifi失败',
+            content: '你还可以使用GPS定位签到',
+            success(res) {
+              if (res.confirm) {
+                that.setData({
+                  wifiEnd: true
+                })
+                that.getLocationinfo();
+              }
+            }
+          });
+        } else {
+          wx.showModal({
+            title: '获取wifi失败',
+            content: '请查看手机wifi设置,之后重新刷新签到',
+            showCancel: false,
+            confirmText: '关闭',
+          });
+        }
+      }
     })
   },
   getLocationinfo() {
@@ -369,7 +412,7 @@ Page({
           gpsSign: true,
           distance: that.getDisance(res.latitude, res.longitude, that.data.Location.latitude, that.data.Location.longitude),
         })
-        if (that.data.distance <600) {
+        if (that.data.distance < 600) {
           that.studentSign();
         } else if (that.data.signType == '2') {
           wx.showModal({
@@ -382,6 +425,7 @@ Page({
             signTipsText: '您距离教室太远，或未连接到指定wifi。'
           })
           wx.hideLoading();
+          that.initRefresh();
         } else {
           wx.showModal({
             title: '签到失败',
@@ -392,11 +436,36 @@ Page({
           that.setData({
             signTipsText: '您距离教室太远，无法完成签到。'
           })
+          wx.setStorageSync('authSetting', '');
           wx.hideLoading();
+          that.initRefresh();
         }
         console.log('距离', that.data.distance);
       },
-      fail: err => {}
+      fail: err => {
+        wx.hideLoading();
+        that.initRefresh();
+        wx.showModal({
+          title: '定位失败',
+          content: '需要获取您的地理位置，请确认授权，否则无法签到',
+          success(res) {
+            if (res.confirm) {
+              wx.openSetting({
+                success: function (dataAu) {
+                  if (dataAu.authSetting["scope.userLocation"] == true) {
+                    if (that.data.signType == '2') {
+                      wx.setStorageSync('authSetting', 'gps');
+                    }
+                    that.getLocationinfo()
+                  }
+                }
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        });
+      }
     })
   },
   toRad(d) {
@@ -444,6 +513,15 @@ Page({
     // var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
     // return dis * 6378137;
   },
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    this.signquery(this.data.isTeacher);
+
+  },
+  initRefresh() {
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -469,13 +547,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
 
   },
 

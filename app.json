@@ -1,8 +1,8 @@
 {
   "pages": [
-
+  
     "pages/index/index",
-    "pages/web/page/page",
+    "pages/web/page",
     "pages/location/sign",
     "pages/files/view",
     "components/list/index",
@@ -20,7 +20,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh":true
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
