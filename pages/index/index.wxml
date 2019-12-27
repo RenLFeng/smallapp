@@ -2,18 +2,21 @@
 <view class="container">
   <block wx:if="{{!showurl}}">
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登陆 </button>
+   <block wx:if="{{!hasUserInfo && canIUse}}">
+       <button  open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登陆</button>
+   </block>
     <block wx:elif="{{!canIUse}}">
     <text class="userinfo-nickname">请升级微信版本</text>
     </block>
     <block wx:else>
+      1+2
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
   <view>
-  <button wx:if="showloginfail" bindtap="onBtnReconnect">连接失败，点击重试</button>
-  <button bindtap="onBtnSkip">直接进入</button>
+  <button wx:if="{{showloginfail}}" bindtap="onBtnReconnect">点击重连</button>
+  <button wx:if="{{showdirectin}}" bindtap="onBtnSkip">直接进入</button>
   </view>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>

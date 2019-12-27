@@ -12,10 +12,58 @@ Page({
     fileurl: '',
     loading: false,
     isImg: false,
+    isVideo:false,
+    isAudio:false,
+    isDoc:false,
     fileObj: {
       name: '',
       fileIcon: ''
     },
+    showtype:'',
+    docstate:'下载中...',
+    downok:false,
+    localfile:''
+  },
+
+  getshowtype:function(ftype){
+    if (ftype == 'ppt' || ftype=='docx' || ftype == 'xlsx'
+    || ftype == 'pdf'){
+      return 'doc';
+    }
+    else if (ftype == 'mp4'){
+      return 'video';
+    }
+    else if (ftype == 'mp3'){
+      return 'audio';
+    }
+    return '';
+  },
+
+  viewdoc:function(){
+    console.log('viewdoc');
+    wx.openDocument({
+      filePath: this.localfile
+    })
+  },
+
+  isios:function(){
+    try {
+      const res = wx.getSystemInfoSync()
+      // console.log(res);
+      // console.log(res.model)
+      // console.log(res.pixelRatio)
+      // console.log(res.windowWidth)
+      // console.log(res.windowHeight)
+      // console.log(res.language)
+      // console.log(res.version)
+      // console.log(res.platform)
+      if (res.platform == 'ios') {
+        return true;
+      }
+    } catch (e) {
+      // Do something when catch error
+    }
+    return false;
   },
 
   /**
@@ -25,45 +73,106 @@ Page({
     // app.dowxlogin();
     let args = util.parseNativeArgs(options.args);
     console.log(args);
+    let argobj = args.argobj;
+    let url = '';
+    let ftype = '';
+    let showname = '';
+    let filesize = 0;
+
     if (args.funname == 'jsFileLink') {
-      wx.showLoading({
-        title: '加载中',
-      })
-      // this.data.fileurl = args.argobj.downurl;
-      // console.log(this.data.fileurl);
-      let fullurl = app.getfileurl(args.argobj.url);
-      this.setData({
-        fileurl: fullurl,
-      })
-      if (args.argobj.ftype == 'file') {
-        if (args.argobj.finttype == 1) {
-          this.setData({
-            isImg: true,
-            fileObj: {
-              fileIcon: fullurl,
-              name: args.argobj.name,
-            }
-          });
-        } else if (args.argobj.finttype == 0) {
-          this.setData({
-            fileObj: {
-              fileIcon: util.getFileType(args.argobj.name),
-              name: args.argobj.name,
-            }
-          });
-        }
-      } else if (args.argobj.ftype == 'link') {
-        this.setData({
-          fileObj: {
-            fileIcon: 'it.svg',
-            name: args.argobj.name,
-          }
-        });
+      url = argobj.downurl;
+      ftype = 'file';
+      ftype = util.getFileType(url);
+     // console.log(ftype);
+      if (argobj.name){
+        showname = argobj.name;
       }
-      wx.setNavigationBarTitle({
-        title: '文件查看'
-      })
-      wx.hideLoading();
+      if (argobj.filename){
+        showname = argobj.filename;
+      }
+      if (argobj.filesize){
+        filesize = argobj.filesize;
+      }
+    }
+    else if (args.funname == 'jsUrlLink'){
+      //！ 网页链接
+      url = argobj.url;
+      ftype = 'link';
+    }
+    let imgico = util.getFileTypeIcon(ftype);
+    let showtype = this.getshowtype(ftype);
+    if (showtype == 'doc'){
+      //! 只针对小文档自动下载
+      if (filesize > 0 && filesize < 3*1024*1024){ 
+      }
+      else{
+        showtype = '';
+      }
+    }
+    //console.log(imgico);
+    //console.log(filesize);
+    this.setData({
+      fileObj:{
+        fileIcon:imgico,
+        name:showname
+      },
+      fileurl:url,
+      showtype:showtype,
+      isVideo:showtype=='video',
+      isAudio:showtype=='audio',
+      isDoc:showtype=='doc'
+    })
+    if (showtype == 'doc'){
+      console.log('begin downloadfile:'+url);
+      let downobj = {
+        // 下载为临时文件
+        url: url,
+        success: (res) => {
+          let filePath = res.tempFilePath
+          if (res.filePath){
+            filePath = res.filePath;
+          }
+          console.log('download ok, filepath:' + filePath);
+          wx.openDocument({
+            filePath: filePath,
+            success:  (res)=> {
+              console.log('打开文档成功');
+              this.setData({
+                downok:true,
+                localfile:filePath
+              })
+              if (!this.isios()){
+                wx.navigateBack();
+              }
+             // 
+            },
+            fail: (res) => {
+              console.log('open doc failed:');
+              console.log(res);
+              let sztip = '打开文档失败：' + res.errMsg;
+              this.setData({
+                docstate:sztip
+              })
+            }
+          })
+        },
+        fail: (res) => {
+          console.log('down file failed');
+          this.setData({
+            docstate:'下载失败！'
+          })
+        }
+      };
+      if (showname.length > 0 && !this.isios()){
+        //！ 加上url后缀，防止不能正常打开
+        let ipos = url.lastIndexOf('.');
+        let localname = showname;
+        if (ipos > 0){
+          localname += url.substr(ipos);
+        }
+        downobj.filePath = wx.env.USER_DATA_PATH + '/' + localname;
+      }
+      wx.downloadFile(downobj);
     }
   },
   Error: function (e) {
@@ -96,8 +205,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+      if (this.data.downok){
+        wx.navigateBack()
+      }
   },
+
+
 
   /**
    * 生命周期函数--监听页面隐藏

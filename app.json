@@ -8,7 +8,8 @@
     "components/list/index",
     "components/imglist/index",
     "pages/location/studentSignState/index",
-    "pages/config/sign/index"
+    "pages/config/sign/index",
+    "pages/sign/query"
   ],
   "permission": {
     "scope.userLocation": {

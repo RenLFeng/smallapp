@@ -1,11 +1,12 @@
 //app.js
 App({
   LoginData:{
-    //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    testserver:'192.168.0.237', //! 测试服务器ip
-    testapiserver:'192.168.0.2', //! 测试服务器的api地址
+  //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    testserver:'192.168.40.104', //! 测试服务器ip
+    testapiserver:'192.168.40.104', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
+
     sessioncookie:'',
     username:'',
    // useravatar:'',
@@ -36,8 +37,10 @@ App({
       return wx.request(postobj);
   },
   onLoginOk:function(bsave){
+    console.log('onLoginOk:'+bsave);
     if (!this.LoginData.sessioncookie.length) {
       //! wxlogin 尚未完成
+      console.log('onLoginOk, null sessioncookie');
       return;
     }
     if (!(this.LoginData.username.length >0)
@@ -47,6 +50,7 @@ App({
         //! 首次登陆， 初始化数据， 完成后才登入页面
         if (this.LoginData.updatinguser){
          //! 正在更新中
+          console.log('onLoginOk, in updateing user');
           return;
         }
 
@@ -86,9 +90,11 @@ App({
     }
     if (!(this.LoginData.sessioncookie.length > 10 
     && this.LoginData.username.length > 0)){
+      console.log('onLoginOk, not got username');
         return;
     }
     this.LoginData.loginok = true;
+    console.log('set LoginData loginok');
     if (this.userInfoReadyCallback) {
       this.userInfoReadyCallback(null)
     }
@@ -103,13 +109,17 @@ App({
     wx.setStorageSync('useravatar', this.LoginData.useravatar);
   },
   readLoginData:function(){
-    this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
+    //！本地读取，防止和网页版使用同一cookie
+    //! 未知原因，这里本地存储很容易导致未登录。
+   // this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
     this.LoginData.username = wx.getStorageSync('username') || '';
     this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
   },
   dowxlogin:function(){
     // 登录
+    console.log("dowxlogin");
     if (this.LoginData.wxloginstate){
+      console.log('in wxlogin, return');
       return;
     }
 
@@ -118,6 +128,7 @@ App({
     }
 
     if (this.LoginData.wxloginok){
+      console.log('wxloginok, return');
       return;
     }
     this.LoginData.wxloginstate = 1;
@@ -134,8 +145,9 @@ App({
             cookie:this.LoginData.sessioncookie
           },
           success: res => {
-             console.log(res);
+            // console.log(res);
             //  console.log(this);
+            console.log('wx login ret');
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
               this.LoginData.wxloginok = true;
@@ -150,11 +162,12 @@ App({
               this.firstWebConnect();
             }
             else {
-              //console.log(res);
+              console.log(res);
               this.LoginData.errcode = -1;
             }
           },
           fail: res => {
+
             console.log(res)
             this.LoginData.wxloginstate = 0;
           }
@@ -315,12 +328,13 @@ App({
     }
   },
   startWebConnect() {
+    return false; //! cjy wx不再ws连接
     if (this.WebLoginData.isdoing){
       return false;
     }
     if (this.WebLoginData.connected){
       //! try login
-      startWebLogin();
+      this.startWebLogin();
       return false;
     }
    // console.log('startwebconnect:loginfail:'+this.WebLoginData.loginfail +  " " + 
@@ -376,6 +390,7 @@ App({
   parseWebMessage(data){
     try{
       let objdata = JSON.parse(data)
+      
       if (objdata.cmd == 'loginresult'){
         
         this.WebLoginData.logining = false;
@@ -398,6 +413,9 @@ App({
         //! 被踢出，视为登陆失败， 防止再自动重连
         //! 一般出现在开发环境真机调试
         this.WebLoginData.loginfail = true;
+      }
+      else{
+        console.log('recv undeal web msg:'+data);
       }
     }catch(e){
       
@@ -458,6 +476,10 @@ App({
       this.WebLoginData.lockReconnect = false;
   },
   firstWebConnect(){
+
+    //！ cjy: websock 连接移到网页
+    return;
+
       //! 清空当前的logincookie
       this.WebLoginData.loginCookie = '';
       this.startWebConnect();

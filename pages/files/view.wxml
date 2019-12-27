@@ -4,20 +4,39 @@
     <image class="file-icon" src="{{fileObj.fileIcon}}" mode="scaleToFill" lazy-load="false" binderror="" bindload="">
     </image>
   </block>
+
+  <block wx:elif="{{isDoc}}">
+  <block wx:if="{{downok}}">
+  <button bindtap="copyUrl">复制链接</button>
+  </block>
+  <block wx:else>
+  <text >{{docstate}}</text>
+  </block>
+  </block>
+
+  <block wx:elif="{{isVideo}}">
+  <video id="myVideo" src="{{fileurl}}" enable-danmu danmu-btn controls></video>
+  </block>
+
+  <block wx:elif="{{isAudio}}">
+  <audio id="myAudio" src="{{fileurl}}" enable-danmu danmu-btn controls></audio>
+  </block>
+
   <block wx:else>
     <image class="file-icon" src="../../images/{{fileObj.fileIcon}}" mode="scaleToFill" lazy-load="false" binderror="Error"
       bindload=""></image>
-  </block>
-  <text class="file-name" selectable="false" space="false" decode="false">
+      <text class="file-name" selectable="false" space="false" decode="false">
     {{fileObj.name}}
   </text>
   <view class="submit-main" hover-class="none" hover-stop-propagation="false">
     <text class="" selectable="false" space="false" decode="false">
 
     </text>
-    <text>在小程序中无法下载该文件，请复制链接到浏览器中打开。</text>
+    <text>在小程序中无法下载文件或打开链接，请复制链接到浏览器中打开。</text>
     <button bindtap="copyUrl">复制链接</button>
   </view>
+  </block>
+  
   <!-- <video id="myVideo" src="{{fileurl}}" enable-danmu danmu-btn controls></video>
   <view class="btn-area">
     <input bindblur="bindInputBlur" />
