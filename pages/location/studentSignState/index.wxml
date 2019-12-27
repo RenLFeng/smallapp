@@ -1,0 +1,43 @@
+<!--pages/location/studentSignState/index.wxml-->
+<view class="wrap container2" hover-class="none" hover-stop-propagation="false">
+    <view class="mian" hover-class="none" hover-stop-propagation="false">
+        <view class="top-info" hover-class="none" hover-stop-propagation="false">
+            <view class="" hover-class="none" hover-stop-propagation="false">
+                签到时间:{{singnInfo.date}} {{singnInfo.time}}
+            </view>
+            <view class="clearfix" hover-class="none" hover-stop-propagation="false">
+                <text class="fl colord" wx:if="{{isSign && isTeacher}}" bindtap="confign">一键设置签到</text>
+                <text class="fr colord" bindtap="More">{{seeText}}</text>
+            </view>
+        </view>
+        <view class="member-n tr" hover-class="none" hover-stop-propagation="false">
+            {{signmembers.length?signmembers.length:0}}人
+        </view>
+        <view class="merber-list" hover-class="none" hover-stop-propagation="false">
+            <my-img-list listData="{{signmembers}}" bind:studentChage="studentChageFn"></my-img-list>
+        </view>
+        <view wx:if="{{isSign && isTeacher}}" class="footer" hover-class="none" hover-stop-propagation="false">
+            <view class="wrap position-a">
+                <view class="fontlarge tc top">
+                    <text class="colord">{{signmemberNuber}}</text>/
+                    <text class="">{{allmemberNuber}}</text>
+                </view>
+                <view class="clearfix tc btn-text">
+                    <text class="fl">放弃</text>
+                    <text class="fr" bindtap=
+                    "SignEnd">结束</text>
+                </view>
+            </view>
+
+        </view>
+    </view>
+</view>
+<van-action-sheet
+show="{{showActionSheet}}"
+actions="{{ actions }}"
+bind:cancel="onCancel"
+bind:select="onSelect"
+bind:click-overlay="onCancel"
+class="ActionSheet"
+cancel-text="取消"
+/>

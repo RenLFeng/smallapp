@@ -1,6 +1,6 @@
 /* pages/location/sign.wxss */
-.mtext{
-  display: -webkit-box;
+.mtext {
+  /* display: -webkit-box;
     font-size:28rpx;
     color:#000000;
     line-height: 40rpx;
@@ -8,5 +8,105 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp:300;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow:ellipsis; */
+}
+
+.sign-wrap {}
+
+.top-tit {
+  text-align: center;
+  background: #fff;
+  padding: 20px 0;
+}
+
+.top-tit .sign-icon {
+  font-size: 96rpx;
+  color: #FF8900;
+}
+
+.top-tit .sign-icon.act {
+  color: #0089ff;
+}
+
+.top-tit .btn-text {
+  font-size: 36rpx;
+}
+
+.top-tit .btn-text.act {
+  color: #0089ff;
+}
+
+.list-tit {
+  background: #f0f0f0;
+  padding: 10px;
+  font-size: 32rpx;
+}
+
+.sign-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.no-sign {
+  width: 500rpx;
+  height: 500rpx;
+  max-width: 500rpx;
+  max-height: 500rpx;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #99cdfa 0%, #0082f1 100%);
+  box-shadow: 0 0.16rem 0.16rem rgba(0, 137, 255, 0.36);
+  border-radius: 50%;
+  opacity: 1;
+  color: #fff;
+  text-align: center;
+  line-height: 500rpx;
+}
+.no-sign.act{
+  opacity: .5;
+}
+
+.no-sign text {
+  display: block;
+  height: 30px;
+}
+
+.sign-end .icon {
+  position: absolute;
+  left: -45px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.sign {
+  width: 50%;
+}
+.sign .icon {
+  font-size: 100rpx;
+}
+.sign .text-wrap {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.sign .text-wrap text {
+  display: block;
+}
+
+.position-a{
+
+}
+.tips{
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  color: #333;
+  bottom: 138rpx;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+.temp{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
 }

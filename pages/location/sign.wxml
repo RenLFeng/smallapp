@@ -1,20 +1,72 @@
 <!--pages/location/sign.wxml-->
-<view>
-    <view>
-        <view class="" hover-class="none" hover-stop-propagation="false">
-            
-        </view>
-        <text class="icon" selectable="false" space="false" decode="false">
-            
-        </text>
-        <text class="" selectable="false" space="false" decode="false">
-            开始签到
-        </text>
-        <view class="" hover-class="none" hover-stop-propagation="false">
-            距离：{{distance}}
-        </view>
-    </view>
-    <text class='mtext'>{{locationinfo}}</text>
+<view class="sign-wrap container2">
+    <view class="main"  wx:if="{{isLoad}}">
+        <block wx:if="{{isTeacher || global}}">
+            <text bindtap="confin" wx:if="{{isTeacher}}">
+                签到设置
+            </text>
+            <view class="top-tit" bindtap="teacherSignClass">
+                <text class="iconfont iconqiandao2 sign-icon {{isSigning?'act':''}}" selectable="false" space="false"
+                    decode="false"></text>
+                <text class="btn-text {{isSigning?'act':''}}" selectable="false" space="false" decode="false">
+                    {{SignStateText}}
+                </text>
 
-    <text class='mtext'>{{bankeinfo}}</text>
+            </view>
+            <block>
+                <view class="list-tit" hover-class="none" hover-stop-propagation="false">
+                    签到历史记录
+                </view>
+                <my-list bind:traCheckedNum="checkNum" classSignId="{{classSignId}}" isTeacher="{{isTeacher}}"
+                    listData="{{teacherSignHistory}}">
+                </my-list>
+            </block>
+        </block>
+        <block wx:else>
+            <view class="sign-wrap">
+                <view class="position-a no-sign {{signTipsText?'act':''}}" wx:if="{{studentSginInfo.state=='0' && isSigning}}"
+                    bindtap="studentSigndo">
+                    <text class="font-xxl">点击签到 </text>
+                    <text class="font-m">{{studentSginInfo.starttime}}</text>
+                    <view wx:if="{{signTipsText}}" class="tc tips" hover-class="none" hover-stop-propagation="false">
+                        {{signTipsText}}
+                    </view>
+                </view>
+                <view class="position-a sign" wx:elif="{{studentSginInfo.state>0 && isSigning}}">
+                    <text class="icon iconfont iconok- font-icon-xl colord"></text>
+                    <view class="text-wrap">
+                        <text class="font-xxl"> 已签到</text>
+                        <text class="">签到时间:{{studentSginInfo.signtime}}</text>
+                    </view>
+                </view>
+                <view class="position-a sign-end" wx:else>
+                    <text class="icon iconfont iconjihuaweikaiqi font-icon-xl"></text>
+                    <view class=""> 教师未开启签到</view>
+                </view>
+            </view>
+            <view class="btn-fill color9 tc" hover-class="none" hover-stop-propagation="false" bindtap="showHistory">
+                签到历史记录
+            </view>
+        </block>
+        <!-- <view class="" hover-class="none" hover-stop-propagation="false">
+        </view>
+        <view>
+            <view class="" hover-class="none" hover-stop-propagation="false">
+                
+            </view>
+            <text class="icon" selectable="false" space="false" decode="false">
+                
+            </text>
+            <text class="" selectable="false" space="false" decode="false">
+                开始签到
+            </text>
+            <view class="" hover-class="none" hover-stop-propagation="false">
+                距离：{{distance}}
+            </view>
+        </view>
+        <text class='mtext'>{{locationinfo}}</text>
+    
+        <text class='mtext'>{{bankeinfo}}</text> -->
+    </view>
+    <view wx:if="{{!isLoad}}" class="temp" hover-class="none" hover-stop-propagation="false"></view>
 </view>

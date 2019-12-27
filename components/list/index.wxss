@@ -1,0 +1,22 @@
+@import "../../app.wxss";
+.item{
+    position: relative;
+    padding:10px;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+}
+  .sign-info{
+      font-size: 36rpx;
+      width: 90%;
+  }
+  .signing{
+      color: #0089ff;
+      margin-top: 5px;
+  }
+  .icon{
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(0,-50%);
+      font-size: 60rpx;
+  }

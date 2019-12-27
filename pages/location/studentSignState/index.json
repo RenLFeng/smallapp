@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "my-img-list":"/components/imglist/index",
+    "van-action-sheet":"/miniprogram_npm/vant-weapp/action-sheet/index"
+  },
+  "navigationBarTitleText": ""
+}

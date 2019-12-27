@@ -1,0 +1,16 @@
+<!--pages/config/sign-confin.wxml-->
+<view class="container2 config">
+    <view class="main" hover-class="none" hover-stop-propagation="false">
+        <view class="item wifi" hover-class="none" hover-stop-propagation="false">
+           WIFI校验 <switch class="fr switch" checked="{{wifi}}" bindchange="wifiSwitch1Change"/>
+        </view>
+        <view class="item" hover-class="none" hover-stop-propagation="false">
+            GPS校验校验 <switch class="fr switch" checked="{{gps}}" bindchange="gpsSwitch1Change"/>
+         </view>
+         <view class="font-xs color9 tips" hover-class="none" hover-stop-propagation="false">
+            WIFI校验：学生连接到本教室WiFi才允许签到；
+            GPS校验：学生当前在签到范围内才允许签到；
+            以上两种校验方式全部关闭或不可用时，学生将无法点击签到，需由教师手动修改学生的签到状态。
+         </view>
+    </view>
+</view>

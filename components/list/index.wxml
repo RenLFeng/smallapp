@@ -1,0 +1,16 @@
+<!--components/list/index.wxml-->
+<my-list>
+    <view class='item' wx:for="{{listData}}" wx:key="" wx:for-item="item" hover-class="none"
+        hover-stop-propagation="false" bindtap="bindClick" data-item="{{item}}">
+        <view class="clearfix sign-info" hover-class="none" hover-stop-propagation="false">
+            <view class="fl" selectable="false" space="false" decode="false">
+                {{item.date}} {{item.week}} 签到 </view>
+            <view class="fr color9" selectable="false" space="false" decode="false">
+                {{item.joinnum}} 人 / {{item.totalnum}} 人
+            </view>
+        </view>
+        <view wx:if="{{classSignId==item.id}}" class="signing font-s">正在等待学生签到...</view>
+        <div  wx:else class="color9 font-xs">{{item.starttime}}</div>
+        <text class="icon iconfont iconjiantou color9" selectable="false" space="false" decode="false"></text>
+    </view>
+</my-list>

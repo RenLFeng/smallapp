@@ -16,49 +16,72 @@ const formatNumber = n => {
 
 
 
-const parseNativeArgs= sz=>{
-  let tsz = sz||'';
+const parseNativeArgs = sz => {
+  let tsz = sz || '';
   tsz = decodeURIComponent(tsz);
   //console.log(tsz);
-  try{
+  try {
     let args = JSON.parse(tsz);
     return args;
-  }catch(e){
-    console.log('parsenativeargs, exception:'+e);
+  } catch (e) {
+    console.log('parsenativeargs, exception:' + e);
   }
   return {
-    funname:'',
-    argobj:{}
+    funname: '',
+    argobj: {}
   }
 }
-const filetypeArr=["txt", "rar", "xlsx", "docx", "ppt", "pdf"];
-const getFileType = type =>{
-  let r='';
+const filetypeArr = ["txt", "rar", "xlsx", "docx", "ppt", "pdf"];
+const getFileType = type => {
+  let r = '';
   for (let item of filetypeArr) {
     if (type.includes(item)) {
       r = item;
-      return r+'.svg';
+      return r + '.svg';
     }
     if (
       type.includes("doc") ||
       type.includes("rtf")
     ) {
       r = 'docx';
-      return r+'.svg';
+      return r + '.svg';
     }
     if (type.includes("zip")) {
       r = 'rar';
-      return r+'.svg';
+      return r + '.svg';
     }
     if (type.includes("xls")) {
-      r ='xlsx';
-      return r+'.svg';
+      r = 'xlsx';
+      return r + '.svg';
     }
   }
 }
-
+const  timeWeekHummanread =v=>{
+  let wobj = {
+    1: '星期一',
+    2: '星期二',
+    3: '星期三',
+    4: '星期四',
+    5: '星期五',
+    6: '星期六',
+    0: '星期日'
+  };
+  if (wobj[v]) {
+    return wobj[v];
+  }
+  return '';
+}
+const Whatweek =time=> {
+  let date = new Date();
+  if (time) {
+    date = new Date(time);
+  }
+  var day = date.getDay();
+  return timeWeekHummanread(day);
+}
 module.exports = {
   formatTime: formatTime,
-  parseNativeArgs:parseNativeArgs,
-  getFileType:getFileType
+  parseNativeArgs: parseNativeArgs,
+  getFileType: getFileType,
+  Whatweek:Whatweek
 }

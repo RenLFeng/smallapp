@@ -1,0 +1,20 @@
+/* components/imglist/index.wxss */
+@import "../../app.wxss";
+.item{
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 18px 10px;
+    padding-left: 160rpx;
+}
+.img{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translate(0,-50%);
+    width: 120rpx;
+    border-radius: 30px;
+}
+.pa-right{
+    padding-right: 10px;
+}

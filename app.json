@@ -1,9 +1,13 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/files/view",
     "pages/web/page",
-    "pages/location/sign"
+    "pages/location/sign",
+    "pages/files/view",
+    "components/list/index",
+    "components/imglist/index",
+    "pages/location/studentSignState/index",
+    "pages/config/sign/index"
   ],
   "permission": {
     "scope.userLocation": {
@@ -17,5 +21,6 @@
     "navigationBarTextStyle": "black"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {}
 }
