@@ -141,7 +141,7 @@ App({
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
-                this.LoginData.sessioncookie ='ec86c4becb15111d24a32c1ab6811d35';
+                this.LoginData.sessioncookie =res.data.data.cookie;
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";
                 this.onLoginOk(true);

@@ -1,7 +1,7 @@
 <!--components/imglist/index.wxml-->
 <my-img-list>
   <view class="item" wx:for="{{listData}}" wx:key="" wx:for-item="item" bindtap="bindSelect" data-item="{{item}}">
-    <image class="img" src="{{item.avatar}}" mode="widthFix" lazy-load="false" binderror="" binderror=""> </image>
+    <image class="img" src="{{item.avatar}}" mode="widthFix" lazy-load="false" binderror="errImg" data-err-img="item.avatar"> </image>
     <view class="maincontent">
       <view class="mainctitle ellipse">{{item.name}} <text class="color9 font-s fr">距离:00</text></view>
       <view class="maincsubtitle colory">

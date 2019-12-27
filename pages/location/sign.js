@@ -47,10 +47,10 @@ Page({
     console.log('options', options);
     let args = util.parseNativeArgs(options.args);
     console.log('args', args);
-    args.argobj = {
-      bankeid: 1001,
-      role: 10
-    };
+    // args.argobj = {
+    //   bankeid: 1001,
+    //   role: 10
+    // };
     if (args.argobj.role >= 10) {
       this.setData({
         isTeacher: true,
