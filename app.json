@@ -1,7 +1,8 @@
 {
   "pages": [
+
     "pages/index/index",
-    "pages/web/page",
+    "pages/web/page/page",
     "pages/location/sign",
     "pages/files/view",
     "components/list/index",

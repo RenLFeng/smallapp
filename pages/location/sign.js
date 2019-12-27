@@ -49,7 +49,7 @@ Page({
     console.log('args', args);
     // args.argobj = {
     //   bankeid: 1001,
-    //   role: 10
+    //   role: 5
     // };
     if (args.argobj.role >= 10) {
       this.setData({
@@ -228,15 +228,19 @@ Page({
   studentSigndo() {
     let that = this;
     let signType = wx.getStorageSync('signType') || '[]';
-     signType = '["gps","wifi"]';
+     signType = '["",""]';
     that.setData({
       signType: that.getSignType(signType)
     })
     if (!that.data.signType) {
+      wx.hideLoading();
       wx.showToast({
         title: '暂无法签到',
-        icon: 'none',
+        icon:'none'
       });
+      that.setData({
+        signTipsText:'等待老师开启签到校验'
+      })
       return;
     }
     wx.showLoading({
@@ -272,11 +276,13 @@ Page({
             studentSginInfo: serveData,
             isSigning: true,
             classSignId: serveData.signid,
+            signTipsText:''
           })
         } else {
           wx.showToast({
             title: '签到失败',
-            duration: 1000
+            duration: 1000,
+            icon:'none'
           })
         }
         wx.hideLoading();

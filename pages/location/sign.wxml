@@ -24,9 +24,9 @@
         </block>
         <block wx:else>
             <view class="sign-wrap">
-                <view class="position-a no-sign {{signTipsText?'act':''}}" wx:if="{{studentSginInfo.state=='0' && isSigning}}"
+                <view class="position-a no-sign {{signTipsText?'act':''}} {{!signType?'act':''}}" wx:if="{{studentSginInfo.state=='0' && isSigning}}"
                     bindtap="studentSigndo">
-                    <text class="font-xxl">点击签到 </text>
+                    <text class="font-xxl">{{!signType?'准备签到':'点击签到'}} </text>
                     <text class="font-m">{{studentSginInfo.starttime}}</text>
                     <view wx:if="{{signTipsText}}" class="tc tips" hover-class="none" hover-stop-propagation="false">
                         {{signTipsText}}
