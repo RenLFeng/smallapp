@@ -5,25 +5,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    wifi: false,
-    gps: false,
-    signType: {
-      WiFi: {
-        isTrue: false,
-        wifiInfi: {}
-      },
-      gps: {
-        isTrue: false,
-        gpsInfi: {}
-      }
-    }
+    wifi: true,
+    gps: true,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.setStorageSync('signType', JSON.stringify(['wifi','gps']));
   },
 
   /**
@@ -35,31 +25,20 @@ Page({
   wifiSwitch1Change(e) {
     this.setData({
       wifi: e.detail.value,
-      'signType[0]': e.detail.value ? 'wifi' : ''
     })
-    wx.setStorageSync('signType', JSON.stringify(this.data.signType));
+    let wifi=this.data.wifi?'wifi':'';
+    let gps=this.data.gps?'gps':''
+    wx.setStorageSync('signType', JSON.stringify([wifi,gps]));
   },
   gpsSwitch1Change(e) {
     this.setData({
       gps: e.detail.value,
-      'signType[1]': e.detail.value ? 'gps' : ''
     })
-    wx.setStorageSync('signType', JSON.stringify(this.data.signType));
+    let wifi=this.data.wifi?'wifi':'';
+    let gps=this.data.gps?'gps':''
+    wx.setStorageSync('signType', JSON.stringify([wifi,gps]));
   },
   getwifi() {
-    wx.getConnectedWifi({
-      success: res => {
-        console.log('cg', res);
-        let wifiInfo = {
-          SSID: res.wifi.SSID,
-          BSSID: res.wifi.BSSID
-        }
-        return wifiInfo
-      },
-      fail: err => {
-        return {}
-      }
-    })
   },
   getLocation() {
 

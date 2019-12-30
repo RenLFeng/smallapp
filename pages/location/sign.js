@@ -32,14 +32,13 @@ Page({
     distance: 0,
     signTipsText: '',
 
-    wifi: {
-      SSID: 'EXSOFT',
-      BSSID: 'ec:41:18:48:99:20',
+    teacherSignTypeInfo:{
+      wifi:null,
+      gps:null,
+      type:null
     },
-    Location: {
-      latitude: 22.56006,
-      longitude: 113.8964
-    },
+    wifi: null,
+    Location: null,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -51,9 +50,9 @@ Page({
 
     // args = {
     //   bankeid: 1001,
-    //   role: 10
+    //   role: 5
     // };
-    
+
     if (args.role >= 10) {
       this.setData({
         isTeacher: true,
@@ -105,6 +104,7 @@ Page({
             if (res.data.data && res.data.data.signinfo.length) {
               let serveData = res.data.data.signinfo[0];
               serveData.starttime = res.data.data.signdata.starttime.split(" ")[1];
+              serveData.info = JSON.parse(res.data.data.signdata.info);
               if (serveData.state > 0) {
                 serveData.signtime = serveData.signtime.split(" ")[1];
               }
@@ -112,7 +112,9 @@ Page({
                 studentSginInfo: serveData,
                 SignStateText: '正在等待学生签到...',
                 isSigning: true,
-                classSignId: serveData.signid
+                classSignId: serveData.signid,
+                wifi: serveData.info.wifi,
+                Location: serveData.info.gps,
               })
               if (serveData.state == '0') {
                 this.studentSigndo();
@@ -129,7 +131,7 @@ Page({
             }
             console.log("学生签到", this.data.studentSginInfo);
           }
-        }else{
+        } else {
           wx.hideLoading();
         }
         this.setData({
@@ -184,6 +186,11 @@ Page({
   teacherSignClass() {
     if (!this.data.isTeacher) return;
     let that = this;
+    let signType = wx.getStorageSync('signType') || '[]';
+    let isSignType = that.getSignType(signType);
+    that.setData({
+      'teacherSignTypeInfo.type':signType
+    })
     wx.showModal({
       title: '提示',
       content: '您确认要签到吗',
@@ -193,56 +200,71 @@ Page({
             title: '加载中',
             mask: true
           })
-          app.httpPost({
-            url: app.getapiurl('/api/sign/signadd'),
-            data: {
-              bankeid: that.data.bankeid
-            },
-            success: res => {
-              if (res.data.code == '0') {
-                wx.showToast({
-                  title: '打卡成功'
-                })
-                if (res.data.data.sign) {
-                  let signData = res.data.data.sign;
-                  let splitTime = signData.starttime.split(" ");
-                  signData.date = splitTime[0];
-                  signData.time = splitTime[1];
-                  that.setData({
-                    teacherSignInfo: signData,
-                    SignStateText: '正在等待学生签到...',
-                    isSigning: true,
-                    classSignId: res.data.data.sign.id,
-                  });
-                  that.signquerymember();
-                }
-              } else {
-                wx.showToast({
-                  title: '打卡失败'
-                })
-              }
-              wx.hideLoading();
-            },
-            fail: err => {
-              wx.hideLoading();
-            }
-          })
+          if (isSignType == '2') {
+            that.teacherGetWifi(isSignType);
+          } else if (isSignType == 'wifi') {
+            that.teacherGetWifi(isSignType);
+          } else if (isSignType == 'gps') {
+            that.teacherGetLocation(isSignType);
+          } else {
+            that.teacherSignadd(isSignType);
+          }
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
       }
     })
   },
+  //老师签到
+  teacherSignadd(isSignType) {
+    let that =this;
+    app.httpPost({
+      url: app.getapiurl('/api/sign/signadd'),
+      data: {
+        bankeid: that.data.bankeid,
+        info: isSignType ?JSON.stringify(that.data.teacherSignTypeInfo): ''
+      },
+      success: res => {
+        if (res.data.code == '0') {
+          wx.showToast({
+            title: '打卡成功'
+          })
+          if (res.data.data.sign) {
+            let signData = res.data.data.sign;
+            let splitTime = signData.starttime.split(" ");
+            signData.date = splitTime[0];
+            signData.time = splitTime[1];
+            that.setData({
+              teacherSignInfo: signData,
+              SignStateText: '正在等待学生签到...',
+              isSigning: true,
+              classSignId: res.data.data.sign.id,
+              'teacherSignTypeInfo.wifi':null,
+              'teacherSignTypeInfo.gps':null,
+              'teacherSignTypeInfo.type':null
+            });
+            that.signquerymember();
+          }
+        } else {
+          wx.showToast({
+            title: '打卡失败'
+          })
+        }
+        wx.hideLoading();
+      },
+      fail: err => {
+        wx.hideLoading();
+      }
+    })
+  },
   //学生签到
   studentSigndo() {
     let that = this;
-    let signTypes = wx.getStorageSync('signType') || '[]';
-    signTypes = '["","gps"]';
     that.setData({
-      signType: that.getSignType(signTypes)
+      signType: that.getSignType(that.data.studentSginInfo.info.type)
     })
     if (wx.getStorageSync('authSetting')) {
-      let type=wx.getStorageSync('authSetting');
+      let type = wx.getStorageSync('authSetting');
       that.setData({
         signType: type
       })
@@ -316,11 +338,11 @@ Page({
       url: '/pages/config/sign/index',
     })
   },
-  getSignType(signdata) {
-    if (signdata.includes('wifi') && signdata.includes('gps')) {
+  getSignType(type) {
+    if (type.includes('wifi') && type.includes('gps')) {
       return 2;
-    } else if (signdata.includes('wifi') || signdata.includes('gps')) {
-      let Type = JSON.parse(signdata);
+    } else if (type.includes('wifi') || type.includes('gps')) {
+      let Type = JSON.parse(type);
       for (let v of Type) {
         if (v) {
           return v
@@ -521,6 +543,53 @@ Page({
   initRefresh() {
     wx.hideNavigationBarLoading() //完成停止加载
     wx.stopPullDownRefresh() //停止下拉刷新
+  },
+  teacherGetWifi(SignType) {
+    let that = this;
+    let wifi = {};
+    wx.getConnectedWifi({
+      success: res => {
+        wifi = {
+          SSID: res.wifi.SSID,
+          BSSID: res.wifi.BSSID
+        };
+        that.setData({
+          'teacherSignTypeInfo.wifi':wifi
+        })
+        if (SignType == 'wifi') {
+          that.teacherSignadd(SignType);
+        }
+        console.log('wifiwifwifi', that.data.teacherSignTypeInfo);
+      },
+      fail: err => {},
+      complete: () => {
+        if (SignType == '2') {
+          that.teacherGetLocation(SignType);
+        }
+      }
+    })
+  },
+  teacherGetLocation(SignType) {
+    let that = this;
+    let Location = {};
+    wx.getLocation({
+      type: 'wgs84',
+      isHighAccuracy: true,
+      highAccuracyExpireTime: 5000,
+      success: res => {
+        Location = {
+          latitude: res.latitude,
+          longitude: res.longitude
+        }
+        that.setData({
+          'teacherSignTypeInfo.gps':Location
+        })
+        that.teacherSignadd(SignType);
+        console.log('LocationLocation',that.data.teacherSignTypeInfo);
+      },
+      fail: err => {
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

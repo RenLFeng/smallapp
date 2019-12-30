@@ -1,17 +1,22 @@
 <!--pages/location/sign.wxml-->
 <view class="sign-wrap container2">
-    <view class="main"  wx:if="{{isLoad}}">
+    <view class="main" wx:if="{{isLoad}}">
         <block wx:if="{{isTeacher || global}}">
-            <text bindtap="confin" wx:if="{{isTeacher}}">
-                签到设置
-            </text>
-            <view class="top-tit" bindtap="teacherSignClass">
-                <text class="iconfont iconqiandao2 sign-icon {{isSigning?'act':''}}" selectable="false" space="false"
-                    decode="false"></text>
-                <text class="btn-text {{isSigning?'act':''}}" selectable="false" space="false" decode="false">
-                    {{SignStateText}}
-                </text>
-
+            <view class="top-tit">
+                <view class="block"  bindtap="teacherSignClass">
+                    <text class="iconfont iconqiandao2 sign-icon {{isSigning?'act':''}}" selectable="false"
+                        space="false" decode="false"></text>
+                    <text class="btn-text {{isSigning?'act':''}}" selectable="false" space="false" decode="false">
+                        {{SignStateText}}
+                    </text>
+                </view>
+                <view class="block" bindtap="confin">
+                    <text class="iconfont iconbianji sign-icon " style="color: #8ECBFF;" selectable="false"
+                        space="false" decode="false"></text>
+                    <text wx:if="{{isTeacher}}">
+                        签到设置
+                    </text>
+                </view>
             </view>
             <block>
                 <view class="list-tit" hover-class="none" hover-stop-propagation="false">
@@ -24,8 +29,8 @@
         </block>
         <block wx:else>
             <view class="sign-wrap">
-                <view class="position-a no-sign {{signTipsText?'act':''}} {{!signType?'act':''}}" wx:if="{{studentSginInfo.state=='0' && isSigning}}"
-                    bindtap="studentSigndo">
+                <view class="position-a no-sign {{signTipsText?'act':''}} {{!signType?'act':''}}"
+                    wx:if="{{studentSginInfo.state=='0' && isSigning}}" bindtap="studentSigndo">
                     <text class="font-xxl">{{!signType?'准备签到':'点击签到'}} </text>
                     <text class="font-m">{{studentSginInfo.starttime}}</text>
                     <view wx:if="{{signTipsText}}" class="tc tips" hover-class="none" hover-stop-propagation="false">
