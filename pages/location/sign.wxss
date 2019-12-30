@@ -19,8 +19,7 @@
   padding: 20px 0;
 }
 .block{
-  display: inline-block;
-  width: 50%;
+
 }
 .top-tit .sign-icon {
   font-size: 96rpx;

@@ -50,7 +50,7 @@ Page({
 
     // args = {
     //   bankeid: 1001,
-    //   role: 5
+    //   role: 10
     // };
 
     if (args.role >= 10) {
@@ -60,7 +60,8 @@ Page({
     }
     this.setData({
       bankeid: args.bankeid
-    })
+    });
+    wx.setStorageSync('signType', JSON.stringify(['wifi','gps']));
   },
   //查询老师当前签到状态
   signquery(isTeacher) {

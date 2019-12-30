@@ -155,6 +155,7 @@ App({
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
+                // this.LoginData.sessioncookie ='3bc9eb46bb2ac48bc5bf413995a0f51e';
                 this.LoginData.sessioncookie =res.data.data.cookie;
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";

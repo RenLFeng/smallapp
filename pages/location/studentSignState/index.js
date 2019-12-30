@@ -72,6 +72,8 @@ Page({
     signmembersTemp: [],
     allmemberNuber: 0,
     signmemberNuber: 0,
+
+    signType:'',
   },
 
   /**
@@ -81,6 +83,11 @@ Page({
     console.log('options', options);
     this.setData({
       isTeacher: JSON.parse(options.isTeacher)
+    })
+    let signType = wx.getStorageSync('signType') || '[]';
+    signType = JSON.parse(signType);
+    this.setData({
+      signType: signType
     })
     let singnInfo = wx.getStorageSync('signinfo') || {};
     this.setData({
@@ -92,7 +99,7 @@ Page({
     console.log('isSign', this.data.isSign);
   },
   //一键设置
- confign() {
+  confign() {
     this.setData({
       isStudent: false,
       actions: setALL

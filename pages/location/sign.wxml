@@ -10,17 +10,13 @@
                         {{SignStateText}}
                     </text>
                 </view>
-                <view class="block" bindtap="confin">
-                    <text class="iconfont iconbianji sign-icon " style="color: #8ECBFF;" selectable="false"
-                        space="false" decode="false"></text>
-                    <text wx:if="{{isTeacher}}">
-                        签到设置
-                    </text>
-                </view>
             </view>
             <block>
                 <view class="list-tit" hover-class="none" hover-stop-propagation="false">
                     签到历史记录
+                    <view class="fr colord" wx:if="{{isTeacher}}" bindtap="confin">
+                        签到设置
+                    </view>
                 </view>
                 <my-list bind:traCheckedNum="checkNum" classSignId="{{classSignId}}" isTeacher="{{isTeacher}}"
                     listData="{{teacherSignHistory}}">

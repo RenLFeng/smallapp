@@ -6,7 +6,7 @@
                 签到时间:{{singnInfo.date}} {{singnInfo.time}}
             </view>
             <view class="" hover-class="none" hover-stop-propagation="false">
-                签到校验方式：
+                签到校验方式:
             </view>
             <view class="clearfix" hover-class="none" hover-stop-propagation="false">
                 <text class="fl colord" wx:if="{{isSign && isTeacher}}" bindtap="confign">一键设置签到</text>
