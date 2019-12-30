@@ -2,8 +2,8 @@
 <view class="sign-wrap container2">
     <view class="main" wx:if="{{isLoad}}">
         <block wx:if="{{isTeacher || global}}">
-            <view class="top-tit">
-                <view class="block"  bindtap="teacherSignClass">
+            <view class="top-tit" wx:if="{{isTeacher}}">
+                <view class="block" bindtap="teacherSignClass">
                     <text class="iconfont iconqiandao2 sign-icon {{isSigning?'act':''}}" selectable="false"
                         space="false" decode="false"></text>
                     <text class="btn-text {{isSigning?'act':''}}" selectable="false" space="false" decode="false">

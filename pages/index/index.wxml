@@ -24,7 +24,7 @@
         </view>
         <view>
           <button wx:if="{{showloginfail}}" bindtap="onBtnReconnect" type="default" class="btn">点击重连</button>
-          <button wx:if="{{showdirectin}}" bindtap="onBtnSkip" class="go">直接进入</button>
+          <button bindtap="onBtnSkip" class="go">直接进入</button>
         </view>
         <view class="usermotto">
           <text class="user-motto">{{motto}}</text>

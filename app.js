@@ -2,10 +2,10 @@
 App({
   LoginData:{
   //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    testserver:'192.168.40.104', //! 测试服务器ip
-    testapiserver:'192.168.40.104', //! 测试服务器的api地址
-    // testserver:'192.168.0.237', //! 测试服务器ip
-    // testapiserver:'192.168.0.2', //! 测试服务器的api地址
+    //testserver:'192.168.40.104', //! 测试服务器ip
+    //testapiserver:'192.168.40.104', //! 测试服务器的api地址
+     testserver:'192.168.0.237', //! 测试服务器ip
+     testapiserver:'192.168.0.2', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
 
@@ -155,8 +155,8 @@ App({
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
-                // this.LoginData.sessioncookie ='3bc9eb46bb2ac48bc5bf413995a0f51e';
                 this.LoginData.sessioncookie =res.data.data.cookie;
+                // this.LoginData.sessioncookie ='ebf9a94cac8ab1b135119dd3ed77032b';
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";
                 this.onLoginOk(true);

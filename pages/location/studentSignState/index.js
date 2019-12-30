@@ -73,7 +73,7 @@ Page({
     allmemberNuber: 0,
     signmemberNuber: 0,
 
-    signType:'',
+    signType: '',
   },
 
   /**
@@ -84,11 +84,9 @@ Page({
     this.setData({
       isTeacher: JSON.parse(options.isTeacher)
     })
-    let signType = wx.getStorageSync('signType') || '[]';
-    signType = JSON.parse(signType);
-    this.setData({
-      signType: signType
-    })
+
+
+
     let singnInfo = wx.getStorageSync('signinfo') || {};
     this.setData({
       singnInfo: JSON.parse(singnInfo)
@@ -97,6 +95,12 @@ Page({
     this.signquerymember();
     console.log('istacher', this.data.isTeacher);
     console.log('isSign', this.data.isSign);
+  },
+  //签到设置
+  confin: function (e) {
+    wx.navigateTo({
+      url: '/pages/config/sign/index',
+    })
   },
   //一键设置
   confign() {
@@ -384,7 +388,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let signType = wx.getStorageSync('signType') || '[]';
+    if (signType.includes('wifi') || signType.includes('gps')) {
+      signType = JSON.parse(signType);
+      let type = [];
+      for (let v of signType) {
+        if (v) {
+          type.push(v.toUpperCase())
+        }
+      }
+      this.setData({
+        signType: type
+      })
+    } else {
+      this.setData({
+        signType: []
+      })
+    }
   },
 
   /**

@@ -5,15 +5,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    wifi: true,
-    gps: true,
+    wifi: false,
+    gps: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setStorageSync('signType', JSON.stringify(['wifi','gps']));
+    let type = JSON.parse(wx.getStorageSync('signType')) || [];
+    if (type.length) {
+      for (let v of type) {
+        if (v == 'wifi') {
+          this.setData({
+            wifi: true
+          })
+        } else if (v == 'gps') {
+          this.setData({
+            gps: true
+          })
+        }
+      }
+    }
   },
 
   /**
@@ -26,20 +39,19 @@ Page({
     this.setData({
       wifi: e.detail.value,
     })
-    let wifi=this.data.wifi?'wifi':'';
-    let gps=this.data.gps?'gps':''
-    wx.setStorageSync('signType', JSON.stringify([wifi,gps]));
+    let wifi = this.data.wifi ? 'wifi' : '';
+    let gps = this.data.gps ? 'gps' : ''
+    wx.setStorageSync('signType', JSON.stringify([wifi, gps]));
   },
   gpsSwitch1Change(e) {
     this.setData({
       gps: e.detail.value,
     })
-    let wifi=this.data.wifi?'wifi':'';
-    let gps=this.data.gps?'gps':''
-    wx.setStorageSync('signType', JSON.stringify([wifi,gps]));
+    let wifi = this.data.wifi ? 'wifi' : '';
+    let gps = this.data.gps ? 'gps' : ''
+    wx.setStorageSync('signType', JSON.stringify([wifi, gps]));
   },
-  getwifi() {
-  },
+  getwifi() {},
   getLocation() {
 
   },
