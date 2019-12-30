@@ -58,6 +58,7 @@ Page({
         isTeacher: true,
       })
     }
+    
     this.setData({
       bankeid: args.bankeid
     });
