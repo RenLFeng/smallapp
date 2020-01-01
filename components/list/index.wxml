@@ -9,7 +9,7 @@
                 {{item.joinnum}} 人 / {{item.totalnum}} 人
             </view>
         </view>
-        <view wx:if="{{classSignId==item.id}}" class="signing font-s">正在等待学生签到...</view>
+        <view wx:if="{{item.state==0}}" class="signing font-s">正在签到...</view>
         <div  wx:else class="color9 font-xs">{{item.starttime}}</div>
         <text class="icon iconfont iconjiantou color9" selectable="false" space="false" decode="false"></text>
     </view>

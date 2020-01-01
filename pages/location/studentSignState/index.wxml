@@ -6,18 +6,20 @@
                 签到时间:{{singnInfo.date}} {{singnInfo.time}}
             </view>
             <view class="type" hover-class="none" hover-stop-propagation="false">
-                <block wx:if="{{signType.length && isSign}}">
-                    签到校验方式:
-                    <view class="item" wx:for="{{signType}}" wx:key="" wx:for-item="item">
+                <block >
+                    <text>校验方式:{{signTypeDesc}} </text>
+                    <!-- <view class="item" wx:for="{{signType}}" wx:key="" wx:for-item="item">
                         {{item}}校验、
-                    </view>
+                    </view> -->
                 </block>
+                <!--
                 <block wx:if="{{isSign && isTeacher && !signType.length}}">
                     <view class="tips" hover-class="none" hover-stop-propagation="false">
                         签到无法校验，请手动完成签到，或检查
                         <text class="colord" bindtap="confin">签到设置</text>后重新签到。
                     </view>
                 </block>
+                -->
             </view>
             <view class="clearfix" hover-class="none" hover-stop-propagation="false">
                 <text class="fl colord" wx:if="{{isSign && isTeacher}}" bindtap="confign">一键设置签到</text>

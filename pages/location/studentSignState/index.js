@@ -1,5 +1,6 @@
 // pages/location/studentSignState/index.js
 const app = getApp();
+const util = require('../../../utils/util.js')
 const setALL = [{
     name: "设为已签到",
     id: 1
@@ -74,6 +75,9 @@ Page({
     signmemberNuber: 0,
 
     signType: '',
+      signTypeDesc:'',
+
+      timerid:0,  //! 定时器， 用于定时拉取签到数据
   },
 
   /**
@@ -81,20 +85,61 @@ Page({
    */
   onLoad: function (options) {
     console.log('options', options);
+
     this.setData({
       isTeacher: JSON.parse(options.isTeacher)
     })
 
+    let signinfo = wx.getStorageSync('signinfo') || '{}';
+    signinfo = JSON.parse(signinfo);
+    let signtypedesc = '';
 
+    let info  = {};
+    if (signinfo.info && typeof signinfo.info == 'string'){
+        info = JSON.parse(signinfo.info || '{}');
+    }
+    else if (signinfo.info){
+      info = signinfo.info;
+    }
 
-    let singnInfo = wx.getStorageSync('signinfo') || {};
+      this.setTitle(signinfo.state);
+
+    if (info.wifi){
+      signtypedesc += '\nWIFI检验'
+        signtypedesc += '('+ info.wifi.SSID + ')'
+    }
+    if (info.gps){
+      signtypedesc += '\n位置校验 '
+        if (typeof info.gps.gpsdist != 'undefined'){
+          signtypedesc += '(' + info.gps.gpsdist + '米)';
+        }
+    }
+    if (signtypedesc == ''){
+      if (this.data.isSign){
+          signtypedesc = '\n无校验方式，成员不能签到，请手动更改签到状态';
+      }
+      else{
+        signtypedesc = '\n无校验方式';
+      }
+    }
+
     this.setData({
-      singnInfo: JSON.parse(singnInfo)
+      singnInfo: signinfo,
+        signTypeDesc:signtypedesc
     }, () => {});
-    this.setTitle(this.data.singnInfo.state);
+
     this.signquerymember();
     console.log('istacher', this.data.isTeacher);
     console.log('isSign', this.data.isSign);
+    if (this.data.isSign){
+      let that = this;
+      let timerid = setInterval(function(){
+        that.signquerymember();
+      }, 3000);
+      this.setData({
+          timerid:timerid
+      })
+    }
   },
   //签到设置
   confin: function (e) {
@@ -273,7 +318,7 @@ Page({
     }
     this.setData({
       signmemberNuber: signmemberNuber,
-      allmemberNuber: data.length - signmemberNuber,
+      allmemberNuber: data.length ,  //! cjy: 后者永远显示总人数， 否则怪异
     })
   },
   /**
@@ -284,6 +329,7 @@ Page({
   },
   signquerymember() {
     let that = this;
+    console.log('signquerymember');
     app.httpPost({
       url: app.getapiurl('/api/sign/signquerymember'),
       data: {
@@ -300,16 +346,30 @@ Page({
               }
               for (let v of Data.users) {
                 if (item.state == '0') {
-                  item.stateText = '未签到';
+               //  item.stateText = '未签到';
+                  item.abnormal = true;
                 } else if (item.state == '1') {
-                  item.stateText = '已签到';
+               //  item.stateText = '已签到';
                 } else if (item.state == '2') {
-                  item.stateText = '迟到';
+                 // item.stateText = '迟到';
                   item.abnormal = true;
                 } else if (item.state == '3') {
-                  item.stateText = '超时';
+                  //item.stateText = '超时';
                   item.abnormal = true;
                 }
+                item.stateText = util.signGetStateDesc(item.state);
+                item.typedesc = util.signGetTypeDesc(item.signnum);
+                if (item.signnum == 2){
+                  //! 距离
+                    item.typedesc = '距离 ' + item.signinfo + '米';
+                }
+                if (item.signtime && item.state > 0){
+                    item.signtimetext = item.signtime.split(" ")[1];
+                }
+                else{
+                  item.signtimetext = '';
+                }
+
                 if (item.userid == v.id) {
                   item.name = v.name;
                   item.avatar = app.getapiurl(v.avatar);
@@ -323,7 +383,7 @@ Page({
               // signmemberNuber: signmemberNuber
             })
             that.countSign(that.data.signmembers);
-            console.log("学生打卡记录", that.data.signmembers);
+          //  console.log("学生打卡记录", that.data.signmembers);
           }
         } else {}
       },
@@ -335,27 +395,40 @@ Page({
     let that = this;
     wx.showModal({
       title: '提示',
-      content: '您确定要下课吗',
+      content: '结束签到？',
       success(res) {
         if (res.confirm) {
           wx.showLoading({
             title: '加载中',
             mask: true
           })
+            let postdata = {
+                    id: that.data.singnInfo.id,
+                    state: 1
+                }
           app.httpPost({
             url: app.getapiurl("/api/sign/signupdate"),
-            data: {
-              id: that.data.singnInfo.id,
-              state: 1
-            },
+            data: postdata,
             success: res => {
-              that.setData({
-                isSign: false,
-              })
-              wx.setNavigationBarTitle({
-                title: '签到结果'
-              })
               wx.hideLoading();
+              if (res.data.code == 0){
+                  that.setData({
+                      isSign: false,
+                  })
+                  wx.setNavigationBarTitle({
+                      title: '签到结果'
+                  })
+                  app.setCacheObject('signstatechange',
+                      postdata)
+                  //! 自动后退
+                  wx.navigateBack();
+              }
+              else{
+                wx.showToast({
+                    title:'错误:'+res.data.msg
+                })
+              }
+
             },
             error: err => {
               wx.hideLoading();
@@ -375,7 +448,9 @@ Page({
       this.setData({
         isSign: true
       })
-    } else if (state == '1') {
+    } else
+    // if (state == '1')
+      {
       wx.setNavigationBarTitle({
         title: '签到结果'
       })
@@ -388,23 +463,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let signType = wx.getStorageSync('signType') || '[]';
-    if (signType.includes('wifi') || signType.includes('gps')) {
-      signType = JSON.parse(signType);
-      let type = [];
-      for (let v of signType) {
-        if (v) {
-          type.push(v.toUpperCase())
-        }
-      }
-      this.setData({
-        signType: type
-      })
-    } else {
-      this.setData({
-        signType: []
-      })
-    }
+    //! cjy： 每次签到， 校验方式均有所不同
+    // let signType = wx.getStorageSync('signType') || '[]';
+    // if (signType.includes('wifi') || signType.includes('gps')) {
+    //   signType = JSON.parse(signType);
+    //   let type = [];
+    //   for (let v of signType) {
+    //     if (v) {
+    //       type.push(v.toUpperCase())
+    //     }
+    //   }
+    //   this.setData({
+    //     signType: type
+    //   })
+    // } else {
+    //   this.setData({
+    //     signType: []
+    //   })
+    // }
   },
 
   /**
@@ -418,7 +494,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearInterval(this.data.timerid);
   },
 
   /**

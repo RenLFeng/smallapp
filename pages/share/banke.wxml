@@ -1,0 +1,7 @@
+<!--pages/share/banke.wxml-->
+<view>
+   <image src="{{banke.avatar}}"> </image>
+   <text>{{banke.name}}</text>
+   <text>班课号:{{banke.id}}</text>
+   <button open-type="share">分享班课</button>
+</view>

@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+const util = require('../../utils/util.js');
 const app = getApp()
 
 Page({
@@ -12,6 +13,7 @@ Page({
     showurl:false,
     showloginfail:false,
     showdirectin:false,
+      shareobj:null,  //! 页面的分享
   },
   //事件处理函数
   bindViewTap: function() {
@@ -28,8 +30,23 @@ Page({
    // if (app.LoginData.sessioncookie.length > 0)
     {
       //! 使用session登陆
+
+        let shareobj = this.data.shareobj;
+        this.setData({
+            shareobj:null
+        })
+
+        let cururl = app.getfullurl('/');
+        if (shareobj)
+        {
+         if (shareobj.action == 'joinbanke')
+          {
+            cururl += '#/bankejoin/' + shareobj.data.id;
+          }
+        }
+
       let onequery = '?cookie=' + app.LoginData.sessioncookie;
-      let cururl = app.getmainpage(onequery);
+      cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
       let showloginfail = app.WebLoginData.loginfail;
@@ -37,6 +54,7 @@ Page({
       if (app.WebLoginData.loginfail){
         showurl = false;
       }
+      //showurl = false;
       if (!app.LoginData.loginok){
         showurl = false;
       }
@@ -68,9 +86,11 @@ Page({
   },
   onShow:function(){
     console.log('wx index, on show');
-    this.checkLoginFail();
+    //this.checkLoginFail();
     //! cjy: onshow 时，总是尝试web重连
-    app.startWebConnect();
+   // app.startWebConnect();
+   //! cjy: 尝试wx登陆，防止可能的session失效
+    app.dowxlogin();
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){
@@ -96,9 +116,18 @@ Page({
       showurl:true
     })
   },
-  onLoad: function () {
+  onLoad: function (options) {
 
      console.log('index onload');
+
+     if (options){
+       if (options.shareobj){
+         let shareobj = util.parseNativeArgs(options.shareobj);
+         this.setData({
+             shareobj:shareobj
+         })
+       }
+     }
 
 //! 总是回调； 微信登陆二次校正，用于cookie变化的场景
     app.userInfoReadyCallback = res => {

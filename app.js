@@ -2,10 +2,10 @@
 App({
   LoginData:{
   //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    //testserver:'192.168.40.104', //! 测试服务器ip
-    //testapiserver:'192.168.40.104', //! 测试服务器的api地址
-     testserver:'192.168.0.237', //! 测试服务器ip
-     testapiserver:'192.168.0.2', //! 测试服务器的api地址
+    testserver:'192.168.40.104', //! 测试服务器ip
+    testapiserver:'192.168.40.104', //! 测试服务器的api地址
+    // testserver:'192.168.0.237', //! 测试服务器ip
+    // testapiserver:'192.168.0.2', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
 
@@ -19,6 +19,27 @@ App({
     wxloginstate:0,  //! 登陆状态： 0:空闲； 1：登陆中  2：
     updatinguser:false,
   },
+
+    //! cjy: 缓存， 数据中转
+    setCacheObject(key, obj){
+      wx.setStorageSync(key, (obj));
+    },
+    getCacheObject(key, dodelete=true){
+        try {
+            let value = wx.getStorageSync(key)
+            if (value) {
+                // Do something with return value
+                if (dodelete){
+                  wx.removeStorageSync(key);
+                }
+            }
+            return value;
+        } catch (e) {
+            // Do something when catch error
+        }
+        return null;
+    },
+
   getpublishurl:function(){
     let szret = 'https://' + this.LoginData.publishserver;
     return szret;
@@ -113,7 +134,8 @@ App({
   readLoginData:function(){
     //！本地读取，防止和网页版使用同一cookie
     //! 未知原因，这里本地存储很容易导致未登录。
-   // this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
+    //! cjy: 因为index的onshow会 dologin，这里可以安全登陆
+    this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
     this.LoginData.username = wx.getStorageSync('username') || '';
     this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
   },
@@ -256,7 +278,7 @@ App({
     return this.getapiurl(subpath);
   }
   ,getmainpage:function(szquery){
-    let mainurl = this.getfullurl('/index.html');
+    let mainurl = this.getfullurl('/');
     mainurl += szquery;
     return mainurl;
   }
