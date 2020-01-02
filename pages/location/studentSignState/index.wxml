@@ -3,7 +3,7 @@
     <view class="mian" hover-class="none" hover-stop-propagation="false">
         <view class="top-info" hover-class="none" hover-stop-propagation="false">
             <view class="" hover-class="none" hover-stop-propagation="false">
-                签到时间:{{singnInfo.date}} {{singnInfo.time}}
+                签到时间:{{signinfo.starttime}}
             </view>
             <view class="type" hover-class="none" hover-stop-propagation="false">
                 <block >
@@ -39,7 +39,7 @@
                     <text class="">{{allmemberNuber}}</text>
                 </view>
                 <view class="clearfix tc btn-text">
-                    <text class="fl">放弃</text>
+                    <view class="fl" ><button open-type="share">分享</button></view>
                     <text class="fr" bindtap="SignEnd">结束</text>
                 </view>
             </view>

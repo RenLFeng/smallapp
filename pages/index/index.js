@@ -14,6 +14,7 @@ Page({
     showloginfail:false,
     showdirectin:false,
       shareobj:null,  //! 页面的分享
+      shareing:false,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -21,20 +22,100 @@ Page({
       url: '/pages/web/page'
     })
   },
+    onShareObjBankeSign(shareobj){
+      if (this.data.shareing){
+          return;
+      }
+        wx.showLoading({
+          title:'加载中...',
+              mask:true
+        })
+        this.startShareing();
+       let url = app.getapiurl('/api/sign/signqueryself');
+       app.httpPostCatch({
+           url:url,
+           data:{
+               id:shareobj.data.id
+           },
+           success:res=>{
+               console.log(res);
+              wx.hideLoading();
+              if (res.data.code == 0){
+                  let rdata = res.data.data;
+                  //! 是否为签到发起者
+                  if (rdata.master){
+                      this.finishShareing(false);
+                      //! 跳转到控制界面或结果显示界面
+                      wx.setStorageSync('signinfo',JSON.stringify(rdata.signdata));
+                      wx.navigateTo({
+                          url:'/pages/location/studentSignState/index?isTeacher=1',
+                      })
+                  }
+                  else if (rdata.signinfo.length == 1){
+                      this.finishShareing(false);
+                      app.setCacheObject('signqueryself', rdata);
+                      wx.navigateTo({
+                          url:'/pages/location/sign'
+                      })
+                  }
+                  else{
+                      let tips = '您不在签到名单中';
+                      wx.showModal({
+                          title:'提示',
+                          content:tips,
+                          complete:res=>{
+                              this.finishShareing(true);
+                          }
+                      })
+                  }
+              }
+              else{
+                  wx.showToast('异常:'+res.data.msg);
+                this.finishShareing(true);
+              }
+           },
+           catch:res=>{
+             wx.hideLoading();
+             wx.showToast('异常');
+             this.finishShareing(true);
+           }
+       })
+    },
+    startShareing(){
+      this.setData({
+          shareing:true
+      })
+    },
+    finishShareing(showurl){
+      this.setData({
+          shareing:false
+      })
+        if (showurl){
+            this.onLoginOk();
+        }
+    },
   onLoginOk:function(){
     this.setData({
       
       motto:'登陆中...'
     })
+      if (this.data.shareing){
+          console.log('onloginok, inshareing, return');
+          return;
+      }
     if (app.LoginData.loginok)
    // if (app.LoginData.sessioncookie.length > 0)
     {
       //! 使用session登陆
 
         let shareobj = this.data.shareobj;
-        this.setData({
+        this.setData({  //! 清空当前的分享数据
             shareobj:null
         })
+        // shareobj = {
+        //     action:'bankesign',
+        //     data:{id:1025}
+        // }
 
         let cururl = app.getfullurl('/');
         if (shareobj)
@@ -43,6 +124,10 @@ Page({
           {
             cururl += '#/bankejoin/' + shareobj.data.id;
           }
+          else if (shareobj.action == 'bankesign'){
+            this.onShareObjBankeSign(shareobj);
+            return;
+         }
         }
 
       let onequery = '?cookie=' + app.LoginData.sessioncookie;
@@ -64,6 +149,9 @@ Page({
           hasUserInfo: true,
         });
       }
+
+
+
       
       if (cururl != this.data.mainurl){
         console.log(cururl);
@@ -91,6 +179,9 @@ Page({
    // app.startWebConnect();
    //! cjy: 尝试wx登陆，防止可能的session失效
     app.dowxlogin();
+    if (!this.data.shareing && !this.data.showurl && app.LoginData.loginok){
+        this.onLoginOk();
+    }
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){

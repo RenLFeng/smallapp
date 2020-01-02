@@ -17,6 +17,7 @@ App({
     errmsg:'',
     errcode:0,
     wxloginstate:0,  //! 登陆状态： 0:空闲； 1：登陆中  2：
+      wxlogintime:0,
     updatinguser:false,
   },
 
@@ -59,6 +60,32 @@ App({
       }
       return wx.request(postobj);
   },
+    //！ httppost的分装， 类似axio， 封装fail以及success中发生异常的清空:   success:  catch:
+    httpPostCatch:function(postobj){
+        let oldok = postobj.success;
+        let catchfun = postobj.catch;
+      //  console.log('httppostcatch');
+        let thisok = (res)=>{
+       //   console.log('thisok');
+          try{
+            if (oldok){
+              oldok(res);
+            }
+          }catch(e){
+            if (catchfun){
+              catchfun(e);
+            }
+          }
+        }
+        let thisfail = (res)=>{
+          if (catchfun){
+            catchfun(res);
+          }
+        }
+        postobj.success = thisok;
+        postobj.fail = thisfail;
+        return this.httpPost(postobj);
+    },
   onLoginOk:function(bsave){
     console.log('onLoginOk:'+bsave);
     if (!this.LoginData.sessioncookie.length) {
@@ -141,7 +168,7 @@ App({
   },
   dowxlogin:function(){
     // 登录
-    console.log("dowxlogin");
+
     if (this.LoginData.wxloginstate){
       console.log('in wxlogin, return');
       return;
@@ -152,9 +179,14 @@ App({
     }
 
     if (this.LoginData.wxloginok){
-      console.log('wxloginok, return');
-      return;
+      let curtime = new Date().getTime();
+      //! 最短重登间隔：10分钟
+      if (curtime - this.LoginData.wxlogintime <= 10 * 60 * 1000){
+          console.log('wxloginok, return');
+          return;
+      }
     }
+      console.log("dowxlogin");
     this.LoginData.wxloginstate = 1;
     wx.login({
       success: res => {
@@ -174,6 +206,7 @@ App({
             console.log('wx login ret');
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
+              this.LoginData.wxlogintime = new Date().getTime();
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
@@ -184,7 +217,7 @@ App({
                 this.onLoginOk(true);
               }
               //! 开始websock的连接
-              this.firstWebConnect();
+              //this.firstWebConnect();
             }
             else {
               console.log(res);

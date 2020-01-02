@@ -80,10 +80,15 @@ Page({
          }
      };
      url += '?shareobj=' + encodeURIComponent(JSON.stringify(shareobj));
+     let imgurl = '/images/banke_default.png';
+     if (this.data.banke.avatar && this.data.banke.avatar.length > 0){
+         imgurl = app.getfullurl(this.data.banke.avatar);
+     }
      let tips = '快来加入班课' + '['+ this.data.banke.name+']' + '吧';
       return {
         title:tips,
-          path:url
+          path:url,
+          imageUrl:imgurl
       }
   }
 })

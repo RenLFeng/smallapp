@@ -8,7 +8,9 @@
     </image>
     <view class="contnet tc" hover-class="none" hover-stop-propagation="false">
       <view class="title" hover-class="none" hover-stop-propagation="false">
+      <block wx:if="{{!hasUserInfo && canIUse}}">
         欢迎使用，请选择登录方式
+        </block>
       </view>
 
         <view class="userinfo">

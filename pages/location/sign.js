@@ -55,6 +55,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+      let signqueryself = app.getCacheObject('signqueryself');
+      if (signqueryself){
+          this.setData({
+              isLoad:true
+          })
+          this.onstusignqueryret(signqueryself);
+          return;
+      }
+
+
     console.log('options', options);
     let args = util.parseNativeArgs(options.args);
     console.log('args', args);
@@ -71,22 +82,32 @@ Page({
       bankeid: args.bankeid,
         isTeacher:isteacher
     });
-    let signType = wx.getStorageSync('signType') || [];
-    if (!signType.length) {
-      wx.setStorageSync('signType', JSON.stringify(['wifi', 'gps']));
+    if (isteacher){
+        let signType = wx.getStorageSync('signType') || [];
+        if (!signType.length) {
+            //! 设置signtype的默认值
+            wx.setStorageSync('signType', JSON.stringify(['wifi', 'gps']));
+        }
     }
 
     this.signquery();
     if (isteacher){
         //! cjy: 学生端一开始不去拉取历史数据
-        this.signquerymember();
+       // this.signquerymember();  //! cjy, cur拉取完后再去拉取member数据
     }
 
   },
-    onstusignqueryret(res){
-        if (res.data.data && res.data.data.signinfo.length) {
+    onstusignqueryret(resdata){
+        if (this.data.bankeid == 0){
+            if (resdata && resdata.signdata){
+                this.setData({
+                    bankeid:resdata.signdata.bankeid
+                })
+            }
+        }
+        if (resdata && resdata.signinfo.length) {
             //! 学生
-            let serveData = res.data.data.signinfo[0];
+            let serveData = resdata.signinfo[0];
 
 
             if (
@@ -95,10 +116,10 @@ Page({
                 serveData.signnum  == 0
             ) {
                 serveData.info = {};
-                serveData.starttime = res.data.data.signdata.starttime.split(" ")[1];
-                if (res.data.data.signdata.info && typeof res.data.data.signdata.info == "string") {
-                    serveData.info = JSON.parse(res.data.data.signdata.info);
-                    console.log(serveData);
+                serveData.starttime = resdata.signdata.starttime.split(" ")[1];
+                if (resdata.signdata.info && typeof resdata.signdata.info == "string") {
+                    serveData.info = JSON.parse(resdata.signdata.info);
+                    //console.log(serveData);
                     this.setData({
                         wifi: serveData.info.wifi,
                         Location: serveData.info.gps,
@@ -229,9 +250,14 @@ Page({
         if (res.data.code == 0) {
           if (isTeacher) {
             this.onteasignqueryret(res);
+            //! 如果当前签到中， 则自动跳转到签到控制面板
+              if (this.data.isSigning){
+                  this.navigateToCurSign();
+              }
+              this.signquerymember();
           } else {
             //! stu.
-              this.onstusignqueryret(res);
+              this.onstusignqueryret(res.data.data);
           }
         } else {
           //！ failed;
@@ -518,9 +544,9 @@ Page({
     // }
   },
     stuonsignok(serveData){
-      if (serveData.state == 0){
-        return;
-      }
+      // if (serveData.state == 0){
+      //   return;
+      // }
       let desc = util.signGetTypeDesc(serveData.signnum);
       if (serveData.signnum == 2){
           //! gps
@@ -938,8 +964,8 @@ Page({
 //   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.signquery();
-    this.signquerymember();
+    //this.signquery();  //! cjy: signquery 谨慎调用； 再signquery后可能会跳转到其他页面
+ //   this.signquerymember();
   },
   initRefresh() {
     wx.hideNavigationBarLoading() //完成停止加载
@@ -1065,7 +1091,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  },
+  // onShareAppMessage: function () {
+  //
+  // },
 })

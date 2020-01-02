@@ -68,7 +68,7 @@ Page({
 
     isSign: false,
     isTeacher: false,
-    singnInfo: {},
+    signinfo: {},
     signmembers: [],
     signmembersTemp: [],
     allmemberNuber: 0,
@@ -124,7 +124,7 @@ Page({
     }
 
     this.setData({
-      singnInfo: signinfo,
+      signinfo: signinfo,
         signTypeDesc:signtypedesc
     }, () => {});
 
@@ -135,7 +135,7 @@ Page({
       let that = this;
       let timerid = setInterval(function(){
         that.signquerymember();
-      }, 3000);
+      }, 5000);
       this.setData({
           timerid:timerid
       })
@@ -259,7 +259,7 @@ Page({
           app.httpPost({
             url: app.getapiurl('/api/sign/batchstate'),
             data: {
-              signid: that.data.singnInfo.id,
+              signid: that.data.signinfo.id,
               state: state
             },
             success: res => {
@@ -333,7 +333,7 @@ Page({
     app.httpPost({
       url: app.getapiurl('/api/sign/signquerymember'),
       data: {
-        id: that.data.singnInfo.id
+        id: that.data.signinfo.id
       },
       success: res => {
         if (res.data.code == 0) {
@@ -403,7 +403,7 @@ Page({
             mask: true
           })
             let postdata = {
-                    id: that.data.singnInfo.id,
+                    id: that.data.signinfo.id,
                     state: 1
                 }
           app.httpPost({
@@ -515,6 +515,21 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+      let tips = '快来签到啦';
+      if (this.data.signinfo.bankename) {
+          tips = '快来[' + this.data.signinfo.bankename + ']签到啦';
+      }
+      let url = '/pages/index/index';
+      let shareobj = {
+          action: 'bankesign',
+          data: {
+              id: this.data.signinfo.id
+          }
+      };
+      url += '?shareobj=' + encodeURIComponent(JSON.stringify(shareobj));
+      return {
+          title: tips,
+          path: url
+      }
+  },
 })
