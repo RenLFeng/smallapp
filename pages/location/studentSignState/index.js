@@ -74,6 +74,10 @@ Page({
     signmemberNuber: 0,
 
     signType: '',
+    
+    pagesize: 10,
+    page: 0,
+    memberisLoad:false,
   },
 
   /**

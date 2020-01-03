@@ -22,7 +22,7 @@ Page({
     studentSginInfo: {},
     classSignId: '',
     teacherSignHistory: [],
-    pagesize: 50,
+    pagesize: 10,
     page: 0,
 
     signType: 0,
@@ -39,6 +39,8 @@ Page({
     },
     wifi: null,
     Location: null,
+
+    HistoryisLoad: false
   },
   /**
    * 生命周期函数--监听页面加载
@@ -182,15 +184,20 @@ Page({
             }
           }
           this.setData({
-            teacherSignHistory: res.data.data.data
-          }, () => {
-
+            teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
+            page: this.data.page + 1
           })
+          if (res.data.data.data.length < 10) {
+            this.setData({
+              HistoryisLoad: true
+            });
+          }
           console.log('教师打卡历史', this.data.teacherSignHistory);
         } else {}
+        wx.hideLoading();
       },
       fail: err => {
-
+        wx.hideLoading();
       }
     })
   },
@@ -636,7 +643,20 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
+  /**
+   * 页面上拉触底事件的处理函数
+   */
   onReachBottom: function () {
+    if (this.data.HistoryisLoad) {
+      wx.showToast({
+        title: '已加载全部'
+      });
+      return;
+    }
+    wx.showLoading({
+      title: '玩命加载中',
+    })
+    this.signquerymember();
 
   },
 

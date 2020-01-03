@@ -156,7 +156,7 @@ App({
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
                 this.LoginData.sessioncookie =res.data.data.cookie;
-                // this.LoginData.sessioncookie ='ebf9a94cac8ab1b135119dd3ed77032b';
+                // this.LoginData.sessioncookie ='ae70a966faf5393549a33a17696c04c8';
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";
                 this.onLoginOk(true);

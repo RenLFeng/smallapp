@@ -1,11 +1,13 @@
 <!--components/imglist/index.wxml-->
 <my-img-list>
-  <view class="item" wx:for="{{listData}}" wx:key="" wx:for-item="item" bindtap="bindSelect" data-item="{{item}}">
-    <image class="img" src="{{item.avatar}}" mode="widthFix" lazy-load="false" binderror="errImg" data-err-img="item.avatar"> </image>
+  <view class="item" wx:for="{{list}}" wx:key="" wx:for-item="item" wx:for-index="index" bindtap="bindSelect"
+    data-item="{{item}}">
+    <image class="img" src="{{item.avatar}}" mode="widthFix" lazy-load="false" binderror="errImg"
+      data-err-img="list[{{index}}].avatar"> </image>
     <view class="maincontent">
       <view class="mainctitle ellipse">{{item.name}} <text class="color9 font-s fr">距离:00</text></view>
       <view class="maincsubtitle colory">
-        <text wx:if="{{item.abnormal}}" class="color9 pa-right">18:49:20</text>
+        <text wx:if="{{item.abnormal}}" class="color9 pa-right"></text>
         <text class="colory">{{item.stateText}}</text>
         <text class="color9 font-s fr">得分:{{item.score}}</text>
       </view>

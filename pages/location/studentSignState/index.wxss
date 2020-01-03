@@ -9,7 +9,8 @@
     padding: 5px;
 }
 .merber-list{
-    
+    padding-bottom: 110px;
+
 }
 .footer{
     position: fixed;
