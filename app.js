@@ -1,7 +1,7 @@
 //app.js
 App({
   LoginData:{
-  //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
     // testserver:'192.168.0.237', //! 测试服务器ip

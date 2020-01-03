@@ -15,6 +15,7 @@ Page({
     showdirectin:false,
       shareobj:null,  //! 页面的分享
       shareing:false,
+      urlcookie:'',
   },
   //事件处理函数
   bindViewTap: function() {
@@ -130,7 +131,8 @@ Page({
          }
         }
 
-      let onequery = '?cookie=' + app.LoginData.sessioncookie;
+      let cookie = app.LoginData.sessioncookie;
+      let onequery = '?cookie=' + cookie;
       cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
@@ -153,10 +155,13 @@ Page({
 
 
       
-      if (cururl != this.data.mainurl){
+     // if (cururl != this.data.mainurl)
+      if (cookie != this.data.urlcookie) //! 因为shareobj的url的缘故，这里只判断cookie，防止shareobj的url被覆盖
+      {
         console.log(cururl);
         this.setData({
           showurl:showurl,
+          urlcookie:cookie,
           mainurl:cururl,
           showloginfail: showloginfail
         })

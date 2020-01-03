@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc756600-ff2a-446e-9687-fd501a774c35" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/config/sign/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/config/sign/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/files/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/files/view.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/location/sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/location/sign.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/location/studentSignState/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/location/studentSignState/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/location/studentSignState/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/pages/location/studentSignState/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/share/banke.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/share/banke.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/sign/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/sign/query.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/web/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/web/page.js" afterDir="false" />
-    </list>
+    <list default="true" id="dc756600-ff2a-446e-9687-fd501a774c35" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +12,7 @@
     <session id="17456938">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.opened" value="2" />
@@ -155,8 +142,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/location/studentSignState/index.wxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+            <state relative-caret-position="304">
+              <caret line="16" column="89" lean-forward="true" selection-start-line="16" selection-start-column="89" selection-end-line="16" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -459,12 +446,12 @@
       <option name="presentableId" value="Default" />
       <updated>1577763700237</updated>
       <workItem from="1577763701666" duration="17970000" />
-      <workItem from="1577842030838" duration="37763000" />
+      <workItem from="1577842030838" duration="37765000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55733000" />
+    <option name="totallyTimeSpent" value="55735000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
@@ -622,8 +609,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/location/studentSignState/index.wxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        <state relative-caret-position="304">
+          <caret line="16" column="89" lean-forward="true" selection-start-line="16" selection-start-column="89" selection-end-line="16" selection-end-column="89" />
         </state>
       </provider>
     </entry>
