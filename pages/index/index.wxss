@@ -50,6 +50,11 @@ button[type='default']{
   margin: 20px 0;
 }
 .go{
+  position: fixed;
+  width: 100%!important;
+  bottom: 10px;
+  text-align: center;
+
   color: #0089FF;
 }
 button{

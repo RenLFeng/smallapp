@@ -6,11 +6,7 @@
       data-err-img="list[{{index}}].avatar"> </image>
     <view class="maincontent">
       <view class="mainctitle ellipse">{{item.name}} <text class="color9 font-s fr">{{item.typedesc}}</text></view>
-
-
-      
       <view class="maincsubtitle colory">
-        <text class="colory">{{item.stateText}}</text>
         <block wx:if="{{item.abnormal}}" >
         <text class="color9 pa-right">{{item.signtimetext}}</text>
                 <text class="colory">{{item.stateText}}</text>

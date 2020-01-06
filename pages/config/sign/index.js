@@ -7,7 +7,7 @@ Page({
   data: {
     wifi: false,
     gps: false,
-      gpsdist:100
+    gpsdist: 100
   },
 
   /**
@@ -17,7 +17,7 @@ Page({
     let type = JSON.parse(wx.getStorageSync('signType')) || [];
     let gpsdist = wx.getStorageSync('signTypeDist') || 100;
     this.setData({
-        gpsdist:gpsdist
+      gpsdist: gpsdist
     })
     if (type.length) {
       for (let v of type) {
@@ -33,7 +33,30 @@ Page({
       }
     }
   },
-
+  bindKeyInput: function (e) {
+    this.setData({
+      gpsdist: e.detail.value
+    })
+  },
+  setDis: function () {
+    let that=this;
+    wx.showModal({
+      title: '提示',
+      content: '你确定要设置签到距离吗',
+      success(res) {
+        if (res.confirm) {
+          wx.setStorageSync('signTypeDist', that.data.gpsdist);
+          wx.showToast({
+            title: ' 设置成功'
+          })
+        } else if (res.cancel) {
+          that.setData({
+            gpsdist: wx.getStorageSync('signTypeDist') || 100
+          })
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

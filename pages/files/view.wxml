@@ -15,11 +15,11 @@
   </block>
 
   <block wx:elif="{{isVideo}}">
-  <video id="myVideo" src="{{fileurl}}" enable-danmu danmu-btn controls></video>
+  <video id="myVideo" class="common myVideo" src="{{fileurl}}" enable-danmu danmu-btn controls></video>
   </block>
 
   <block wx:elif="{{isAudio}}">
-  <audio id="myAudio" src="{{fileurl}}" enable-danmu danmu-btn controls></audio>
+    <audio id="myAudio" class="common myAudio" src="{{fileurl}}" enable-danmu danmu-btn controls></audio>
   </block>
 
   <block wx:else>

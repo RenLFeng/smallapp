@@ -1,7 +1,10 @@
 <!--pages/share/banke.wxml-->
 <view>
-   <image src="{{banke.avatar}}"> </image>
-   <text>{{banke.name}}</text>
-   <text>班课号:{{banke.id}}</text>
-   <button open-type="share">分享班课</button>
+   <view class="wrap" hover-class="none" hover-stop-propagation="false">
+      <image class="avatar" src="{{avatar}}" mode="aspectFit" lazy-load="false" binderror="errImg"
+      data-err-img="avatar" bindload=""> </image>
+      <view> <text>{{banke.name}}</text></view>
+   </view>
+   <view> <text>班课号:{{banke.id}}</text></view>
+   <button open-type="share" class="share">分享班课</button>
 </view>

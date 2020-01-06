@@ -2,18 +2,29 @@
 <view class="container2 config">
     <view class="main" hover-class="none" hover-stop-propagation="false">
         <view class="item wifi" hover-class="none" hover-stop-propagation="false">
-           WIFI校验 <switch class="fr switch" checked="{{wifi}}" bindchange="wifiSwitch1Change"/>
+            WIFI校验
+            <switch class="fr switch" checked="{{wifi}}" bindchange="wifiSwitch1Change" />
         </view>
-        <view class="item" hover-class="none" hover-stop-propagation="false">
-            位置校验 <switch class="fr switch" checked="{{gps}}" bindchange="gpsSwitch1Change"/>
-         </view>
-         <view class="item" hover-class="none" hover-stop-propagation="false">
-              签到范围： {{gpsdist}} 米
-          </view>
-         <text class="font-xs color9 tips" hover-class="none" hover-stop-propagation="false">
+        <view class="item gps" hover-class="none" hover-stop-propagation="false">
+            位置校验
+            <switch class="fr switch" checked="{{gps}}" bindchange="gpsSwitch1Change" />
+        </view>
+        <view class="gpsdist-item item" hover-class="none" hover-stop-propagation="false">
+            <view class="" hover-class="none" hover-stop-propagation="false">
+                签到范围： {{gpsdist}} 米
+            </view>
+            <view class="clearfix wrap" hover-class="none" hover-stop-propagation="false">
+                <input class="gpsdist-input fl" value="{{gpsdist}}" type="number" maxlength="10" bindinput="bindKeyInput" placeholder="设置签到范围" />
+                <button class="config fr" bindtap="setDis">
+                    设置
+                </button>
+            </view>
+
+        </view>
+        <text class="font-xs color9 tips" hover-class="none" hover-stop-propagation="false">
             WIFI校验：学生连接到签到WiFi才允许签到；
             位置校验：学生当前在签到范围内才允许签到；
             以上两种校验方式全部关闭或不可用时，学生将无法点击签到，需由教师手动修改学生的签到状态。
-         </text>
+        </text>
     </view>
 </view>

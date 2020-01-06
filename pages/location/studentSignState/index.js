@@ -528,7 +528,8 @@ Page({
     url += '?shareobj=' + encodeURIComponent(JSON.stringify(shareobj));
     return {
       title: tips,
-      path: url
+      path: url,
+      imageUrl:'../../../images/sign_share.png'
     }
   },
 })

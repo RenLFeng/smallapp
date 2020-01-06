@@ -1,24 +1,36 @@
 /* pages/files/view.wxss */
-.file-see-wrap{
+.file-see-wrap {
     text-align: center;
     margin: 50px auto;
 }
-.file-see-wrap .file-icon{
+
+.file-see-wrap .file-icon {
     width: 200rpx;
     height: 200rpx;
     margin-bottom: 15px;
 }
-.file-see-wrap .file-name{
+
+.file-see-wrap .file-name {
     margin-top: 20px;
 }
-.submit-main{
+
+.submit-main {
     margin-top: 50rpx;
     padding: 15px;
 }
-.submit-main button{
+
+.submit-main button {
     width: 100%;
     background: #0089FF;
     color: #fff;
     margin-top: 20px;
     border-radius: 30px;
+}
+
+.common {
+    position: fixed;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

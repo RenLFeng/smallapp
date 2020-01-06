@@ -24,6 +24,13 @@
 .footer .btn-text text{
     width: 50%;
     display: block;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 500;
+}
+.footer .btn-text .share{
+    font-weight: 500;
+    background: none;
 }
 .footer .wrap{
     width: 100%;

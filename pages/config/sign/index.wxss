@@ -1,20 +1,49 @@
 /* pages/config/sign-confin.wxss */
-.main{
+.main {
     margin-top: 20px;
 }
-.item{
+
+.item {
     width: 100%;
     height: 100rpx;
     line-height: 100rpx;
     background: #fff;
     padding: 10px;
 }
-.wifi{
+
+.wifi ,.gps {
     border-bottom: 1px solid #f0f0f0;
 }
-.switch{
+
+.switch {
     margin-right: 20px;
 }
-.tips{
+
+.tips {
     padding: 10px;
+}
+
+.gpsdist-item {
+    height: auto;
+}
+.gpsdist-item .wrap {
+    padding-right: 20px;
+}
+.gpsdist-item .gpsdist-input {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    padding: 6px;
+    border-radius: 8px;
+    width: 70%;
+}
+
+.gpsdist-item .config {
+    display: inline-block;
+    width: 15%;
+    padding: 6px;
+    font-weight: 100;
+    background: #0089ff;
+    color: #fff;
+
+
 }

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/share/banke",
     "pages/web/page",
     "pages/location/sign",
     "pages/files/view",
@@ -8,8 +9,8 @@
     "components/imglist/index",
     "pages/location/studentSignState/index",
     "pages/config/sign/index",
-    "pages/sign/query",
-    "pages/share/banke"
+    "pages/sign/query"
+
   ],
   "permission": {
     "scope.userLocation": {

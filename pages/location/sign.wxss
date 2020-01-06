@@ -86,7 +86,7 @@
 }
 .sign .text-wrap {
   position: absolute;
-  right: 0;
+  right: -32px;
   top: 50%;
   transform: translate(0, -50%);
 }

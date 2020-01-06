@@ -1,1 +1,21 @@
 /* pages/share/banke.wxss */
+view,
+.wrap {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.avatar {
+    width: 200rpx;
+    height: 200rpx
+}
+
+.share {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: #0089ff;
+    color: #fff;
+
+}
