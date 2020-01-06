@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <block wx:if="{{!showurl}}">
   <view class="bg-img-wrap" hover-class="none" hover-stop-propagation="false">
     <image class="bg-img" src="../../images/logo_b.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
       <image class="logo-img position-a" src="../../images/logo.png" mode="aspectFit" lazy-load="false" binderror=""
@@ -7,9 +8,11 @@
     </image>
     <view class="contnet tc" hover-class="none" hover-stop-propagation="false">
       <view class="title" hover-class="none" hover-stop-propagation="false">
+      <block wx:if="{{!hasUserInfo && canIUse}}">
         欢迎使用，请选择登录方式
+        </block>
       </view>
-      <block wx:if="{{!showurl}}">
+
         <view class="userinfo">
           <block wx:if="{{!hasUserInfo && canIUse}}">
             <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" type="primary"> 微信登陆(推荐)</button>
@@ -18,8 +21,9 @@
             <button class="userinfo-nickname" type="primary">请升级微信版本</button>
           </block>
           <block wx:else>
+          <!--
             <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-            <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+            <text class="userinfo-nickname">{{userInfo.nickName}}</text> -->
           </block>
         </view>
         <view>
@@ -27,13 +31,18 @@
           <button bindtap="onBtnSkip" class="go">直接进入</button>
         </view>
         <view class="usermotto">
-          <text class="user-motto">{{motto}}</text>
+          <text class="user-motto"></text>
         </view>
-      </block>
 
-      <block wx:else>
-        <web-view src="{{mainurl}}"></web-view>
-      </block>
     </view>
   </view>
+
+  </block>
+
+        <block wx:else>
+        <view class="title" hover-class="none" hover-stop-propagation="false">
+                            加载中...
+                          </view>
+          <web-view src="{{mainurl}}"></web-view>
+        </block>
 </view>

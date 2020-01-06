@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+const util = require('../../utils/util.js');
 const app = getApp()
 
 Page({
@@ -12,6 +13,9 @@ Page({
     showurl:false,
     showloginfail:false,
     showdirectin:false,
+      shareobj:null,  //! 页面的分享
+      shareing:false,
+      urlcookie:'',
   },
   //事件处理函数
   bindViewTap: function() {
@@ -19,17 +23,117 @@ Page({
       url: '/pages/web/page'
     })
   },
+    onShareObjBankeSign(shareobj){
+      if (this.data.shareing){
+          return;
+      }
+        wx.showLoading({
+          title:'加载中...',
+              mask:true
+        })
+        this.startShareing();
+       let url = app.getapiurl('/api/sign/signqueryself');
+       app.httpPostCatch({
+           url:url,
+           data:{
+               id:shareobj.data.id
+           },
+           success:res=>{
+               console.log(res);
+              wx.hideLoading();
+              if (res.data.code == 0){
+                  let rdata = res.data.data;
+                  //! 是否为签到发起者
+                  if (rdata.master){
+                      this.finishShareing(false);
+                      //! 跳转到控制界面或结果显示界面
+                      wx.setStorageSync('signinfo',JSON.stringify(rdata.signdata));
+                      wx.navigateTo({
+                          url:'/pages/location/studentSignState/index?isTeacher=1',
+                      })
+                  }
+                  else if (rdata.signinfo.length == 1){
+                      this.finishShareing(false);
+                      app.setCacheObject('signqueryself', rdata);
+                      wx.navigateTo({
+                          url:'/pages/location/sign'
+                      })
+                  }
+                  else{
+                      let tips = '您不在签到名单中';
+                      wx.showModal({
+                          title:'提示',
+                          content:tips,
+                          complete:res=>{
+                              this.finishShareing(true);
+                          }
+                      })
+                  }
+              }
+              else{
+                  wx.showToast('异常:'+res.data.msg);
+                this.finishShareing(true);
+              }
+           },
+           catch:res=>{
+             wx.hideLoading();
+             wx.showToast('异常');
+             this.finishShareing(true);
+           }
+       })
+    },
+    startShareing(){
+      this.setData({
+          shareing:true
+      })
+    },
+    finishShareing(showurl){
+      this.setData({
+          shareing:false
+      })
+        if (showurl){
+            this.onLoginOk();
+        }
+    },
   onLoginOk:function(){
     this.setData({
       
       motto:'登陆中...'
     })
+      if (this.data.shareing){
+          console.log('onloginok, inshareing, return');
+          return;
+      }
     if (app.LoginData.loginok)
    // if (app.LoginData.sessioncookie.length > 0)
     {
       //! 使用session登陆
-      let onequery = '?cookie=' + app.LoginData.sessioncookie;
-      let cururl = app.getmainpage(onequery);
+
+        let shareobj = this.data.shareobj;
+        this.setData({  //! 清空当前的分享数据
+            shareobj:null
+        })
+        // shareobj = {
+        //     action:'bankesign',
+        //     data:{id:1025}
+        // }
+
+        let cururl = app.getfullurl('/');
+        if (shareobj)
+        {
+         if (shareobj.action == 'joinbanke')
+          {
+            cururl += '#/bankejoin/' + shareobj.data.id;
+          }
+          else if (shareobj.action == 'bankesign'){
+            this.onShareObjBankeSign(shareobj);
+            return;
+         }
+        }
+
+      let cookie = app.LoginData.sessioncookie;
+      let onequery = '?cookie=' + cookie;
+      cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
       let showloginfail = app.WebLoginData.loginfail;
@@ -37,6 +141,7 @@ Page({
       if (app.WebLoginData.loginfail){
         showurl = false;
       }
+      //showurl = false;
       if (!app.LoginData.loginok){
         showurl = false;
       }
@@ -46,11 +151,17 @@ Page({
           hasUserInfo: true,
         });
       }
+
+
+
       
-      if (cururl != this.data.mainurl){
+     // if (cururl != this.data.mainurl)
+      if (cookie != this.data.urlcookie) //! 因为shareobj的url的缘故，这里只判断cookie，防止shareobj的url被覆盖
+      {
         console.log(cururl);
         this.setData({
           showurl:showurl,
+          urlcookie:cookie,
           mainurl:cururl,
           showloginfail: showloginfail
         })
@@ -68,9 +179,14 @@ Page({
   },
   onShow:function(){
     console.log('wx index, on show');
-    this.checkLoginFail();
+    //this.checkLoginFail();
     //! cjy: onshow 时，总是尝试web重连
-    app.startWebConnect();
+   // app.startWebConnect();
+   //! cjy: 尝试wx登陆，防止可能的session失效
+    app.dowxlogin();
+    if (!this.data.shareing && !this.data.showurl && app.LoginData.loginok){
+        this.onLoginOk();
+    }
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){
@@ -96,9 +212,18 @@ Page({
       showurl:true
     })
   },
-  onLoad: function () {
+  onLoad: function (options) {
 
      console.log('index onload');
+
+     if (options){
+       if (options.shareobj){
+         let shareobj = util.parseNativeArgs(options.shareobj);
+         this.setData({
+             shareobj:shareobj
+         })
+       }
+     }
 
 //! 总是回调； 微信登陆二次校正，用于cookie变化的场景
     app.userInfoReadyCallback = res => {

@@ -7,6 +7,7 @@ Page({
   data: {
     wifi: false,
     gps: false,
+      gpsdist:100
   },
 
   /**
@@ -14,6 +15,10 @@ Page({
    */
   onLoad: function (options) {
     let type = JSON.parse(wx.getStorageSync('signType')) || [];
+    let gpsdist = wx.getStorageSync('signTypeDist') || 100;
+    this.setData({
+        gpsdist:gpsdist
+    })
     if (type.length) {
       for (let v of type) {
         if (v == 'wifi') {
@@ -93,7 +98,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  }
+  // onShareAppMessage: function () {
+  //
+  // }
 })

@@ -15,6 +15,36 @@ const formatNumber = n => {
 }
 
 
+//! cjy: 得到签到方式的描述
+const signGetTypeDesc = signnum=>{
+  if (signnum == 2){
+    return '位置签到';
+  }
+  else if (signnum == 1){
+    return 'WIFI签到'
+  }
+  else if (signnum == 100){
+    return '教师设置'
+  }
+  return ''
+}
+
+const signGetStateDesc = signstate=>{
+  if (signstate == 1){
+    return '已签到';
+  }
+  else if (signstate == 2){
+    return '迟到';
+  }
+  else if (signstate == 3){
+    return '超时'
+  }
+  else if (signstate == 0){
+    return '未签到';
+  }
+  return '';
+}
+
 
 const parseNativeArgs = sz => {
   let tsz = sz || '';
@@ -111,5 +141,7 @@ module.exports = {
   parseNativeArgs:parseNativeArgs,
   getFileType:getFileType,
   getFileTypeIcon:getFileTypeIcon,
-  Whatweek:Whatweek
+  Whatweek:Whatweek,
+    signGetTypeDesc:signGetTypeDesc,
+    signGetStateDesc:signGetStateDesc
 }

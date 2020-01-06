@@ -354,6 +354,9 @@
 .colory{
   color: #FF8900;
 }
+.colorg{
+    color:#00ff89;
+}
 .tr{
   text-align: right;
 }

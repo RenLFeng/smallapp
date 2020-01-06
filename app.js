@@ -1,11 +1,11 @@
 //app.js
 App({
   LoginData:{
-  //  publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
-    //testserver:'192.168.40.104', //! 测试服务器ip
-    //testapiserver:'192.168.40.104', //! 测试服务器的api地址
-     testserver:'192.168.0.237', //! 测试服务器ip
-     testapiserver:'192.168.0.2', //! 测试服务器的api地址
+    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    testserver:'192.168.40.104', //! 测试服务器ip
+    testapiserver:'192.168.40.104', //! 测试服务器的api地址
+    // testserver:'192.168.0.237', //! 测试服务器ip
+    // testapiserver:'192.168.0.2', //! 测试服务器的api地址
     testapiport:9982,
     testport:8080, //8080,
 
@@ -17,8 +17,30 @@ App({
     errmsg:'',
     errcode:0,
     wxloginstate:0,  //! 登陆状态： 0:空闲； 1：登陆中  2：
+      wxlogintime:0,
     updatinguser:false,
   },
+
+    //! cjy: 缓存， 数据中转
+    setCacheObject(key, obj){
+      wx.setStorageSync(key, (obj));
+    },
+    getCacheObject(key, dodelete=true){
+        try {
+            let value = wx.getStorageSync(key)
+            if (value) {
+                // Do something with return value
+                if (dodelete){
+                  wx.removeStorageSync(key);
+                }
+            }
+            return value;
+        } catch (e) {
+            // Do something when catch error
+        }
+        return null;
+    },
+
   getpublishurl:function(){
     let szret = 'https://' + this.LoginData.publishserver;
     return szret;
@@ -38,6 +60,32 @@ App({
       }
       return wx.request(postobj);
   },
+    //！ httppost的分装， 类似axio， 封装fail以及success中发生异常的清空:   success:  catch:
+    httpPostCatch:function(postobj){
+        let oldok = postobj.success;
+        let catchfun = postobj.catch;
+      //  console.log('httppostcatch');
+        let thisok = (res)=>{
+       //   console.log('thisok');
+          try{
+            if (oldok){
+              oldok(res);
+            }
+          }catch(e){
+            if (catchfun){
+              catchfun(e);
+            }
+          }
+        }
+        let thisfail = (res)=>{
+          if (catchfun){
+            catchfun(res);
+          }
+        }
+        postobj.success = thisok;
+        postobj.fail = thisfail;
+        return this.httpPost(postobj);
+    },
   onLoginOk:function(bsave){
     console.log('onLoginOk:'+bsave);
     if (!this.LoginData.sessioncookie.length) {
@@ -113,13 +161,14 @@ App({
   readLoginData:function(){
     //！本地读取，防止和网页版使用同一cookie
     //! 未知原因，这里本地存储很容易导致未登录。
-   // this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
+    //! cjy: 因为index的onshow会 dologin，这里可以安全登陆
+    this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
     this.LoginData.username = wx.getStorageSync('username') || '';
     this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
   },
   dowxlogin:function(){
     // 登录
-    console.log("dowxlogin");
+
     if (this.LoginData.wxloginstate){
       console.log('in wxlogin, return');
       return;
@@ -130,9 +179,14 @@ App({
     }
 
     if (this.LoginData.wxloginok){
-      console.log('wxloginok, return');
-      return;
+      let curtime = new Date().getTime();
+      //! 最短重登间隔：10分钟
+      if (curtime - this.LoginData.wxlogintime <= 10 * 60 * 1000){
+          console.log('wxloginok, return');
+          return;
+      }
     }
+      console.log("dowxlogin");
     this.LoginData.wxloginstate = 1;
     wx.login({
       success: res => {
@@ -152,6 +206,7 @@ App({
             console.log('wx login ret');
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
+              this.LoginData.wxlogintime = new Date().getTime();
               this.LoginData.wxloginok = true;
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
@@ -162,7 +217,7 @@ App({
                 this.onLoginOk(true);
               }
               //! 开始websock的连接
-              this.firstWebConnect();
+              //this.firstWebConnect();
             }
             else {
               console.log(res);
@@ -256,7 +311,7 @@ App({
     return this.getapiurl(subpath);
   }
   ,getmainpage:function(szquery){
-    let mainurl = this.getfullurl('/index.html');
+    let mainurl = this.getfullurl('/');
     mainurl += szquery;
     return mainurl;
   }
