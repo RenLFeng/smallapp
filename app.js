@@ -211,7 +211,7 @@ App({
               if (this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
                 this.LoginData.sessioncookie =res.data.data.cookie;
-                // this.LoginData.sessioncookie ='b0b5e0a3da7df32096d89f27bf163b49';
+                // this.LoginData.sessioncookie ='e041aff5d76cbada3e02157a2734fbfd';
                 //！ 需要重新更新userinfo
                 this.LoginData.username = "";
                 this.onLoginOk(true);

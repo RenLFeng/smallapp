@@ -36,7 +36,7 @@
 }
 .footer .btn-text .share{
     font-weight: 500;
-    background: none;
+    background: none!important;
     width: 100%!important;
 }
 .footer .wrap{

@@ -2,6 +2,23 @@
 const app = getApp();
 const util = require('../../../utils/util.js')
 const setALL = [{
+    name: "一键设为已签到",
+    id: 1
+  },
+  {
+    name: "一键设为迟到",
+    id: 2
+  },
+  {
+    name: "一键设为超时",
+    id: 3
+  },
+  {
+    name: "一键设为未签到",
+    id: 0
+  }
+];
+const setonly = [{
     name: "设为已签到",
     id: 1
   },
@@ -65,7 +82,6 @@ Page({
     isStudent: true,
     seeText: "查看全部",
     studentSingItem: {},
-
     isSign: false,
     isTeacher: false,
     signinfo: {},
@@ -81,6 +97,8 @@ Page({
     memberisLoad: false,
     signTypeDesc: '',
     timerid: 0, //! 定时器， 用于定时拉取签到数据
+
+    isSeeSginType: false
   },
 
   /**
@@ -152,7 +170,7 @@ Page({
   confign() {
     this.setData({
       isStudent: false,
-      actions: setALL
+      actions: setALL,
     })
     this.showActionSheetFn();
   },
@@ -185,10 +203,12 @@ Page({
       }
     } else {
       //查看签到类型
-      this.seeSginType(item.id);
+      this.seeSginType(item.id, this.data.signmembersTemp);
       this.setData({
-        seeText: item.name
+        seeText: item.name,
+        isSeeSginType: true
       })
+      wx.setStorageSync('seeSginTypeId', item.id);
       let list = [];
       this.setData({
         isSignBtn: true
@@ -204,7 +224,7 @@ Page({
     this.setData({
       studentSingItem: e.detail,
       showActionSheet: true,
-      actions: setALL
+      actions: setonly
     })
     // console.log(e)
   },
@@ -292,12 +312,12 @@ Page({
     })
   },
   //查看签到类型
-  seeSginType(state) {
+  seeSginType(state, TempList) {
     let list = [];
-    list = this.data.signmembersTemp.filter(item => item.state == state);
+    list = TempList.filter(item => item.state == state);
     if (state == "100") {
       this.setData({
-        signmembers: this.data.signmembersTemp
+        signmembers: TempList
       })
     } else {
       this.setData({
@@ -376,12 +396,17 @@ Page({
                 }
               }
             }
-            that.setData({
-              signmembers: Data.signmembers,
-              signmembersTemp: Data.signmembers,
-              // allmemberNuber: Data.signmembers.length - signmemberNuber,
-              // signmemberNuber: signmemberNuber
-            })
+            if (that.data.isSeeSginType) {
+              let seeSginTypeId = wx.getStorageSync('seeSginTypeId');
+              if (that.data.isSeeSginType && seeSginTypeId || that.data.isSeeSginType && seeSginTypeId=='0') {
+                that.seeSginType(seeSginTypeId, Data.signmembers);
+              }
+            } else {
+              that.setData({
+                signmembers: Data.signmembers,
+                signmembersTemp: Data.signmembers,
+              })
+            }
             that.countSign(that.data.signmembers);
             //  console.log("学生打卡记录", that.data.signmembers);
           }
@@ -529,7 +554,7 @@ Page({
     return {
       title: tips,
       path: url,
-      imageUrl:'../../../images/sign_share.png'
+      imageUrl: '../../../images/sign_share.png'
     }
   },
 })

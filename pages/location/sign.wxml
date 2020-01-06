@@ -34,11 +34,13 @@
                     </view>
                 </view>
                 <view class="position-a sign" wx:elif="{{studentSginInfo.state>0 && isSigning}}">
-                    <text class="icon iconfont iconok- font-icon-xl colord"></text>
-                    <view class="text-wrap">
-                        <text class="font-xxl">签到状态：{{signStateDesc}}</text>
-                        <text class="">签到方式：{{signTypeDesc}}</text>
-                        <text class="">签到时间:{{studentSginInfo.signtime}}</text>
+                    <view class="wrap clearfix">
+                        <view class="text-wrap">
+                            <text class="icon iconfont iconok- font-icon-xl colord"></text>
+                            <text class="font-xxl">签到状态：{{signStateDesc}}</text>
+                            <text class="">签到方式：{{signTypeDesc}}</text>
+                            <text class="">签到时间:{{studentSginInfo.signtime}}</text>
+                        </view>
                     </view>
                 </view>
                 <view class="position-a sign-end" wx:else>

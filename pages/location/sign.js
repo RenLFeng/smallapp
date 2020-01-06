@@ -72,7 +72,7 @@ Page({
 
     // args = {
     //   bankeid: 1001,
-    //   role: 10
+    //   role: 5
     // };
     let isteacher = false;
     if (args.role >= 10) {

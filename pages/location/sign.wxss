@@ -79,14 +79,23 @@
   transform: translate(0, -50%);
 }
 .sign {
-  width: 50%;
+  width: 100%;
 }
-.sign .icon {
-  font-size: 100rpx;
-}
-.sign .text-wrap {
+.sign .wrap{
   position: absolute;
-  right: -32px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.sign .text-wrap .icon {
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.sign .text-wrap.icon {
+  position: absolute;
+  left: 73px;
   top: 50%;
   transform: translate(0, -50%);
 }
