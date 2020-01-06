@@ -54,8 +54,8 @@ button[type='default']{
   width: 100%!important;
   bottom: 10px;
   text-align: center;
-
   color: #0089FF;
+  background: none!important;
 }
 button{
   font-weight: lighter;

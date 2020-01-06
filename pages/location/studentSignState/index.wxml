@@ -39,7 +39,7 @@
                     <text class="">{{allmemberNuber}}</text>
                 </view>
                 <view class="clearfix tc btn-text">
-                    <view class="fl" ><button open-type="share" class="share">分享</button></view>
+                    <view class="fl share-wrap" ><button open-type="share" class="share">分享</button></view>
                     <text class="fr" bindtap="SignEnd">结束</text>
                 </view>
             </view>

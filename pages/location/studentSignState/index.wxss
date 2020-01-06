@@ -28,9 +28,16 @@
     line-height: 40px;
     font-weight: 500;
 }
+.footer .btn-text .share-wrap{
+    width: 50%;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 500;
+}
 .footer .btn-text .share{
     font-weight: 500;
     background: none;
+    width: 100%!important;
 }
 .footer .wrap{
     width: 100%;
