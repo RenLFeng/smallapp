@@ -27,10 +27,11 @@ Page({
       if (this.data.shareing){
           return;
       }
-        wx.showLoading({
-          title:'加载中...',
-              mask:true
-        })
+      //！ cjy： 这里不显示ui； 貌似这里显示ui，hideloading后立即navigate，loading不消除？（android）
+        // wx.showLoading({
+        //   title:'处理中...',
+        //       mask:true
+        // })
         this.startShareing();
        let url = app.getapiurl('/api/sign/signqueryself');
        app.httpPostCatch({

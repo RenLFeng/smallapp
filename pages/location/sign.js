@@ -313,10 +313,19 @@ Page({
               this.parseonesign(v);
             }
           }
-          this.setData({
-            teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
-            page: this.data.page + 1
-          })
+          if (this.data.page == 0){
+            this.setData({
+              teacherSignHistory: [...res.data.data.data],
+              page: this.data.page + 1
+            })
+          }
+          else{
+            this.setData({
+              teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
+              page: this.data.page + 1
+            })
+          }
+          
           if (res.data.data.data.length < 10) {
             this.setData({
               HistoryisLoad: true
