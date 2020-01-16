@@ -1,7 +1,7 @@
 //app.js
 App({
   LoginData:{
-    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    //publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
     // testserver:'192.168.0.237', //! 测试服务器ip
@@ -192,6 +192,7 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         // console.log(res.code);
+        console.log("dowxlogin, wx success");
         this.LoginData.errcode = 0;
         wx.request({
           url: this.getapiurl('/api/weixin/login'),
@@ -203,7 +204,7 @@ App({
           success: res => {
             // console.log(res);
             //  console.log(this);
-            console.log('wx login ret');
+            console.log('wx login ret:' + res.data.code);
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
               this.LoginData.wxlogintime = new Date().getTime();
@@ -225,7 +226,7 @@ App({
             }
           },
           fail: res => {
-
+            console.log('my wx login failed');
             console.log(res)
             this.LoginData.wxloginstate = 0;
           }
@@ -233,6 +234,7 @@ App({
         );
       },
       fail:res=>{
+        console.log('wxlogin fail');
         this.LoginData.wxloginstate = 0;
       }
     })

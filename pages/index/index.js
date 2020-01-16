@@ -159,6 +159,7 @@ Page({
      // if (cururl != this.data.mainurl)
       if (cookie != this.data.urlcookie) //! 因为shareobj的url的缘故，这里只判断cookie，防止shareobj的url被覆盖
       {
+          console.log('showurl:'+showurl);
         console.log(cururl);
         this.setData({
           showurl:showurl,
@@ -174,7 +175,7 @@ Page({
         })
       }
     }else {
-  
+        console.log('index not login ok');
     }
 
   },
@@ -192,6 +193,7 @@ Page({
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){
       console.log('ck:weblogin loginfail');
+
       this.setData({
         showurl:false,
         showloginfail:true
@@ -209,9 +211,17 @@ Page({
   },
   onBtnSkip:function(){
     console.log('onBtnSkip');
-    this.setData({
-      showurl:true
-    })
+      let cookie = app.LoginData.sessioncookie;
+      if (cookie.length > 0){
+          console.log('force set loginok');
+          //! 强制设为true
+          app.LoginData.loginok = true;
+
+          this.onLoginOk();
+      }
+    // this.setData({
+    //   showurl:true
+    // })
   },
   onLoad: function (options) {
 
