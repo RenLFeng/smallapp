@@ -47,6 +47,7 @@ Page({
                   //! 是否为签到发起者
                   if (rdata.master){
                       this.finishShareing(false);
+                     // this.onLoginOk();
                       //! 跳转到控制界面或结果显示界面
                       wx.setStorageSync('signinfo',JSON.stringify(rdata.signdata));
                       wx.navigateTo({
@@ -85,7 +86,8 @@ Page({
     },
     startShareing(){
       this.setData({
-          shareing:true
+          shareing:true,
+          shareobj:null,  //! 清空当前的shareobj
       })
     },
     finishShareing(showurl){
@@ -110,10 +112,10 @@ Page({
     {
       //! 使用session登陆
 
+      
+
         let shareobj = this.data.shareobj;
-        this.setData({  //! 清空当前的分享数据
-            shareobj:null
-        })
+        
         // shareobj = {
         //     action:'bankesign',
         //     data:{id:1025}
@@ -126,14 +128,23 @@ Page({
           {
             cururl += '#/bankejoin/' + shareobj.data.id;
           }
+          else if (shareobj.action == 'commonshare'){
+           //cururl += '#/zuoyeresult/' + shareobj.data.id;
+           cururl = app.getfullurl('') + shareobj.data; 
+          }
           else if (shareobj.action == 'bankesign'){
             this.onShareObjBankeSign(shareobj);
             return;
          }
         }
 
+      this.setData({  //! 清空当前的分享数据; 这里才清除，以便与startshareing无缝对接
+        shareobj: null
+      })
+
       let cookie = app.LoginData.sessioncookie;
       let onequery = '?cookie=' + cookie;
+     // onequery = ''
       cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
@@ -186,7 +197,8 @@ Page({
    // app.startWebConnect();
    //! cjy: 尝试wx登陆，防止可能的session失效
     app.dowxlogin();
-    if (!this.data.shareing && !this.data.showurl && app.LoginData.loginok){
+    if (!this.data.shareobj && 
+      !this.data.shareing && !this.data.showurl && app.LoginData.loginok){
         this.onLoginOk();
     }
   },

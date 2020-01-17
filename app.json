@@ -9,8 +9,8 @@
     "components/imglist/index",
     "pages/location/studentSignState/index",
     "pages/config/sign/index",
-    "pages/sign/query"
-
+    "pages/sign/query",
+    "pages/share/common"
   ],
   "permission": {
     "scope.userLocation": {
@@ -22,7 +22,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black",
-    "onReachBottomDistance":100
+    "onReachBottomDistance": 100
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
