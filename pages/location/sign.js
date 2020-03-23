@@ -166,13 +166,18 @@ Page({
   insertonesign(sign) {
     let ts = this.data.teacherSignHistory;
     let doinsert = true;
-    for (let v of ts) {
-      if (v.id == sign.id) {
-        v = sign;
-        doinsert = false;
-        console.log('replace in signhistory:');
-        console.log(sign);
-        break;
+    // for (let v of ts) {
+    //   if (v.id == sign.id) {
+    //     v = sign;   //! cjy: 此方法在部分场景不能生效
+    //     doinsert = false;
+    //     console.log('replace in signhistory:');
+    //     console.log(sign);
+    //     break;
+    //   }
+    // }
+    for(let i=ts.length-1; i>=0; i--){
+      if(ts[i].id == sign.id){
+        ts.splice(i, 1);
       }
     }
     if (doinsert) {
@@ -313,10 +318,19 @@ Page({
               this.parseonesign(v);
             }
           }
-          this.setData({
-            teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
-            page: this.data.page + 1
-          })
+          if (this.data.page == 0){
+            this.setData({
+              teacherSignHistory: [...res.data.data.data],
+              page: this.data.page + 1
+            })
+          }
+          else{
+            this.setData({
+              teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
+              page: this.data.page + 1
+            })
+          }
+          
           if (res.data.data.data.length < 10) {
             this.setData({
               HistoryisLoad: true

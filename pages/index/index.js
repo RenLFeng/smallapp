@@ -27,10 +27,11 @@ Page({
       if (this.data.shareing){
           return;
       }
-        wx.showLoading({
-          title:'加载中...',
-              mask:true
-        })
+      //！ cjy： 这里不显示ui； 貌似这里显示ui，hideloading后立即navigate，loading不消除？（android）
+        // wx.showLoading({
+        //   title:'处理中...',
+        //       mask:true
+        // })
         this.startShareing();
        let url = app.getapiurl('/api/sign/signqueryself');
        app.httpPostCatch({
@@ -46,6 +47,7 @@ Page({
                   //! 是否为签到发起者
                   if (rdata.master){
                       this.finishShareing(false);
+                     // this.onLoginOk();
                       //! 跳转到控制界面或结果显示界面
                       wx.setStorageSync('signinfo',JSON.stringify(rdata.signdata));
                       wx.navigateTo({
@@ -84,7 +86,8 @@ Page({
     },
     startShareing(){
       this.setData({
-          shareing:true
+          shareing:true,
+          shareobj:null,  //! 清空当前的shareobj
       })
     },
     finishShareing(showurl){
@@ -109,10 +112,10 @@ Page({
     {
       //! 使用session登陆
 
+      
+
         let shareobj = this.data.shareobj;
-        this.setData({  //! 清空当前的分享数据
-            shareobj:null
-        })
+        
         // shareobj = {
         //     action:'bankesign',
         //     data:{id:1025}
@@ -125,14 +128,23 @@ Page({
           {
             cururl += '#/bankejoin/' + shareobj.data.id;
           }
+          else if (shareobj.action == 'commonshare'){
+           //cururl += '#/zuoyeresult/' + shareobj.data.id;
+           cururl = app.getfullurl('') + shareobj.data; 
+          }
           else if (shareobj.action == 'bankesign'){
             this.onShareObjBankeSign(shareobj);
             return;
          }
         }
 
+      this.setData({  //! 清空当前的分享数据; 这里才清除，以便与startshareing无缝对接
+        shareobj: null
+      })
+
       let cookie = app.LoginData.sessioncookie;
       let onequery = '?cookie=' + cookie;
+     // onequery = ''
       cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
@@ -158,6 +170,7 @@ Page({
      // if (cururl != this.data.mainurl)
       if (cookie != this.data.urlcookie) //! 因为shareobj的url的缘故，这里只判断cookie，防止shareobj的url被覆盖
       {
+          console.log('showurl:'+showurl);
         console.log(cururl);
         this.setData({
           showurl:showurl,
@@ -173,7 +186,7 @@ Page({
         })
       }
     }else {
-  
+        console.log('index not login ok');
     }
 
   },
@@ -184,13 +197,15 @@ Page({
    // app.startWebConnect();
    //! cjy: 尝试wx登陆，防止可能的session失效
     app.dowxlogin();
-    if (!this.data.shareing && !this.data.showurl && app.LoginData.loginok){
+    if (!this.data.shareobj && 
+      !this.data.shareing && !this.data.showurl && app.LoginData.loginok){
         this.onLoginOk();
     }
   },
   checkLoginFail:function(){
     if (app.WebLoginData.loginfail){
       console.log('ck:weblogin loginfail');
+
       this.setData({
         showurl:false,
         showloginfail:true
@@ -208,9 +223,17 @@ Page({
   },
   onBtnSkip:function(){
     console.log('onBtnSkip');
-    this.setData({
-      showurl:true
-    })
+      let cookie = app.LoginData.sessioncookie;
+      if (cookie.length > 0){
+          console.log('force set loginok');
+          //! 强制设为true
+          app.LoginData.loginok = true;
+
+          this.onLoginOk();
+      }
+    // this.setData({
+    //   showurl:true
+    // })
   },
   onLoad: function (options) {
 

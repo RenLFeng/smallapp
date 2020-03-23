@@ -10,9 +10,9 @@
     "components/imglist/index",
     "pages/location/studentSignState/index",
     "pages/config/sign/index",
-    "pages/scan/scan",
-    "pages/sign/query"
-
+    "pages/sign/query",
+    "pages/share/common",
+    "pages/scan/scan"
   ],
   "permission": {
     "scope.userLocation": {

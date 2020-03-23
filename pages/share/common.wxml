@@ -1,0 +1,9 @@
+<!--pages/share/common.wxml-->
+<view>
+   <view class="wrap" hover-class="none" hover-stop-propagation="false">
+      <image class="avatar" src="{{image}}" mode="aspectFit" lazy-load="false"  bindload=""> </image>
+      <view> <text>{{text}}</text></view>
+   </view>
+  
+   <button open-type="share" class="share">{{btnname}}</button>
+</view>
