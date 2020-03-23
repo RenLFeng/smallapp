@@ -1,5 +1,6 @@
 {
   "pages": [
+
     "pages/index/index",
     "pages/share/banke",
     "pages/web/page",
@@ -9,6 +10,7 @@
     "components/imglist/index",
     "pages/location/studentSignState/index",
     "pages/config/sign/index",
+    "pages/scan/scan",
     "pages/sign/query"
 
   ],
@@ -22,7 +24,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black",
-    "onReachBottomDistance":100
+    "onReachBottomDistance": 100
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
