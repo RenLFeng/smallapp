@@ -229,7 +229,7 @@ App({
           }
         });
       },
-      fail: res => {
+      fail:res=>{
         console.log('wxlogin fail');
         this.LoginData.wxloginstate = 0;
       }

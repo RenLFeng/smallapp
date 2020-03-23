@@ -23,7 +23,7 @@ Page({
       success(res) {
         console.log(res);
         let scanResult = res.result;
-        if (!res.path) { 
+        if (!res.path) {
           let params = {};
           let urlData = scanResult.split("getsign")[1].split("/");
           params.code = parseInt(urlData[1]);
@@ -63,13 +63,25 @@ Page({
       type: 'wgs84',
       success(res) {
         let gpsinfo = {};
-        gpsinfo.latitude = res.latitude
-        gpsinfo.longitude = res.longitude
-        that.setData({
-          GPS: gpsinfo
+        console.log('GPS', res);
+        wx.chooseLocation({
+          latitude: res.latitude || '',
+          longitude: res.longitude || '',
+          success(res) {
+            console.log('具体位置', res);
+            gpsinfo.latitude = res.latitude;
+            gpsinfo.longitude = res.longitude;
+            gpsinfo.address = res.address;
+            gpsinfo.name = res.name;
+            that.setData({
+              GPS: gpsinfo
+            });
+            that.postdapingmsg(that)
+          },
+          fail(err) {
+
+          },
         })
-        console.log('GPS', that.data.GPS);
-        that.postdapingmsg(that);
       },
       fail(err) {
         that.checkLocation()
