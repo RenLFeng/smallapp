@@ -1073,6 +1073,7 @@ Page({
         // this.setData({
         //     teacherSignInfo: this.data.teacherSignInfo
         // })
+        this.signquerymember();
       }
     }
   },

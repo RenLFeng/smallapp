@@ -7,7 +7,7 @@ Page({
    */
   data: {
     params: {},
-    GPS: {}
+    Location: {}
   },
 
   /**
@@ -63,7 +63,7 @@ Page({
       type: 'wgs84',
       success(res) {
         let gpsinfo = {};
-        console.log('GPS', res);
+        console.log('Location', res);
         wx.chooseLocation({
           latitude: res.latitude || '',
           longitude: res.longitude || '',
@@ -74,7 +74,7 @@ Page({
             gpsinfo.address = res.address;
             gpsinfo.name = res.name;
             that.setData({
-              GPS: gpsinfo
+              Location: gpsinfo
             });
             that.postdapingmsg(that)
           },
@@ -92,18 +92,18 @@ Page({
     let postData = {
       "bankeid": that.data.params.bankeid,
       "ecode": that.data.params.code,
-      "data": "",
-      "cmd": {
-        GPS: that.data.GPS
-      }
+      "data": that.data.Location,
+      "cmd": 'location'
     };
-    postData.cmd = JSON.stringify(postData.cmd);
+    postData.data = JSON.stringify(postData.data);
+    console.log('扫码设置位置', postData);
     app.httpPost({
       url: app.getapiurl('/api/banke/postdapingmsg'),
       data: postData,
       success: res => {
         if (res.data.code == '0') {
-          console.log('大屏发送', res);
+          wx.navigateBack();
+        } else {
         }
       },
       fail: err => {}

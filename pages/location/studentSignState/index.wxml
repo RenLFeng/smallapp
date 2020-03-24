@@ -6,7 +6,7 @@
                 签到时间:{{signinfo.starttime}}
             </view>
             <view class="type" hover-class="none" hover-stop-propagation="false">
-                <block >
+                <block>
                     <text>校验方式:{{signTypeDesc}} </text>
                     <!-- <view class="item" wx:for="{{signType}}" wx:key="" wx:for-item="item">
                         {{item}}校验、
@@ -23,14 +23,27 @@
             </view>
             <view class="clearfix" hover-class="none" hover-stop-propagation="false">
                 <text class="fl colord" wx:if="{{isSign && isTeacher}}" bindtap="confign">一键设置签到</text>
-                <text class="fr colord" bindtap="More">{{seeText}}</text>
+                <!-- <text class="fr colord" bindtap="More">{{seeText}}</text> -->
             </view>
         </view>
-        <view class="member-n tr" hover-class="none" hover-stop-propagation="false">
-            {{signmembers.length?signmembers.length:0}}人
+
+
+        <view class="van-navbr-wrap" hover-class="none" hover-stop-propagation="false">
+            <view class="ul" hover-class="none" hover-stop-propagation="false">
+                <view hover-class="none" hover-stop-propagation="false" wx:for="{{tabBar}}" wx:key="" wx:for-item="v" wx:for-index="i"  class="li {{v.isActive?'active':''}}" data-index="{{i}}" data-item="{{v}}" bindtap="selectClick">
+                    <span class="lable font18">{{v.label}}</span>
+                    <span class="num fontxs">{{v.num}}</span>
+                </view>
+                <text class="move-bar" style="left:{{moveBar}}px"></text>
+            </view>
         </view>
+
+
+        <!-- <view class="member-n tr" hover-class="none" hover-stop-propagation="false">
+            {{signmembers.length?signmembers.length:0}}人
+        </view> -->
         <view class="merber-list" hover-class="none" hover-stop-propagation="false">
-            <my-img-list listData="{{signmembers}}" bind:studentChage="studentChageFn"></my-img-list>
+            <my-img-list listData="{{signmembers2}}" bind:studentChage="studentChageFn"></my-img-list>
         </view>
         <view wx:if="{{isSign && isTeacher}}" class="footer" hover-class="none" hover-stop-propagation="false">
             <view class="wrap position-a">
@@ -39,7 +52,7 @@
                     <text class="">{{allmemberNuber}}</text>
                 </view>
                 <view class="clearfix tc btn-text">
-                    <view class="fl share-wrap" ><button open-type="share" class="share">分享</button></view>
+                    <view class="fl share-wrap"><button open-type="share" class="share">分享</button></view>
                     <text class="fr" bindtap="SignEnd">结束</text>
                 </view>
             </view>
