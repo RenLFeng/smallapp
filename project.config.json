@@ -85,6 +85,13 @@
 					"pathName": "pages/location/sign",
 					"query": "args= %7B%22bankeid%22%3A%221000%22%2C%22role%22%3A10%7D",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/login",
+					"pathName": "pages/index/login",
+					"query": "args= %7B%22bankeid%22%3A%221000%22%2C%22role%22%3A10%7D",
+					"scene": null
 				}
 			]
 		}

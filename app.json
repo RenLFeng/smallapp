@@ -10,7 +10,8 @@
     "pages/location/studentSignState/index",
     "pages/config/sign/index",
     "pages/sign/query",
-    "pages/share/common"
+    "pages/share/common",
+    "pages/index/login"
   ],
   "permission": {
     "scope.userLocation": {

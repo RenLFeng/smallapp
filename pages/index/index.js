@@ -112,8 +112,6 @@ Page({
     {
       //! 使用session登陆
 
-      
-
         let shareobj = this.data.shareobj;
         
         // shareobj = {
@@ -124,6 +122,17 @@ Page({
         let cururl = app.getfullurl('/');
         if (shareobj)
         {
+            //! 检测是否登陆；如果未登陆时， 先跳转登陆
+            if (!app.LoginData.userid){
+                this.setData({  //! 清空当次分享，避免重入
+                    shareobj: null
+                })
+                wx.navigateTo({
+                    url: '/pages/index/login'
+                })
+                return;
+            }
+
          if (shareobj.action == 'joinbanke')
           {
             cururl += '#/bankejoin/' + shareobj.data.id;
@@ -149,22 +158,20 @@ Page({
       console.log('index url:'+cururl);
       let showurl = true;
       let showloginfail = app.WebLoginData.loginfail;
-      console.log('webloginfail:'+showloginfail);
-      if (app.WebLoginData.loginfail){
-        showurl = false;
-      }
-      //showurl = false;
-      if (!app.LoginData.loginok){
-        showurl = false;
-      }
-      else{
-        this.setData({
-          userInfo: app.globalData.userInfo,
-          hasUserInfo: true,
-        });
-      }
-
-
+      // console.log('webloginfail:'+showloginfail);
+      // if (app.WebLoginData.loginfail){
+      //   showurl = false;
+      // }
+      // showurl = false;   //！ test
+      // if (!app.LoginData.loginok){
+      //   showurl = false;
+      // }
+      // else{
+      //   this.setData({
+      //     userInfo: app.globalData.userInfo,
+      //     hasUserInfo: true,
+      //   });
+      // }
 
       
      // if (cururl != this.data.mainurl)
@@ -265,26 +272,21 @@ Page({
       
     } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          app.onLoginOk(true);
-          
-        }
-      })
+      app.getUserInfo();
     }
     console.log('index onload end');
   },
   getUserInfo: function(e) {
     //console.log(e)
     // console.log('getuserinfo');
-    
-    
-    app.globalData.userInfo = e.detail.userInfo
-    
-    app.onLoginOk(true);
+
+      app.getUserInfo();
+
+   // app.globalData.userInfo = e.detail.userInfo
+
+    //app.onLoginOk(true);
 
     //! 处理离线下的登陆情况
-    app.dowxlogin();
+    //app.dowxlogin();
   }
 })

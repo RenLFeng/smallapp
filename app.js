@@ -1,9 +1,11 @@
 //app.js
 App({
   LoginData:{
-    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+   // publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
+   // testserver:'192.168.1.101',
+  //  testapiserver:'192.168.1.101',
     // testserver:'192.168.0.237', //! 测试服务器ip
     // testapiserver:'192.168.0.2', //! 测试服务器的api地址
     testapiport:9982,
@@ -11,6 +13,11 @@ App({
 
     sessioncookie:'',
     username:'',
+
+      //! 新的登陆标志； 2020-3-24
+      userid:0,
+      pendingnewuserlogin:false,
+
    // useravatar:'',
     loginok:false,
     wxloginok:false,
@@ -86,6 +93,11 @@ App({
         postobj.fail = thisfail;
         return this.httpPost(postobj);
     },
+    onUserLogin:function(user){
+      this.LoginData.sessioncookie = user.cookie;
+      this.LoginData.userid = user.id;
+      this.onLoginOk(true);
+    },
   onLoginOk:function(bsave){
     console.log('onLoginOk:'+bsave);
     if (!this.LoginData.sessioncookie.length) {
@@ -93,56 +105,62 @@ App({
       console.log('onLoginOk, null sessioncookie');
       return;
     }
-    if (!(this.LoginData.username.length >0)
-    && this.globalData.userInfo){
-      if (this.LoginData.username.length == 0
-      ){
-        //! 首次登陆， 初始化数据， 完成后才登入页面
-        if (this.LoginData.updatinguser){
-         //! 正在更新中
-          console.log('onLoginOk, in updateing user');
-          return;
-        }
+   // if (!(this.LoginData.username.length >0)
+  //  && this.globalData.userInfo)
 
-        this.LoginData.updatinguser = true;
-        console.log("wx update user");
-        this.httpPost({
-            url:this.getapiurl('/api/weixin/updateuser'),
-            data:{
-              user:this.globalData.userInfo
-            },
-            success:res=>{
-              this.LoginData.updatinguser = false;
-              this.LoginData.username = this.globalData.userInfo.nickName;
-              if (this.LoginData.username.length == 0) {
-                this.LoginData.username = 'unkown name';
-              }
-              this.onLoginOk(true);
-            },
-            fail:res=>{
-              this.LoginData.updatinguser = false;
-              this.onLoginOk(true);
-            }
-        });
-        return ;
-      }
-      else{
-        //! check是否需要同步用户信息
-        //! 这里只考虑同步头像； 名字可能教学要求？ 或干脆后续不再做同步/ 仅在用户同步时才同步?
-       
-      }
-
-      this.LoginData.username = this.globalData.userInfo.nickName;
-      //this.loginData.useravatar = this.globalData.userInfo.avatarUrl;
-      if (this.LoginData.username.length == 0){
-        this.LoginData.username = 'unkown name';
-      }
-    }
-    if (!(this.LoginData.sessioncookie.length > 10 
-    && this.LoginData.username.length > 0)){
-      console.log('onLoginOk, not got username');
-        return;
-    }
+    //   if (this.globalData.userInfoRet
+    //   && this.globalData.wxcache
+    //       && !this.LoginData.updatinguser
+    //   )
+    // {
+    // //  if (this.LoginData.username.length == 0)
+    //   {
+    //     //! 首次登陆， 初始化数据， 完成后才登入页面
+    //     if (this.LoginData.updatinguser){
+    //      //! 正在更新中
+    //       console.log('onLoginOk, in updateing user');
+    //       //return;
+    //     }
+    //
+    //     this.LoginData.updatinguser = true;
+    //     console.log("wx update user");
+    //     this.httpPost({
+    //         url:this.getapiurl('/api/weixin/wxappupdateuser'),
+    //         data:{
+    //           user:this.globalData.userInfoRet,
+    //             wxcache:this.globalData.wxcache,
+    //         },
+    //         success:res=>{
+    //           console.log(res);
+    //           this.globalData.wxcache = null;
+    //           this.LoginData.updatinguser = false;
+    //          // this.LoginData.username = this.globalData.userInfo.nickName;
+    //           if (this.LoginData.username.length == 0) {
+    //             this.LoginData.username = 'unkown name';
+    //           }
+    //           //this.onLoginOk(true);
+    //         },
+    //         fail:res=>{
+    //           console.log('wx update user failed!');
+    //           this.LoginData.updatinguser = false;
+    //          // this.onLoginOk(true);
+    //         }
+    //     });
+    //     //return ;
+    //   }
+    //
+    //
+    //   //this.LoginData.username = this.globalData.userInfo.nickName;
+    //   //this.loginData.useravatar = this.globalData.userInfo.avatarUrl;
+    //   if (this.LoginData.username.length == 0){
+    //     this.LoginData.username = 'unkown name';
+    //   }
+    // }
+    // if (!(this.LoginData.sessioncookie.length > 10
+    // && this.LoginData.username.length > 0)){
+    //   console.log('onLoginOk, not got username');
+    //     return;
+    // }
     this.LoginData.loginok = true;
     console.log('set LoginData loginok');
     if (this.userInfoReadyCallback) {
@@ -157,14 +175,20 @@ App({
     wx.setStorageSync('username', this.LoginData.username);
     wx.setStorageSync('sessioncookie', this.LoginData.sessioncookie);
     wx.setStorageSync('useravatar', this.LoginData.useravatar);
+    wx.setStorageSync('userid', this.LoginData.userid);
   },
   readLoginData:function(){
     //！本地读取，防止和网页版使用同一cookie
     //! 未知原因，这里本地存储很容易导致未登录。
     //! cjy: 因为index的onshow会 dologin，这里可以安全登陆
-    this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
-    this.LoginData.username = wx.getStorageSync('username') || '';
-    this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
+
+    this.LoginData.userid = wx.getStorageInfoSync('userid') || 0;
+ //   if (this.LoginData.userid)
+    {
+        this.LoginData.sessioncookie = wx.getStorageSync('sessioncookie') || '';
+        this.LoginData.username = wx.getStorageSync('username') || '';
+        this.LoginData.useravatar = wx.getStorageInfoSync('useravatar') || '';
+    }
   },
   dowxlogin:function(){
     // 登录
@@ -195,30 +219,32 @@ App({
         console.log("dowxlogin, wx success");
         this.LoginData.errcode = 0;
         wx.request({
-          url: this.getapiurl('/api/weixin/login'),
+          url: this.getapiurl('/api/weixin/wxapplogin'),
           method: 'POST',
           data: {
             code: res.code,
-            cookie:this.LoginData.sessioncookie
+            cookie:this.LoginData.sessioncookie,
           },
           success: res => {
             // console.log(res);
             //  console.log(this);
             console.log('wx login ret:' + res.data.code);
+            console.log(res.data);
             this.LoginData.wxloginstate = 0;
             if (res.data.code == 0) {
               this.LoginData.wxlogintime = new Date().getTime();
               this.LoginData.wxloginok = true;
-              if (this.LoginData.sessioncookie != res.data.data.cookie){
+              this.globalData.wxcache = res.data.data.wxcache;
+              this.LoginData.userid = res.data.data.userid;
+              if (res.data.data.cookie && this.LoginData.sessioncookie != res.data.data.cookie){
                 //! 
                 this.LoginData.sessioncookie =res.data.data.cookie;
-                // this.LoginData.sessioncookie ='e041aff5d76cbada3e02157a2734fbfd';
-                //！ 需要重新更新userinfo
                 this.LoginData.username = "";
-                this.onLoginOk(true);
+
               }
-              //! 开始websock的连接
-              //this.firstWebConnect();
+
+                this.onLoginOk(true);
+
             }
             else {
               console.log(res);
@@ -239,6 +265,32 @@ App({
       }
     })
   },
+    doNewUserLogin:function(){
+       // this.loginData.pendingnewuserlogin = true;
+        //this.dowxlogin();
+    },
+    getUserInfo:function(){
+
+        if (!this.globalData.wxcache){
+          this.dowxlogin();  //! 先微信登陆
+          return;
+        }
+
+        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+        wx.getUserInfo({
+            withCredentials:true,
+            success: res => {
+                // 可以将 res 发送给后台解码出 unionId
+                console.log(res);
+                this.globalData.userInfo = res.userInfo;
+                this.globalData.userInfoRet = res;
+
+                // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+                // 所以此处加入 callback 以防止这种情况
+                this.onLoginOk(true);
+            }
+        })
+    },
   onLaunch: function () {
     // 展示本地存储能力
    // var logs = wx.getStorageSync('logs') || []
@@ -255,28 +307,20 @@ App({
     this.dowxlogin();
     
     // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              this.onLoginOk(true);
-            }
-          })
-        }
-      }
-    })
+    // wx.getSetting({
+    //   success: res => {
+    //     if (res.authSetting['scope.userInfo']) {
+    //        this.getUserInfo();
+    //     }
+    //   }
+    // })
 
     console.log('onlaunch end');
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+        userInfoRet:null,
+      wxcache:null,  //! 服务器返回的用于获取uninoid的数据
   },
   isfullurl:function(url){
     if (url.indexOf('http://')> -1
