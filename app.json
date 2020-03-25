@@ -11,7 +11,8 @@
     "pages/config/sign/index",
     "pages/sign/query",
     "pages/share/common",
-    "pages/index/login"
+    "pages/index/login",
+    "pages/scan/scan"
   ],
   "permission": {
     "scope.userLocation": {

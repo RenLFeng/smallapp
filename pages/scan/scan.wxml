@@ -1,0 +1,6 @@
+<!--pages/scan.wxml-->
+<view class="scan-wrap" hover-class="none" hover-stop-propagation="false">
+    <text class="scan-main" selectable="false" space="false" decode="false" bindtap="scanCode">
+        扫一扫
+    </text>
+</view>

@@ -71,8 +71,8 @@ Page({
     console.log('args', args);
 
     // args = {
-    //   bankeid: 1001,
-    //   role: 5
+    //   bankeid: 1040,
+    //   role: 10
     // };
     let isteacher = false;
     if (args.role >= 10) {
@@ -1072,6 +1072,7 @@ Page({
         // this.setData({
         //     teacherSignInfo: this.data.teacherSignInfo
         // })
+        this.signquerymember();
       }
     }
   },

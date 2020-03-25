@@ -56,20 +56,6 @@ const More = [{
     id: 1
   }
 ];
-// const setALL = [
-//   "设为未签到",
-//   "设为已签到",
-//   "设为迟到",
-//   "设为超时",
-// ];
-
-// const More = [
-//   "查看未签到",
-//   "查看已签到",
-//   "查看迟到",
-//   "查看超时",
-//   "查看全部",
-// ];
 Page({
 
   /**
@@ -86,6 +72,7 @@ Page({
     isTeacher: false,
     signinfo: {},
     signmembers: [],
+    signmembers2: [],
     signmembersTemp: [],
     allmemberNuber: 0,
     signmemberNuber: 0,
@@ -98,7 +85,70 @@ Page({
     signTypeDesc: '',
     timerid: 0, //! 定时器， 用于定时拉取签到数据
 
-    isSeeSginType: false
+    isSeeSginType: false,
+    tabBar: [{
+        id: 100,
+        label: "ALL",
+        num: 0,
+        isActive: true
+      },
+      {
+        id: 1,
+        label: "已签到",
+        num: 0,
+        isActive: false
+      },
+      {
+        id: 2,
+        label: "迟到",
+        num: 0,
+        isActive: false
+      },
+      {
+        id: 3,
+        label: "超时",
+        num: 0,
+        isActive: false
+      },
+      {
+        id: 0,
+        label: "未签到",
+        num: 0,
+        isActive: false
+      },
+      {
+        id: -1,
+        label: "旁听",
+        num: 0,
+        isActive: false
+      },
+      // {
+      //   id: 10,
+      //   label: "投票",
+      //   num: 0,
+      //   isActive: false
+      // }
+      // {
+      //   id: 5,
+      //   label: "写作",
+      //   num: 0,
+      //   isActive: false
+      // },
+      // {
+      //   id: 6,
+      //   label: "抢答",
+      //   num: 0,
+      //   isActive: false
+      // },
+      // {
+      //   id: 10,
+      //   label: "投票",
+      //   num: 0,
+      //   isActive: false
+      // }
+    ],
+    filterType: 100,
+    moveBar: 0
   },
 
   /**
@@ -159,6 +209,72 @@ Page({
         timerid: timerid
       })
     }
+  },
+  //
+  selectClick(e) {
+    console.log(e)
+    let currentItem = e.currentTarget.dataset['item'];
+    let index = e.currentTarget.dataset.index;
+    let tabBar = this.data.tabBar;
+    for (let v of tabBar) {
+      v.isActive = false;
+    }
+    tabBar[index].isActive = true;
+    this.setData({
+      filterType: currentItem.id,
+      tabBar: tabBar,
+      moveBar: e.currentTarget.offsetLeft
+    })
+    this.filterData(this.data.filterType)
+    console.log('currentItem', currentItem);
+    console.log('gdg', tabBar);
+    // this.triggerEvent("studentChage", studentInfo)
+  },
+  filterData(type) {
+    if (type == 100) {
+      this.setData({
+        signmembers2: this.data.signmembersTemp
+      })
+      return;
+    }
+    let signmembers2 = this.data.signmembersTemp.filter(item => {
+      return type == item.state;
+    });
+  console.log('llll',signmembers2);
+    this.setData({
+      signmembers2: signmembers2
+    })
+  },
+  Statistics(arr) {
+    if (Array.isArray(arr)) {
+      this.initStatistics();
+      this.setData({
+        'tabBar[0].num': arr.length
+      })
+      let tabBar = this.data.tabBar;
+      for (let i = 0; i < arr.length; ++i) {
+        let signState = arr[i].state;
+        for (let j = 1; j < tabBar.length; j++) {
+          let v = tabBar[j];
+          if (v.id == signState) {
+            v.num++;
+          }
+        }
+      }
+      this.setData({
+        tabBar: tabBar
+      })
+    }
+    console.log("ccc", this.tabBar);
+  },
+  initStatistics() {
+    let tabBar = this.data.tabBar;
+    for (let v of tabBar) {
+      v.num = 0;
+    }
+    this.setData({
+      tabBar: tabBar
+    })
   },
   //签到设置
   confin: function (e) {
@@ -398,7 +514,7 @@ Page({
             }
             if (that.data.isSeeSginType) {
               let seeSginTypeId = wx.getStorageSync('seeSginTypeId');
-              if (that.data.isSeeSginType && seeSginTypeId || that.data.isSeeSginType && seeSginTypeId=='0') {
+              if (that.data.isSeeSginType && seeSginTypeId || that.data.isSeeSginType && seeSginTypeId == '0') {
                 that.seeSginType(seeSginTypeId, Data.signmembers);
               }
             } else {
@@ -406,6 +522,8 @@ Page({
                 signmembers: Data.signmembers,
                 signmembersTemp: Data.signmembers,
               })
+              that.filterData(that.data.filterType)
+              that.Statistics(Data.signmembers);
             }
             that.countSign(that.data.signmembers);
             //  console.log("学生打卡记录", that.data.signmembers);
