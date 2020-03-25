@@ -219,7 +219,7 @@ App({
         console.log("dowxlogin, wx success");
         this.LoginData.errcode = 0;
         wx.request({
-          url: this.getapiurl('/api/weixin/login'),
+          url: this.getapiurl('/api/weixin/wxapplogin'),
           method: 'POST',
           data: {
             code: res.code,

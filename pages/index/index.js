@@ -141,7 +141,9 @@ Page({
            //cururl += '#/zuoyeresult/' + shareobj.data.id;
            cururl = app.getfullurl('') + shareobj.data; 
           }
-          else if (shareobj.action == 'bankesign'){
+          else if (shareobj.action == 'bankesign'
+         || shareobj.action == 'sign'   //! sign为scene传入
+         ){
             this.onShareObjBankeSign(shareobj);
             return;
          }
@@ -242,9 +244,35 @@ Page({
     //   showurl:true
     // })
   },
+    parseSceneToShareobj:function(scenestr){
+      //! 将scene字符串转换未 shareobj；      actionname;key1=value1;key2=value2;
+        let tarray = scenestr.split(';')
+        if (tarray && tarray.length){
+            let shareobj = {};
+            shareobj.action = tarray[0]
+            let dataobj = {}
+            for(let i=1; i<tarray.length; i++){
+                let onearray = tarray[i].split('=');
+                if (onearray.length == 2){
+                    dataobj[onearray[0]] = onearray[1]
+                }
+            }
+            shareobj.data = dataobj;
+            return shareobj;
+        }
+        return null;
+    },
   onLoad: function (options) {
 
      console.log('index onload');
+
+     //! 测试
+     //  let testscenestr = 'sign;id=1030';
+     //  let sob = this.parseSceneToShareobj(testscenestr);
+     //  console.log(sob);
+     //  this.setData({
+     //      shareobj:sob
+     //  })
 
      if (options){
        if (options.shareobj){
@@ -252,6 +280,15 @@ Page({
          this.setData({
              shareobj:shareobj
          })
+       }
+       if (options.scene){
+           let scstr = decodeURIComponent(options.scene);
+           let shareobj = this.parseSceneToShareobj(scstr);
+           if (shareobj){
+               this.setData({
+                   shareobj:shareobj
+               })
+           }
        }
      }
 
