@@ -452,7 +452,6 @@ Page({
             console.log(res.data.data);
             that.onteacursign(res.data.data.sign);
             that.navigateToCurSign();
-
             // that.signquerymember();
           }
         } else {
