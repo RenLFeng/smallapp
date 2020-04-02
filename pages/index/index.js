@@ -16,6 +16,7 @@ Page({
       shareobj:null,  //! 页面的分享
       shareing:false,
       urlcookie:'',
+      curdisablegzh:false,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -119,43 +120,84 @@ Page({
         //     data:{id:1025}
         // }
 
+      //! test.
+      
+
         let cururl = app.getfullurl('/');
         if (shareobj)
         {
+          try{//! 防止shareobj出异常
             //! 检测是否登陆；如果未登陆时， 先跳转登陆
-            if (!app.LoginData.userid){
-                this.setData({  //! 清空当次分享，避免重入
-                    shareobj: null
-                })
-                wx.navigateTo({
-                    url: '/pages/index/login'
-                })
-                return;
+            if (!app.LoginData.userid) {
+              this.setData({  //! 清空当次分享，避免重入
+                shareobj: null
+              })
+              wx.navigateTo({
+                url: '/pages/index/login'
+              })
+              return;
             }
 
-         if (shareobj.action == 'joinbanke')
-          {
-            cururl += '#/bankejoin/' + shareobj.data.id;
+            if (shareobj.action == 'joinbanke') {
+              cururl += '#/bankejoin/' + shareobj.data.id;
+            }
+            else if (shareobj.action == 'commonshare') {
+              //cururl += '#/zuoyeresult/' + shareobj.data.id;
+              cururl = app.getfullurl('') + shareobj.data;
+            }
+            else if (shareobj.action == 'bankesign'
+              || shareobj.action == 'sign'   //! sign为scene传入
+            ) {
+              this.onShareObjBankeSign(shareobj);
+              return;
+            }
+          }catch(e){
+
           }
-          else if (shareobj.action == 'commonshare'){
-           //cururl += '#/zuoyeresult/' + shareobj.data.id;
-           cururl = app.getfullurl('') + shareobj.data; 
-          }
-          else if (shareobj.action == 'bankesign'
-         || shareobj.action == 'sign'   //! sign为scene传入
-         ){
-            this.onShareObjBankeSign(shareobj);
-            return;
-         }
+          
         }
 
       this.setData({  //! 清空当前的分享数据; 这里才清除，以便与startshareing无缝对接
         shareobj: null
       })
 
+      //! 测试是否跳转关注公众号
+      //！sdk: https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html
+      let appscene = app.LoginData.appscene
+      if ((appscene == 1047
+        || appscene == 1124
+        || appscene == 1089
+        || appscene == 1038
+        || appscene == 1011
+        || appscene == 1017  //! 扫码体验版
+        )
+        && app.LoginData.userid //! 必须是已登录的用户
+      ) {
+        if (!this.data.curdisablegzh){
+          let skipgzh = wx.getStorageSync("skipgzh");
+          if (!skipgzh) {
+            this.setData({
+              curdisablegzh:true
+            })
+            console.log('to==gzh')
+            wx.navigateTo({
+              url: '/pages/share/gzh'
+            })
+            return;
+          }
+        }
+        
+      }
+
       let cookie = app.LoginData.sessioncookie;
-      let onequery = '?cookie=' + cookie;
+      let onequery = 'cookie=' + cookie;
      // onequery = ''
+       if (cururl.indexOf('?')>=0){
+          cururl += '&';
+       }
+        else{
+          cururl += '?';
+        }
       cururl += onequery;
       console.log('index url:'+cururl);
       let showurl = true;
@@ -251,12 +293,32 @@ Page({
             let shareobj = {};
             shareobj.action = tarray[0]
             let dataobj = {}
-            for(let i=1; i<tarray.length; i++){
-                let onearray = tarray[i].split('=');
-                if (onearray.length == 2){
-                    dataobj[onearray[0]] = onearray[1]
-                }
+            //！ cjy:因为scene严格的长度限定，第一个也可能存储action
+            let iscommonshare = false;
+            if (tarray[0] == 'surl'){
+              iscommonshare = true;
+              shareobj.action = 'commonshare';
+              if (tarray[1]){
+                dataobj = tarray[1]
+              }
+              else{
+                dataobj = ''
+              }
             }
+            else{
+              let tmparray = tarray[0].split('=');
+              if (tmparray.length == 2) {
+                shareobj.action = tmparray[0]
+                dataobj[tmparray[0]] = tmparray[1]
+              }
+              for (let i = 1; i < tarray.length; i++) {
+                let onearray = tarray[i].split('=');
+                if (onearray.length == 2) {
+                  dataobj[onearray[0]] = onearray[1]
+                }
+              }
+            }
+            
             shareobj.data = dataobj;
             return shareobj;
         }
@@ -277,6 +339,8 @@ Page({
      if (options){
        if (options.shareobj){
          let shareobj = util.parseNativeArgs(options.shareobj);
+         console.log('hasshareobj:');
+         console.log(shareobj);
          this.setData({
              shareobj:shareobj
          })
@@ -284,6 +348,8 @@ Page({
        if (options.scene){
            let scstr = decodeURIComponent(options.scene);
            let shareobj = this.parseSceneToShareobj(scstr);
+           console.log('hasscene');
+           console.log(shareobj);
            if (shareobj){
                this.setData({
                    shareobj:shareobj

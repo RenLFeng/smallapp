@@ -92,6 +92,27 @@
 					"pathName": "pages/index/login",
 					"query": "args= %7B%22bankeid%22%3A%221000%22%2C%22role%22%3A10%7D",
 					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "签到shareobj",
+					"pathName": "pages/index/index",
+					"query": "shareobj=%7B%0A%20%20%22action%22%20:%20%22bankesign%22%2C%0A%20%20%22id%22%20:%201027%0A%7D",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "作业shareobj",
+					"pathName": "pages/index/index",
+					"query": "shareobj=%7B%0A%20%20%22action%22%20:%20%22commonshare%22%2C%0A%20%20%22data%22%20:%20%22%5C/#%5C/zuoyeresult%5C/1021%22%0A%7D",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "公众号",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": 1047
 				}
 			]
 		}

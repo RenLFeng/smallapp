@@ -1,7 +1,7 @@
 //app.js
 App({
   LoginData:{
-   // publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
+    publishserver:'www2.exsoft.com.cn', //! 正式服务器地址; 测试环境注释掉此行
     testserver:'192.168.40.104', //! 测试服务器ip
     testapiserver:'192.168.40.104', //! 测试服务器的api地址
    // testserver:'192.168.1.101',
@@ -26,6 +26,7 @@ App({
     wxloginstate:0,  //! 登陆状态： 0:空闲； 1：登陆中  2：
       wxlogintime:0,
     updatinguser:false,
+    appscene:0,  //! 本次启动的小程序场景值
   },
 
     //! cjy: 缓存， 数据中转
@@ -219,6 +220,7 @@ App({
         console.log("dowxlogin, wx success");
         this.LoginData.errcode = 0;
         wx.request({
+          // cjy: 务必使用新接口登录：  wxapplogin
           url: this.getapiurl('/api/weixin/wxapplogin'),
           method: 'POST',
           data: {
@@ -291,12 +293,18 @@ App({
             }
         })
     },
-  onLaunch: function () {
+  onLaunch: function (options) {
     // 展示本地存储能力
    // var logs = wx.getStorageSync('logs') || []
   // logs.unshift(Date.now())
    // wx.setStorageSync('logs', logs)
    console.log('onlaunch');
+
+  if (options){
+    console.log("[onLaunch] 本次场景值:", options.scene)
+    this.LoginData.appscene = options.scene;
+  }
+  
 
     this.initWebEvent();
 
