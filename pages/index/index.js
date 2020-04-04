@@ -163,7 +163,12 @@ Page({
 
       //! 测试是否跳转关注公众号
       //！sdk: https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html
-      let appscene = app.LoginData.appscene
+      let appscene = 0; // app.LoginData.appscene
+        let oss = wx.getLaunchOptionsSync()
+        if (oss){
+            appscene = oss.scene
+            console.log('onloginok, appscene:'+appscene);
+        }
       if ((appscene == 1047
         || appscene == 1124
         || appscene == 1089
