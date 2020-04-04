@@ -59,9 +59,17 @@ Page({
     })
   },
   getLocation(that) {
+      wx.showLoading({
+          title: '获取地理位置中...',
+          mask: true
+      })
     wx.getLocation({
       type: 'wgs84',
+        //! cjy： 貌似非高精度偏差也不太大
+     //   isHighAccuracy: true,
+    //    highAccuracyExpireTime: 5000,
       success(res) {
+          wx.hideLoading();
         let gpsinfo = {};
         console.log('Location', res);
         wx.chooseLocation({
@@ -79,11 +87,12 @@ Page({
             that.postdapingmsg(that)
           },
           fail(err) {
-
+              wx.hideLoading();
           },
         })
       },
       fail(err) {
+        wx.hideLoading();
         that.checkLocation()
       },
     })

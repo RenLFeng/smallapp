@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc756600-ff2a-446e-9687-fd501a774c35" name="Default Changelist" comment="">
+    <list default="true" id="dc756600-ff2a-446e-9687-fd501a774c35" name="Default Changelist" comment="公众号关注引导">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/location/sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/location/sign.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/scan/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/scan/scan.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,12 +16,13 @@
     <session id="17456938">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.16" value="1" />
-          <entry key="project.open.time.2" value="3" />
+          <entry key="project.open.time.2" value="4" />
+          <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,16 +46,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="22576" />
-          <entry key="txt" value="41" />
+          <entry key="js" value="22720" />
+          <entry key="txt" value="54" />
           <entry key="wxml" value="754" />
           <entry key="wxss" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="22576" />
-          <entry key="PLAIN_TEXT" value="825" />
+          <entry key="JavaScript" value="22720" />
+          <entry key="PLAIN_TEXT" value="838" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -68,17 +70,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/location/sign.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="1116" column="12" selection-start-line="1116" selection-start-column="7" selection-end-line="1116" selection-end-column="12" />
+            <state relative-caret-position="161">
+              <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/location/studentSignState/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="670" column="71" lean-forward="true" selection-start-line="670" selection-start-column="71" selection-end-line="670" selection-end-column="71" />
+            <state relative-caret-position="294">
+              <caret line="672" column="18" lean-forward="true" selection-start-line="672" selection-start-column="18" selection-end-line="672" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -100,17 +102,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="216" column="56" lean-forward="true" selection-start-line="216" selection-start-column="56" selection-end-line="216" selection-end-column="56" />
+            <state relative-caret-position="4123">
+              <caret line="217" column="56" lean-forward="true" selection-start-line="217" selection-start-column="56" selection-end-line="217" selection-end-column="56" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/scan/scan.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+            <state relative-caret-position="227">
+              <caret line="71" column="27" lean-forward="true" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -187,8 +189,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/index/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="278" column="63" lean-forward="true" selection-start-line="278" selection-start-column="63" selection-end-line="278" selection-end-column="63" />
+            <state relative-caret-position="6460">
+              <caret line="340" column="63" lean-forward="true" selection-start-line="340" selection-start-column="63" selection-end-line="340" selection-end-column="63" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -199,7 +201,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/config/sign/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1330">
+            <state relative-caret-position="722">
               <caret line="38" column="6" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
             </state>
           </provider>
@@ -232,11 +234,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>onbtnskip</find>
-      <find>加载中...</find>
-      <find>wx.login</find>
-      <find>userid</find>
-      <find>openid</find>
       <find>updateuser</find>
       <find>globaldata</find>
       <find>userinforet</find>
@@ -262,6 +259,11 @@
       <find>signadd</find>
       <find>parse</find>
       <find>share</find>
+      <find>location</find>
+      <find>getLocation</find>
+      <find>gpstimeout</find>
+      <find>getlocation</find>
+      <find>isHighAccuracy</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -288,6 +290,7 @@
         <option value="$PROJECT_DIR$/pages/index/login.js" />
         <option value="$PROJECT_DIR$/pages/location/sign.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/pages/scan/scan.js" />
       </list>
     </option>
   </component>
@@ -314,7 +317,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -420,6 +422,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -464,6 +467,8 @@
       <workItem from="1584587173999" duration="22858000" />
       <workItem from="1585047262090" duration="3173000" />
       <workItem from="1585275643247" duration="1172000" />
+      <workItem from="1585819415283" duration="174000" />
+      <workItem from="1585894065299" duration="3995000" />
     </task>
     <task id="LOCAL-00001" summary="修改微信登陆流程">
       <created>1585044551480</created>
@@ -479,17 +484,24 @@
       <option name="project" value="LOCAL" />
       <updated>1585131426509</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="公众号关注引导">
+      <created>1585819530944</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585819530944</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90514000" />
+    <option name="totallyTimeSpent" value="94683000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21768707" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22373393" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -504,7 +516,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50037795" side_tool="true" weight="0.32891247" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49962208" visible="true" weight="0.32891247" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" sideWeight="0.49962208" visible="true" weight="0.32891247" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -522,7 +534,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="修改微信登陆流程" />
     <MESSAGE value="修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改" />
+    <MESSAGE value="公众号关注引导" />
+    <option name="LAST_COMMIT_MESSAGE" value="公众号关注引导" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/pages/share/banke.json">
@@ -538,10 +551,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/scan/scan.js">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+        <state relative-caret-position="4123">
+          <caret line="217" column="56" lean-forward="true" selection-start-line="217" selection-start-column="56" selection-end-line="217" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -596,6 +609,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pages/index/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6460">
+          <caret line="340" column="63" lean-forward="true" selection-start-line="340" selection-start-column="63" selection-end-line="340" selection-end-column="63" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/config/sign/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="38" column="6" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pages/index/login.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="836">
@@ -613,41 +643,24 @@
     <entry file="file://$PROJECT_DIR$/pages/share/common.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/pages/location/studentSignState/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="216" column="56" lean-forward="true" selection-start-line="216" selection-start-column="56" selection-end-line="216" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/index/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="278" column="63" lean-forward="true" selection-start-line="278" selection-start-column="63" selection-end-line="278" selection-end-column="63" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/config/sign/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1330">
-          <caret line="38" column="6" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+        <state relative-caret-position="294">
+          <caret line="672" column="18" lean-forward="true" selection-start-line="672" selection-start-column="18" selection-end-line="672" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/location/sign.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="1116" column="12" selection-start-line="1116" selection-start-column="7" selection-end-line="1116" selection-end-column="12" />
+        <state relative-caret-position="161">
+          <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/location/studentSignState/index.js">
+    <entry file="file://$PROJECT_DIR$/pages/scan/scan.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="670" column="71" lean-forward="true" selection-start-line="670" selection-start-column="71" selection-end-line="670" selection-end-column="71" />
+        <state relative-caret-position="227">
+          <caret line="71" column="27" lean-forward="true" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
         </state>
       </provider>
     </entry>
