@@ -65,9 +65,9 @@ Page({
       })
     wx.getLocation({
       type: 'wgs84',
-        //! cjy： 貌似非高精度偏差也不太大
-     //   isHighAccuracy: true,
-    //    highAccuracyExpireTime: 5000,
+        //! cjy： 貌似非高精度偏差也不太大 --不使用高精度，会相差500米？
+       isHighAccuracy: true,
+       highAccuracyExpireTime: 5000,
       success(res) {
           wx.hideLoading();
         let gpsinfo = {};

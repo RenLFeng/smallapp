@@ -772,9 +772,9 @@ Page({
     })
     wx.getLocation({
       type: 'wgs84',
-        //! cjy： 貌似非高精度偏差也不太大
-     // isHighAccuracy: true,
-    //  highAccuracyExpireTime: this.data.gpstimeout,
+        //! cjy： 貌似非高精度偏差也不太大  --不使用高精度，会相差500米？
+     isHighAccuracy: true,
+     highAccuracyExpireTime: this.data.gpstimeout,
       success: res => {
         wx.hideLoading();
         console.log(res);
@@ -1023,9 +1023,9 @@ Page({
     let Location = {};
     wx.getLocation({
       type: 'wgs84',
-        //! cjy： 貌似非高精度偏差也不太大
-   //   isHighAccuracy: true,
-   //   highAccuracyExpireTime: this.data.gpstimeout,
+        //! cjy： 貌似非高精度偏差也不太大  --不使用高精度，会相差500米？
+     isHighAccuracy: true,
+     highAccuracyExpireTime: this.data.gpstimeout,
       success: res => {
         console.log(res);
         let Location = {
