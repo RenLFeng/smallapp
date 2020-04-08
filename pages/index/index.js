@@ -171,12 +171,13 @@ Page({
         }
       if ((appscene == 1047
         || appscene == 1124
-        || appscene == 1089
-        || appscene == 1038
-        || appscene == 1011
-        || appscene == 1017  //! 扫码体验版
+        // || appscene == 1089   //! 大部分appscene都不显示，这里加限制
+        // || appscene == 1038
+        // || appscene == 1011
+        // || appscene == 1017  //! 扫码体验版
         )
         && app.LoginData.userid //! 必须是已登录的用户
+          && app.LoginData.sessioncookie.length > 0
       ) {
         if (!this.data.curdisablegzh){
           let skipgzh = wx.getStorageSync("skipgzh");

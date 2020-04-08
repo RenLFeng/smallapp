@@ -113,6 +113,11 @@ Page({
         if (res.data.code == '0') {
           wx.navigateBack();
         } else {
+            wx.showToast({
+                title: '异常，请检测权限',
+                icon: 'none',
+                duration: 3000
+            })
         }
       },
       fail: err => {}

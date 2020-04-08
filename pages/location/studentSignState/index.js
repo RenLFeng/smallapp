@@ -116,12 +116,12 @@ Page({
         num: 0,
         isActive: false
       },
-      {
-        id: -1,
-        label: "旁听",
-        num: 0,
-        isActive: false
-      },
+      // {
+      //   id: -1,
+      //   label: "旁听",
+      //   num: 0,
+      //   isActive: false
+      // },
       // {
       //   id: 10,
       //   label: "投票",
