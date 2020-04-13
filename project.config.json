@@ -95,16 +95,16 @@
 				},
 				{
 					"id": 5,
-					"name": "签到shareobj",
+					"name": "pages/index/index",
 					"pathName": "pages/index/index",
-					"query": "shareobj=%7B%0A%20%20%22action%22%20:%20%22bankesign%22%2C%0A%20%20%22id%22%20:%201027%0A%7D",
+					"query": "shareobj=%7B%0A%20%20%22action%22%20:%20%22bankesign%22%2C%0A%20%20%22data%22%20:%20%7B%0A%20%20%20%20%22id%22%20:%201100%0A%20%20%7D%0A%7D",
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "作业shareobj",
 					"pathName": "pages/index/index",
-					"query": "shareobj=%7B%0A%20%20%22action%22%20:%20%22commonshare%22%2C%0A%20%20%22data%22%20:%20%22%5C/#%5C/zuoyeresult%5C/1021%22%0A%7D",
+					"query": "shareobj=%7B%0A%20%20%22action%22%20%3A%20%22commonshare%22%2C%0A%20%20%22data%22%20%3A%20%22%5C%2F%23%5C%2Fzuoyeresult%5C%2F1023%22%0A%7D",
 					"scene": null
 				},
 				{

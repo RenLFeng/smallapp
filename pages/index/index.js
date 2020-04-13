@@ -26,8 +26,10 @@ Page({
   },
     onShareObjBankeSign(shareobj){
       if (this.data.shareing){
+          console.log('onshareobjbankesign, in shareing');
           return;
       }
+      console.log('onshareobjbankesign');
       //！ cjy： 这里不显示ui； 貌似这里显示ui，hideloading后立即navigate，loading不消除？（android）
         // wx.showLoading({
         //   title:'处理中...',
@@ -129,9 +131,10 @@ Page({
           try{//! 防止shareobj出异常
             //! 检测是否登陆；如果未登陆时， 先跳转登陆
             if (!app.LoginData.userid) {
-              this.setData({  //! 清空当次分享，避免重入
-                shareobj: null
-              })
+                //! cjy: 不清空； 用户会困惑
+              // this.setData({  //! 清空当次分享，避免重入
+              //   shareobj: null
+              // })
               wx.navigateTo({
                 url: '/pages/index/login'
               })
@@ -344,17 +347,19 @@ Page({
 
      if (options){
        if (options.shareobj){
+           console.log('hasshareobj:' + options.shareobj);
          let shareobj = util.parseNativeArgs(options.shareobj);
-         console.log('hasshareobj:');
+
          console.log(shareobj);
          this.setData({
              shareobj:shareobj
          })
        }
        if (options.scene){
+           console.log('hasscene' + options.scene);
            let scstr = decodeURIComponent(options.scene);
            let shareobj = this.parseSceneToShareobj(scstr);
-           console.log('hasscene');
+
            console.log(shareobj);
            if (shareobj){
                this.setData({

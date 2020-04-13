@@ -45,7 +45,7 @@ Page({
     hasLocation: false,
     signbtntext: '开始签到',
     signid: 0, //! 当前的签到id
-    gpstimeout: 5000, //! gps获取的超时时间: cjy: 8000的值， 误差大概在0-15米
+    gpstimeout: 8000, //! gps获取的超时时间: cjy: 8000的值， 误差大概在0-15米
     signStateDesc: '',
     signTypeDesc: '',
     teasignnum: 0,
@@ -109,12 +109,23 @@ Page({
       //! 学生
       let serveData = resdata.signinfo[0];
 
+    //  console.log(resdata);
+
+      if (resdata.signdata && resdata.signdata.state != 0
+          && serveData.signnum == 0    //! 未签到
+      ){
+        //! 签到已结束,不能再签到了
+          //! 如果还是未签到， 则设为 99
+          console.log(' in 99');
+          serveData.signnum = 99;
+      }
 
       if (
         //serveData.state == '0'
         //! cjy: 判断有无签到， 只能依据signnum来判断； 因为教师可设置为未签到; 一旦教师设置， 则不再允许学生主动签到
         serveData.signnum == 0
       ) {
+        console.log('in signdo');
         serveData.info = {};
         serveData.starttime = resdata.signdata.starttime.split(" ")[1];
         if (resdata.signdata.info && typeof resdata.signdata.info == "string") {
@@ -136,6 +147,7 @@ Page({
         })
         this.studentSigndo();
       } else {
+        console.log('in signok');
         this.stuonsignok(serveData);
       }
     } else {
@@ -396,7 +408,7 @@ Page({
       success(res) {
         if (res.confirm) {
           wx.showLoading({
-            title: '获取信息中...',
+            title: '获取地理位置中...',
             mask: true
           })
           // if (isSignType == '2' || isSignType == 'wifi')
@@ -676,22 +688,35 @@ Page({
           },
           fail: res => {
             wx.hideLoading();
-            this.stuonwififail();
+              let tips = null;
+              if (res && res.errMsg){
+                  tips = '获得WIFI失败：' + res.errMsg
+              }
+              this.stuonwififail(tips);
           }
         })
       },
       fail: res => {
         wx.hideLoading();
-        this.stuonwififail();
+        let tips = null;
+        if (res && res.errMsg){
+           tips = '获得WIFI失败：' + res.errMsg
+        }
+        this.stuonwififail(tips);
       }
     })
 
   },
-  stuonwififail() {
+  stuonwififail(errmsg) {
     if (this.data.Location) {
       this.stucheckgps();
     } else {
-      let tips = '请确认您已连接到指定WIFI:' + this.data.wifi.SSID;
+      //! cjy: "errCode":12012,"errMsg":"getConnectedWifi:fail:may be not obtain GPS Perrmission"
+        //! 原因是部分机型(大多数)需要定位权限才能获取到wifi信息，系统限制，这么做是因为wifi信息也能定位。
+     let tips = errmsg;
+     if (!tips){
+       tips = '请确认您已连接到指定WIFI:' + this.data.wifi.SSID;
+     }
       wx.showModal({
         title: '签到失败',
         content: tips,
@@ -813,7 +838,7 @@ Page({
       },
       fail: res => {
         wx.hideLoading();
-        let tips = '未能获取位置信息';
+        let tips = '未能获取位地理。请确认微信有GPS权限，或小程序已允许获得地理位置';
         this.stugpscheckfail(tips);
       }
     })
