@@ -7,7 +7,8 @@ Page({
    */
   data: {
     params: {},
-    Location: {}
+    Location: {},
+    hasshown:false,
   },
 
   /**
@@ -15,7 +16,7 @@ Page({
    */
   onLoad: function (options) {
     const that = this;
-    this.scanCode();
+
   },
   message() {
     let that = this;
@@ -45,9 +46,11 @@ Page({
           })
           console.log('扫码解析成功', that.data.params);
           that.getLocation(that);
-        } else { //! cjy: 当所扫的码为当前小程序二维码时，会返回此字段，内容为二维码携带的 path
-          scanResult = 1040;
-          that.toSign(scanResult);
+        } else {
+          //! cjy: 当所扫的码为当前小程序二维码时，会返回此字段，内容为二维码携带的 path
+            //! cjy: 目前不处理自身小程序的扫一扫; 因为有scene和path 2场景
+         // scanResult = 1040;
+         // that.toSign(scanResult);
         }
 
       },
@@ -59,43 +62,78 @@ Page({
       },
     })
   },
-  toSign(bankeid) {
-    let argobj = {
-      bankeid: bankeid,
-      role: 5,
-    };
-    let signurl = '/pages/location/sign';
-    signurl += '?args=' + encodeURIComponent(JSON.stringify(argobj));
-    wx.redirectTo({
-      url: signurl,
-    })
-  },
+  // toSign(bankeid) {
+  //   let argobj = {
+  //     bankeid: bankeid,
+  //     role: 5,
+  //   };
+  //   let signurl = '/pages/location/sign';
+  //   signurl += '?args=' + encodeURIComponent(JSON.stringify(argobj));
+  //   wx.redirectTo({
+  //     url: signurl,
+  //   })
+  // },
   getLocation(that) {
+      wx.showLoading({
+          title: '获取地理位置中...',
+          mask: true
+      })
     wx.getLocation({
       type: 'wgs84',
+        //! cjy： 貌似非高精度偏差也不太大 --不使用高精度，会相差500米？
+       isHighAccuracy: true,
+       highAccuracyExpireTime: 8000,
       success(res) {
+          wx.hideLoading();
         let gpsinfo = {};
         console.log('Location', res);
-        wx.chooseLocation({
-          latitude: res.latitude || '',
-          longitude: res.longitude || '',
-          success(res) {
-            console.log('具体位置', res);
-            gpsinfo.latitude = res.latitude;
-            gpsinfo.longitude = res.longitude;
-            gpsinfo.address = res.address;
-            gpsinfo.name = res.name;
-            that.setData({
-              Location: gpsinfo
-            });
-            that.postdapingmsg(that)
-          },
-          fail(err) {
+        //! cjy: 因为选择位置偏差有点大， 目前暂不使用
+          gpsinfo.latitude = res.latitude;
+          gpsinfo.longitude = res.longitude;
+          gpsinfo.address = '';
+          gpsinfo.name = '';
+          gpsinfo.accuracy = res.accuracy;
 
-          },
-        })
+          let tips = '';
+          if (res.accuracy < 15){
+            tips = '精度不够，当前精度：' + res.accuracy;
+          }
+          if (tips){
+              wx.showToast({
+                  title: tips,
+                  icon: 'none',
+                  duration: 3000
+              })
+          }
+          else{
+              that.setData({
+                  Location: gpsinfo
+              });
+              that.postdapingmsg(that)
+          }
+
+
+        // wx.chooseLocation({
+        //   latitude: res.latitude || '',
+        //   longitude: res.longitude || '',
+        //   success(res) {
+        //     console.log('具体位置', res);
+        //     gpsinfo.latitude = res.latitude;
+        //     gpsinfo.longitude = res.longitude;
+        //     gpsinfo.address = res.address;
+        //     gpsinfo.name = res.name;
+        //     that.setData({
+        //       Location: gpsinfo
+        //     });
+        //     that.postdapingmsg(that)
+        //   },
+        //   fail(err) {
+        //       wx.hideLoading();
+        //   },
+        // })
       },
       fail(err) {
+        wx.hideLoading();
         that.checkLocation()
       },
     })
@@ -114,8 +152,22 @@ Page({
       data: postData,
       success: res => {
         if (res.data.code == '0') {
-          wx.navigateBack();
-        } else {}
+          //wx.navigateBack();
+            wx.showToast({
+                title: '更新位置成功，三秒后自动返回',
+                icon: 'none',
+                duration: 3000
+            })
+            setTimeout(()=>{
+                wx.navigateBack(); //! 自动关闭此页面
+            }, 3000);
+        } else {
+            wx.showToast({
+                title: '异常，请检测权限',
+                icon: 'none',
+                duration: 3000
+            })
+        }
       },
       fail: err => {}
     })
@@ -172,6 +224,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+<<<<<<< HEAD
+=======
+    if (!this.data.hasshown){
+      this.setData({
+          hasshown:true
+      })
+        this.scanCode();
+    }
+>>>>>>> 37b2a874cb4a31b3ac6458686e4972993f6986fc
   },
 
   /**

@@ -13,9 +13,8 @@
     "pages/sign/query",
     "pages/share/common",
     "pages/index/login",
-    "pages/message",
-    "pages/scan/scan"
-
+    "pages/scan/scan",
+    "pages/share/gzh"
   ],
   "permission": {
     "scope.userLocation": {

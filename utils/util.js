@@ -26,6 +26,9 @@ const signGetTypeDesc = signnum=>{
   else if (signnum == 100){
     return '教师设置'
   }
+  else if (signnum == 99){
+    return '已结束，不能签到'
+  }
   return ''
 }
 

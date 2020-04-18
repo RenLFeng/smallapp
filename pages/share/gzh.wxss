@@ -1,0 +1,5 @@
+/* pages/share/gzh.wxss */
+.wrap {
+    text-align: center;
+    padding: 20px 0px;
+}

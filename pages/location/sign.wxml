@@ -26,14 +26,14 @@
         <block wx:else>
             <view class="sign-wrap">
                 <view class="position-a no-sign {{signTipsText?'act':''}} {{!signType?'act':''}}"
-                    wx:if="{{studentSginInfo.state=='0' && isSigning}}" bindtap="studentautosign">
+                    wx:if="{{studentSginInfo.signnum==0 && isSigning}}" bindtap="studentautosign">
                     <text class="font-xxl">{{signbtntext}} </text>
                     <text class="font-m">{{studentSginInfo.starttime}}</text>
                     <view wx:if="{{signTipsText}}" class="tc tips" hover-class="none" hover-stop-propagation="false">
                         {{signTipsText}}
                     </view>
                 </view>
-                <view class="position-a sign" wx:elif="{{studentSginInfo.state>0 && isSigning}}">
+                <view class="position-a sign" wx:elif="{{studentSginInfo.signnum!=0 && isSigning}}">
                     <view class="wrap clearfix">
                         <view class="text-wrap">
                             <text class="icon iconfont iconok- font-icon-xl colord"></text>
