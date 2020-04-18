@@ -224,15 +224,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-<<<<<<< HEAD
-=======
     if (!this.data.hasshown){
       this.setData({
           hasshown:true
       })
         this.scanCode();
     }
->>>>>>> 37b2a874cb4a31b3ac6458686e4972993f6986fc
   },
 
   /**

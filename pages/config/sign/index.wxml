@@ -1,10 +1,10 @@
 <!--pages/config/sign-confin.wxml-->
 <view class="container2 config">
     <view class="main" hover-class="none" hover-stop-propagation="false">
-        <view class="item wifi" hover-class="none" hover-stop-propagation="false">
+        <!-- <view class="item wifi" hover-class="none" hover-stop-propagation="false">
             WIFI校验
             <switch class="fr switch" checked="{{wifi}}" bindchange="wifiSwitch1Change" />
-        </view>
+        </view> -->
         <view class="item gps" hover-class="none" hover-stop-propagation="false">
             位置校验
             <switch class="fr switch" checked="{{gps}}" bindchange="gpsSwitch1Change" />
