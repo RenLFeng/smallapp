@@ -17,6 +17,18 @@ Page({
     const that = this;
     this.scanCode();
   },
+  message() {
+    let that = this;
+    wx.requestSubscribeMessage({
+      tmplIds: ['LkMTFyk27pmW9fwC9bSx5pDsvTKw167sd0l7wbDBBDE'],
+      success(res) {
+        console.log('订阅', res);
+      },
+      fail(err) {
+        console.log('失败', err);
+      },
+    })
+  },
   scanCode() {
     let that = this;
     wx.scanCode({
@@ -103,8 +115,7 @@ Page({
       success: res => {
         if (res.data.code == '0') {
           wx.navigateBack();
-        } else {
-        }
+        } else {}
       },
       fail: err => {}
     })
@@ -161,7 +172,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

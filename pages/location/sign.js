@@ -175,8 +175,8 @@ Page({
     //     break;
     //   }
     // }
-    for(let i=ts.length-1; i>=0; i--){
-      if(ts[i].id == sign.id){
+    for (let i = ts.length - 1; i >= 0; i--) {
+      if (ts[i].id == sign.id) {
         ts.splice(i, 1);
       }
     }
@@ -318,19 +318,18 @@ Page({
               this.parseonesign(v);
             }
           }
-          if (this.data.page == 0){
+          if (this.data.page == 0) {
             this.setData({
               teacherSignHistory: [...res.data.data.data],
               page: this.data.page + 1
             })
-          }
-          else{
+          } else {
             this.setData({
               teacherSignHistory: [...this.data.teacherSignHistory, ...res.data.data.data],
               page: this.data.page + 1
             })
           }
-          
+
           if (res.data.data.data.length < 10) {
             this.setData({
               HistoryisLoad: true
@@ -415,6 +414,25 @@ Page({
         }
       }
     })
+  },
+  mimiMessage() {
+    let date = formateTime(new Date(), "-");
+    this.$http
+      .post("/api/weixin/pushnotify", {
+        templateid: "yEWdaUgS7luynNFryYXXwZUqEKqqXcglt7gD70Aue7s",
+        topage: '/#/zuoyeresult/' + this.zuoyeitem.id,
+        data: {
+          thing3: "今天作业已经发布",
+          name5: this.curbanke.name,
+          date7: date
+        },
+        sendto: {
+          type: "banke",
+          bankeid: this.curbanke.id
+        }
+      })
+      .then(res => {})
+      .catch(() => {});
   },
   //老师签到
   teacherSignadd() {

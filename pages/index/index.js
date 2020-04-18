@@ -119,7 +119,7 @@ Page({
         //     data:{id:1025}
         // }
 
-        let cururl = app.getfullurl('/');
+      let cururl = app.getfullurl('/');
         if (shareobj)
         {
             //! 检测是否登陆；如果未登陆时， 先跳转登陆

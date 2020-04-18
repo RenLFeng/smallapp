@@ -1,5 +1,6 @@
 {
   "pages": [
+
     "pages/index/index",
     "pages/share/banke",
     "pages/web/page",
@@ -12,7 +13,9 @@
     "pages/sign/query",
     "pages/share/common",
     "pages/index/login",
+    "pages/message",
     "pages/scan/scan"
+
   ],
   "permission": {
     "scope.userLocation": {

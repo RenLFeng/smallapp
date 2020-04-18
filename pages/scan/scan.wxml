@@ -3,4 +3,7 @@
     <text class="scan-main" selectable="false" space="false" decode="false" bindtap="scanCode">
         扫一扫
     </text>
+    <!-- <view class="" hover-class="none" hover-stop-propagation="false" bindtap="message">
+        消息订阅
+    </view> -->
 </view>

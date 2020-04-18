@@ -37,9 +37,15 @@
                     <view class="wrap clearfix">
                         <view class="text-wrap">
                             <text class="icon iconfont iconok- font-icon-xl colord"></text>
-                            <text class="font-xxl">签到状态：{{signStateDesc}}</text>
-                            <text class="">签到方式：{{signTypeDesc}}</text>
-                            <text class="">签到时间:{{studentSginInfo.signtime}}</text>
+                            <view class="">
+                                <text class="font-xxl">签到状态：{{signStateDesc}}</text>
+                            </view>
+                            <view class="">
+                                <text class="">签到方式：{{signTypeDesc}}</text>
+                            </view>
+                            <view class="">
+                                <text class="">签到时间:{{studentSginInfo.signtime}}</text>
+                            </view>
                         </view>
                     </view>
                 </view>
