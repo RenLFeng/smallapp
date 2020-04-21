@@ -2,4 +2,51 @@
 .wrap {
     text-align: center;
     padding: 20px 0px;
+    margin-top: 63rpx;
+
+}
+
+.pic-wrap {
+    text-align: center;
+}
+
+.tips-wrap {
+    position: relative;
+    width: 75%;
+    margin: 0 auto;
+
+}
+
+.tips-wrap .text {
+    font-size: 30rpx;
+    padding-left: 10px;
+}
+
+.tips-wrap .icon {
+    position: absolute;
+    width: 54rpx;
+    height: 54rpx;
+    left: -54rpx;
+    top: 50%;
+    background: #0089FF;
+    color: #fff;
+    transform: translate(0, -50%);
+    text-align: center;
+    line-height: 54rpx;
+    border-radius: 50%;
+}
+
+.text-wrap {
+    margin: 20px 0;
+}
+
+.text-wrap .text {
+    width: 512rpx;
+    height: 104rpx;
+    background-color: #0089FF;
+    color: #fff;
+    border-radius: 6px;
+    line-height: 104rpx;
+    margin: 0 auto;
+    text-align: center;
 }

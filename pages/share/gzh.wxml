@@ -1,16 +1,22 @@
 <!--pages/share/gzh.wxml-->
 <view>
-<view style="width:100%;top:20vh;position:relative;height:100vh;background:white;">
-
-<view  class="wrap"> <text>关注公众号，班课消息实时送达</text></view>
-
- <official-account style=""></official-account>
-
- <view class="wrap">
- <checkbox-group bindchange="checkboxChange">
- <checkbox value="skipgzh" checked="{{skipgzh}}"/>不再提示
- </checkbox-group>
- </view>
- 
-</view>
+    <view>
+        <view class="wrap"> <text>关注公众号，班课消息实时送达</text></view>
+        <!-- <official-account style=""></official-account> -->
+        <view class="pic-wrap" hover-class="none" hover-stop-propagation="false"  bindtap="gz">
+            <image src="{{src}}" mode="aspectFit"></image>
+        </view>
+        <view class="tips-wrap" hover-class="none" hover-stop-propagation="false">
+            <view class="text">点击下方按钮进入云班课公众号，关注后可向您实时推送签到、作业等通知</view>
+            <text class="icon">i</text>
+        </view>
+        <view class="wrap tips">
+            <view class="text-wrap" bindtap="gz" data-page="false">
+                <view class="text">订阅中科卓软云班课服务号</view>
+            </view>
+            <!-- <checkbox-group bindchange="checkboxChange">
+                <checkbox value="skipgzh" checked="{{skipgzh}}" />不再提示
+            </checkbox-group> -->
+        </view>
+    </view>
 </view>

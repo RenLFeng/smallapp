@@ -71,7 +71,7 @@ Page({
     console.log('args', args);
 
     // args = {
-    //   bankeid: 1040,
+    //   bankeid: 1001,
     //   role: 10
     // };
     let isteacher = false;

@@ -10,25 +10,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    skipgzh:false
+    skipgzh: false,
+    src:'../../images/gz.png'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     let skipgzh = wx.getStorageSync('skipgzh');
-     if (skipgzh){
-       this.setData({
-         skipgzh:true
-       })
-     }
+    let skipgzh = wx.getStorageSync('skipgzh');
+    if (skipgzh) {
+      this.setData({
+        skipgzh: true
+      })
+    }
   },
 
   checkboxChange: function (e) {
     console.log('checkbox发生change事件，携带value值为：', e.detail.value)
     let skip = false;
-    if (e.detail.value.length){
+    if (e.detail.value.length) {
       skip = true;
     }
     wx.setStorageSync("skipgzh", skip);
@@ -40,10 +41,10 @@ Page({
   onReady: function () {
 
   },
-  
-  setskipgzh:function(doskip){
+
+  setskipgzh: function (doskip) {
     this.setData({
-      skipgzh:doskip
+      skipgzh: doskip
     });
     wx.setStorageSync('skipgzh', doskip);
   },
@@ -52,19 +53,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (!this.data.skipgzh){
+    if (!this.data.skipgzh) {
       //! 检测是否已绑定了微信
-      this.checkgzhbind();
+      // this.checkgzhbind();
     }
-    
+
   },
 
-  checkgzhbind:function(){
+  checkgzhbind: function () {
     let url = app.getapiurl('/api/weixin/gzbind');
     app.httpPostCatch({
       url: url,
-      data: {
-      },
+      data: {},
       success: res => {
         console.log(res);
         if (res.data.code == 0) {
@@ -75,19 +75,24 @@ Page({
             icon: 'none',
             duration: 3000
           })
-          setTimeout(()=>{
+          setTimeout(() => {
             wx.navigateBack(); //! 自动关闭此页面
           }, 3000);
-          
-        }
-        else {
+
+        } else {
           //！ 未绑定
           this.setskpgzh(false);
         }
       },
       catch: res => {
-        
+
       }
+    })
+  },
+  gz: function (e) {
+    // let page = e.currentTarget.dataset.page;
+    wx.navigateTo({
+      url: '../weixinlink/weixinlink'
     })
   },
   /**

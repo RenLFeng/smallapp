@@ -1,6 +1,5 @@
 {
   "pages": [
-
     "pages/index/index",
     "pages/share/banke",
     "pages/web/page",
@@ -14,7 +13,8 @@
     "pages/share/common",
     "pages/index/login",
     "pages/scan/scan",
-    "pages/share/gzh"
+    "pages/share/gzh",
+    "pages/weixinlink/weixinlink"
   ],
   "permission": {
     "scope.userLocation": {

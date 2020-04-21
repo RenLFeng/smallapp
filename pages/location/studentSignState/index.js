@@ -116,36 +116,6 @@ Page({
         num: 0,
         isActive: false
       },
-      // {
-      //   id: -1,
-      //   label: "旁听",
-      //   num: 0,
-      //   isActive: false
-      // },
-      // {
-      //   id: 10,
-      //   label: "投票",
-      //   num: 0,
-      //   isActive: false
-      // }
-      // {
-      //   id: 5,
-      //   label: "写作",
-      //   num: 0,
-      //   isActive: false
-      // },
-      // {
-      //   id: 6,
-      //   label: "抢答",
-      //   num: 0,
-      //   isActive: false
-      // },
-      // {
-      //   id: 10,
-      //   label: "投票",
-      //   num: 0,
-      //   isActive: false
-      // }
     ],
     filterType: 100,
     moveBar: 0
@@ -213,6 +183,8 @@ Page({
   //
   selectClick(e) {
     console.log(e)
+    let num= e.currentTarget.dataset.num;
+    if(!num) return;
     let currentItem = e.currentTarget.dataset['item'];
     let index = e.currentTarget.dataset.index;
     let tabBar = this.data.tabBar;

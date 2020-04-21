@@ -30,7 +30,7 @@
 
         <view class="van-navbr-wrap" hover-class="none" hover-stop-propagation="false">
             <view class="ul" hover-class="none" hover-stop-propagation="false">
-                <view hover-class="none" hover-stop-propagation="false" wx:for="{{tabBar}}" wx:key="" wx:for-item="v" wx:for-index="i"  class="li {{v.isActive?'active':''}}" data-index="{{i}}" data-item="{{v}}" bindtap="selectClick">
+                <view hover-class="none" hover-stop-propagation="false" wx:for="{{tabBar}}" wx:key="" wx:for-item="v" wx:for-index="i"  class="li {{v.isActive?'active':''}}" data-index="{{i}}" data-item="{{v}}" data-num="{{v.num}}" bindtap="selectClick">
                     <span class="lable font18">{{v.label}}</span>
                     <span class="num fontxs">{{v.num}}</span>
                 </view>
