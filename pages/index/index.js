@@ -78,13 +78,15 @@ Page({
                   }
               }
               else{
-                  wx.showToast('异常:'+res.data.msg);
+                  let toast ='异常:'+res.data.msg;
+                  console.log(toast);
+                  wx.showToast({ title:toast, icon:'none'});
                 this.finishShareing(true);
               }
            },
            catch:res=>{
              wx.hideLoading();
-             wx.showToast('异常');
+             wx.showToast({title:'异常', icon:'none'});
              this.finishShareing(true);
            }
        })
