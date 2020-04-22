@@ -6,19 +6,15 @@ Page({
    */
 
   data: {
-    url: 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI4ODI3NTc5Ng==&mid==#wechat_redirect'
+    url: 'https://mp.weixin.qq.com/s/eDxlJ-Y5osHbvk3qwmrCXA'
   },
 
   /**
+   * https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI4ODI3NTc5Ng==&mid==#wechat_redirect
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     let page = options.page;
-    if (page == 'true') {
-      this.setData({
-        url: 'https://mp.weixin.qq.com/s/eDxlJ-Y5osHbvk3qwmrCXA'
-      })
-    }
   },
 
   /**

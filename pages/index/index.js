@@ -17,6 +17,8 @@ Page({
       shareing:false,
       urlcookie:'',
       curdisablegzh:false,
+
+      buildver:'20042215'
   },
   //事件处理函数
   bindViewTap: function() {
@@ -389,6 +391,7 @@ Page({
       app.getUserInfo();
     }
     console.log('index onload end');
+    console.log('版本',this.data.buildver);
   },
   getUserInfo: function(e) {
     //console.log(e)

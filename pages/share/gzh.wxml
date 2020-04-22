@@ -7,7 +7,7 @@
             <image src="{{src}}" mode="aspectFit"></image>
         </view>
         <view class="tips-wrap" hover-class="none" hover-stop-propagation="false">
-            <view class="text">点击下方按钮进入云班课公众号，关注后可向您实时推送签到、作业等通知</view>
+            <view class="text">关注后可向您实时推送签到、作业等通知</view>
             <text class="icon">i</text>
         </view>
         <view class="wrap tips">
